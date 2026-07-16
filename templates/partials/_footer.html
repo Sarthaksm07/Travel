@@ -1,0 +1,50 @@
+{% load static %}
+<footer class="bg-forest-deep text-ivory/70 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div>
+            <div class="mb-4">
+                <span class="inline-block bg-white rounded-xl p-2.5 shadow-lg">
+                    <img src="{% static 'img/logo.jpeg' %}" alt="Augy Travels" class="h-16 w-auto">
+                </span>
+            </div>
+            <p class="text-sm">Turning travel dreams into reality — from hidden Himalayan gems to iconic dhams.</p>
+            <div class="flex gap-3 mt-5">
+                <a href="{{ site.facebook_url|default:'#' }}" class="w-9 h-9 rounded-full bg-ivory/10 grid place-items-center hover:bg-clay hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="{{ site.instagram_url|default:'#' }}" class="w-9 h-9 rounded-full bg-ivory/10 grid place-items-center hover:bg-clay hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                <a href="{{ site.youtube_url|default:'#' }}" class="w-9 h-9 rounded-full bg-ivory/10 grid place-items-center hover:bg-clay hover:text-white transition"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div>
+            <h4 class="text-ivory font-600 mb-4">Quick Links</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="#" class="hover:text-clay-soft">About Us</a></li>
+                <li><a href="#" class="hover:text-clay-soft">Destinations</a></li>
+                <li><a href="#packages" class="hover:text-clay-soft">Packages</a></li>
+                <li><a href="#" class="hover:text-clay-soft">Blog</a></li>
+                <li><a href="#" class="hover:text-clay-soft">Contact</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="text-ivory font-600 mb-4">Popular</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="#" class="hover:text-clay-soft">Char Dham Yatra</a></li>
+                <li><a href="#" class="hover:text-clay-soft">Do Dham Yatra</a></li>
+                <li><a href="#" class="hover:text-clay-soft">Kedarnath Package</a></li>
+                <li><a href="#" class="hover:text-clay-soft">Auli Chopta Tour</a></li>
+                <li><a href="#" class="hover:text-clay-soft">Kedarnath Helicopter</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="text-ivory font-600 mb-4">Contact</h4>
+            <ul class="space-y-3 text-sm">
+                <li><i class="fas fa-phone text-clay-soft mr-2"></i> {{ site.phone|default:'+91 8630 731 034' }}</li>
+                <li><i class="fas fa-envelope text-clay-soft mr-2"></i> {{ site.email|default:'augytravels@gmail.com' }}</li>
+                <li><i class="fas fa-location-dot text-clay-soft mr-2"></i> {{ site.address|default:'Bedubagarh, Kedarnath Road, Rudraprayag, Uttarakhand 246421' }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-ivory/10 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-ivory/50">
+        <span>© {% now "Y" %} Augy Travels. All rights reserved.</span>
+        <span class="flex gap-4"><a href="#" class="hover:text-clay-soft">Privacy Policy</a><a href="#" class="hover:text-clay-soft">Terms &amp; Conditions</a></span>
+    </div>
+</footer>

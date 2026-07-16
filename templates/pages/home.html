@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% comment %}
+  Homepage. Featured packages, destinations and testimonials below use
+  placeholder content for now; they will be wired to the packages /
+  destinations / testimonials models once real content is entered in admin
+  (Phase 1 — bind these sections to context data from core.views.home).
+{% endcomment %}
+
+{% block content %}
+
+<!-- HERO -->
+<header class="relative overflow-hidden grain">
+    <div class="absolute -top-24 -right-24 w-[440px] h-[440px] rounded-full bg-sand/60 blur-3xl -z-10"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+            <span class="eyebrow">Devbhoomi Uttarakhand</span>
+            <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl font-600 text-forest leading-[1.02] mt-4 mb-6">
+                Journeys to the <span class="em">sacred</span> Himalayas.
+            </h1>
+            <p class="text-stone text-lg leading-relaxed max-w-lg mb-8">
+                Safe, women-friendly, transparently priced pilgrimages and mountain tours — crafted by local experts who live in the valleys of Kedarnath.
+            </p>
+            <div class="flex flex-wrap gap-4 mb-9">
+                <a href="#packages" class="btn btn-primary"><i class="fas fa-compass"></i> Explore Packages</a>
+                <a href="https://wa.me/{{ site.whatsapp_number|default:'918630731034' }}" class="btn btn-ghost"><i class="fas fa-route"></i> Plan Your Journey</a>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-stone">
+                <div class="flex items-center gap-2"><span class="text-clay text-base">★★★★★</span> 4.8 · 600+ travellers</div>
+                <div class="hidden sm:flex items-center gap-2"><i class="fas fa-shield-heart text-forest"></i> Women-friendly</div>
+            </div>
+        </div>
+        <div class="relative">
+            <div class="arch overflow-hidden softshadow h-[440px] lg:h-[540px]">
+                <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1000&q=80" class="ci" alt="Himalayas">
+            </div>
+            <div class="absolute -bottom-6 -left-4 sm:left-6 bg-cream border border-sand rounded-2xl px-5 py-4 softshadow flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-forest text-ivory grid place-items-center text-lg"><i class="fas fa-mountain"></i></div>
+                <div>
+                    <div class="font-display text-2xl font-600 text-forest leading-none">15+ yrs</div>
+                    <div class="text-xs text-stone mt-1">Guiding the Char Dham route</div>
+                </div>
+            </div>
+            <div class="absolute -top-4 right-4 bg-clay text-white text-xs font-600 rounded-full px-4 py-2 shadow-lg rotate-3">Kedarnath · Badrinath</div>
+        </div>
+    </div>
+
+    <!-- Enquiry bar -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <form class="bg-white border border-sand rounded-2xl softshadow p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div class="flex items-center gap-3 bg-ivory border border-sand rounded-xl px-4 py-3"><i class="fas fa-map-marker-alt text-clay"></i><input class="w-full outline-none text-sm bg-transparent" placeholder="Destination" name="destination"></div>
+            <div class="flex items-center gap-3 bg-ivory border border-sand rounded-xl px-4 py-3"><i class="fas fa-calendar-alt text-clay"></i><input class="w-full outline-none text-sm bg-transparent" placeholder="Travel dates" name="dates" data-date></div>
+            <div class="flex items-center gap-3 bg-ivory border border-sand rounded-xl px-4 py-3"><i class="fas fa-users text-clay"></i><select class="w-full outline-none text-sm bg-transparent text-stone" name="travellers"><option>Travellers</option><option>1–2</option><option>3–5</option><option>6+</option></select></div>
+            <button type="submit" class="btn btn-primary !rounded-xl"><i class="fab fa-whatsapp"></i> Get a Quote</button>
+        </form>
+    </div>
+</header>
+
+<!-- TRUST STRIP -->
+<section class="bg-sand">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div><div class="font-display text-4xl font-600 text-forest">600+</div><div class="text-sm text-stone mt-1">Happy Travellers</div></div>
+        <div><div class="font-display text-4xl font-600 text-forest">4.8<span class="text-clay">★</span></div><div class="text-sm text-stone mt-1">Google Rating</div></div>
+        <div><div class="font-display text-4xl font-600 text-forest">50+</div><div class="text-sm text-stone mt-1">Tour Packages</div></div>
+        <div><div class="font-display text-4xl font-600 text-forest">100%</div><div class="text-sm text-stone mt-1">Women-Friendly</div></div>
+    </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages" class="py-20 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+            <div>
+                <span class="eyebrow">Popular Packages</span>
+                <h2 class="font-display text-4xl sm:text-5xl font-600 text-forest mt-3">Journeys travellers love</h2>
+            </div>
+            <a href="#" class="btn btn-ghost self-start sm:self-auto">View all <i class="fas fa-arrow-right-long"></i></a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <article class="card">
+                <div class="h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1591123720164-de1348028e4b?w=700&q=80" class="ci" alt="Char Dham"></div>
+                <div class="p-5">
+                    <div class="flex items-center justify-between mb-2"><span class="eyebrow !tracking-widest">Uttarakhand</span><span class="text-xs text-stone">10D / 9N</span></div>
+                    <h3 class="font-display text-xl font-600 text-forest mb-3">Char Dham Yatra</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹—</div></div><a href="#" class="text-sm font-600 text-forest">Enquire →</a></div>
+                </div>
+            </article>
+            <article class="card">
+                <div class="h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1712388430474-ace0c16051e2?w=700&q=80" class="ci" alt="Do Dham"></div>
+                <div class="p-5">
+                    <div class="flex items-center justify-between mb-2"><span class="eyebrow !tracking-widest">Uttarakhand</span><span class="text-xs text-stone">6D / 5N</span></div>
+                    <h3 class="font-display text-xl font-600 text-forest mb-3">Do Dham Yatra</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹12,999</div></div><a href="#" class="text-sm font-600 text-forest">Enquire →</a></div>
+                </div>
+            </article>
+            <article class="card">
+                <div class="h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1571536802807-30451e3955d8?w=700&q=80" class="ci" alt="Kedarnath"></div>
+                <div class="p-5">
+                    <div class="flex items-center justify-between mb-2"><span class="eyebrow !tracking-widest">Kedarnath</span><span class="text-xs text-stone">3N / 4D</span></div>
+                    <h3 class="font-display text-xl font-600 text-forest mb-3">Kedarnath Package</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹10,999</div></div><a href="#" class="text-sm font-600 text-forest">Enquire →</a></div>
+                </div>
+            </article>
+            <article class="card">
+                <div class="h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=700&q=80" class="ci" alt="Auli"></div>
+                <div class="p-5">
+                    <div class="flex items-center justify-between mb-2"><span class="eyebrow !tracking-widest">Auli · Chopta</span><span class="text-xs text-stone">5D / 4N</span></div>
+                    <h3 class="font-display text-xl font-600 text-forest mb-3">Auli Chopta Trip</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹9,999</div></div><a href="#" class="text-sm font-600 text-forest">Enquire →</a></div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURE BAND -->
+<section class="bg-forest text-ivory relative overflow-hidden">
+    <div class="absolute -bottom-24 -right-24 w-[420px] h-[420px] rounded-full bg-pine/30 blur-3xl"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid lg:grid-cols-2 gap-14 items-center relative">
+        <div class="relative order-2 lg:order-1">
+            <div class="arch-sm overflow-hidden softshadow h-[380px]"><img src="https://images.unsplash.com/photo-1571536802807-30451e3955d8?w=900&q=80" class="ci" alt="Local experts"></div>
+            <div class="absolute -bottom-5 -right-3 bg-clay text-white rounded-2xl px-5 py-4 shadow-xl">
+                <div class="font-display text-2xl font-600 leading-none">4.8★</div>
+                <div class="text-xs mt-1 text-white/80">400+ Google reviews</div>
+            </div>
+        </div>
+        <div class="order-1 lg:order-2">
+            <span class="eyebrow !text-clay-soft">The Local Advantage</span>
+            <h2 class="font-display text-4xl sm:text-5xl font-600 mt-3 mb-5">Neighbours in the <span class="em !text-clay-soft">mountains</span>, not just an agency.</h2>
+            <p class="text-ivory/75 leading-relaxed mb-8 max-w-lg">Based in Rudraprayag, our guides and drivers have navigated these roads for years. We craft safe, authentic, affordable journeys with comfort and care at every turn.</p>
+            <div class="grid sm:grid-cols-2 gap-5">
+                <div class="flex gap-3"><i class="fas fa-mountain text-clay-soft mt-1"></i><div><div class="font-600">Local Experts</div><p class="text-sm text-ivory/60">Native guides who know every trail.</p></div></div>
+                <div class="flex gap-3"><i class="fas fa-venus text-clay-soft mt-1"></i><div><div class="font-600">Women-Friendly</div><p class="text-sm text-ivory/60">Travel with total peace of mind.</p></div></div>
+                <div class="flex gap-3"><i class="fas fa-tags text-clay-soft mt-1"></i><div><div class="font-600">Transparent Pricing</div><p class="text-sm text-ivory/60">Every cost shared upfront.</p></div></div>
+                <div class="flex gap-3"><i class="fas fa-headset text-clay-soft mt-1"></i><div><div class="font-600">24/7 Support</div><p class="text-sm text-ivory/60">We're a call away, anytime.</p></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DESTINATIONS -->
+<section class="py-20 bg-sand">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="eyebrow">Where we travel</span>
+            <h2 class="font-display text-4xl sm:text-5xl font-600 text-forest mt-3">Iconic Garhwal destinations</h2>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <a href="#" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="https://images.unsplash.com/photo-1712388430474-ace0c16051e2?w=600&q=80" class="ci group-hover:scale-105" alt="Kedarnath"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Kedarnath</h3></a>
+            <a href="#" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?w=600&q=80" class="ci group-hover:scale-105" alt="Rishikesh"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Rishikesh</h3></a>
+            <a href="#" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=600&q=80" class="ci group-hover:scale-105" alt="Auli"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Auli</h3></a>
+            <a href="#" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="https://images.unsplash.com/photo-1591123720164-de1348028e4b?w=600&q=80" class="ci group-hover:scale-105" alt="Badrinath"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Badrinath</h3></a>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="py-20 bg-ivory">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <i class="fas fa-quote-left text-clay text-4xl mb-6"></i>
+        <p class="font-display text-2xl sm:text-3xl font-500 leading-snug text-forest mb-8">From planning to the end of the tour, everything was organised and stress-free. The team genuinely cared about making our journey <span class="em">memorable</span>.</p>
+        <div class="flex items-center justify-center gap-3">
+            <div class="w-11 h-11 rounded-full bg-forest text-ivory grid place-items-center font-600">S</div>
+            <div class="text-left"><div class="font-600 text-forest">Shubham B.</div><div class="text-stone text-sm"><i class="fab fa-google text-clay mr-1"></i> Google · <span class="text-clay">★★★★★</span></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="pb-20 bg-ivory">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative overflow-hidden rounded-[32px] bg-forest text-ivory p-10 sm:p-16 text-center grain">
+            <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-pine/30 blur-3xl"></div>
+            <div class="absolute -bottom-16 -right-10 w-56 h-56 rounded-full bg-clay/25 blur-3xl"></div>
+            <div class="relative">
+                <span class="eyebrow !text-clay-soft">Let's Talk</span>
+                <h2 class="font-display text-3xl sm:text-5xl font-600 mt-3 mb-4">Ready to plan your journey?</h2>
+                <p class="text-ivory/75 max-w-xl mx-auto mb-8">Tell us your dates and group size — our team crafts a tailored itinerary and quote, usually within a few hours.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://wa.me/{{ site.whatsapp_number|default:'918630731034' }}" class="btn btn-clay"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                    <a href="tel:+{{ site.whatsapp_number|default:'918630731034' }}" class="btn btn-ghost !border-ivory/40 !text-ivory"><i class="fas fa-phone"></i> Call us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
