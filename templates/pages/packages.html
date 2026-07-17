@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Tour Packages — Augy Travels{% endblock %}
+{% block meta_description %}Char Dham & Himalayan pilgrimage, adventure, wildlife and honeymoon tour packages across Uttarakhand by Augy Travels.{% endblock %}
+
+{% block content %}
+<style>
+    .pkg-pill{padding:.55rem 1.2rem;border-radius:999px;border:1.5px solid rgba(30,70,52,.25);background:#fff;color:#1E4634;font-weight:600;font-size:.9rem;cursor:pointer;transition:.2s}
+    .pkg-pill:hover{border-color:#BC6C43}
+    .pkg-pill.is-active{background:#1E4634;color:#F7F4EE;border-color:#1E4634}
+</style>
+
+<!-- Page header -->
+<section class="relative overflow-hidden bg-forest text-ivory grain">
+    <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-pine/30 blur-3xl"></div>
+    <div class="absolute -bottom-16 -left-10 w-72 h-72 rounded-full bg-clay/15 blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <nav class="text-sm text-ivory/60 mb-4"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <span class="text-ivory">Packages</span></nav>
+        <span class="eyebrow !text-clay-soft">Our Packages</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-600 mt-3 mb-3">Tour packages</h1>
+        <p class="text-ivory/75 max-w-xl">Handcrafted journeys across Devbhoomi Uttarakhand — pilgrimage, adventure, wildlife and honeymoon. Pick a category to explore.</p>
+    </div>
+</section>
+
+<!-- Filters + grid -->
+<section class="py-16 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="flex flex-wrap justify-center gap-3 mb-12" id="pkg-filters">
+            <button class="pkg-pill is-active" data-filter="all">All packages</button>
+            <button class="pkg-pill" data-filter="uttarakhand"><i class="fas fa-mountain-sun mr-1 text-clay"></i> Uttarakhand</button>
+            <button class="pkg-pill" data-filter="adventure"><i class="fas fa-person-hiking mr-1 text-clay"></i> Adventure</button>
+            <button class="pkg-pill" data-filter="wildlife"><i class="fas fa-paw mr-1 text-clay"></i> Wildlife &amp; Safari</button>
+            <button class="pkg-pill" data-filter="honeymoon"><i class="fas fa-heart mr-1 text-clay"></i> Honeymoon</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="pkg-grid">
+
+            <!-- Uttarakhand -->
+            <article class="card" data-cat="uttarakhand">
+                <div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1591123720164-de1348028e4b?w=700&q=80" class="ci" alt="Char Dham Yatra"><span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">10D / 9N</span></div>
+                <div class="p-5">
+                    <span class="eyebrow !tracking-widest">Uttarakhand</span>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">Char Dham Yatra</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">On request</div></div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+            <article class="card" data-cat="uttarakhand">
+                <div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1712388430474-ace0c16051e2?w=700&q=80" class="ci" alt="Do Dham Yatra"><span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">6D / 5N</span></div>
+                <div class="p-5">
+                    <span class="eyebrow !tracking-widest">Uttarakhand</span>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">Do Dham Yatra</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹12,999</div></div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+            <article class="card" data-cat="uttarakhand">
+                <div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1571536802807-30451e3955d8?w=700&q=80" class="ci" alt="Kedarnath Package"><span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">3N / 4D</span></div>
+                <div class="p-5">
+                    <span class="eyebrow !tracking-widest">Uttarakhand</span>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">Kedarnath Package</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹10,999</div></div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+            <article class="card" data-cat="uttarakhand">
+                <div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=700&q=80" class="ci" alt="Auli Chopta"><span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">5D / 4N</span></div>
+                <div class="p-5">
+                    <span class="eyebrow !tracking-widest">Uttarakhand</span>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">Auli Chopta Trip</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹9,999</div></div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+
+            <!-- Adventure -->
+            <article class="card" data-cat="adventure">
+                <div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1530866495561-507c9faab2ed?w=700&q=80" class="ci" alt="Rishikesh Rafting"><span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">2D / 1N</span></div>
+                <div class="p-5">
+                    <span class="eyebrow !tracking-widest">Adventure</span>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">Rishikesh Rafting &amp; Camping</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹4,999</div></div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+            <article class="card" data-cat="adventure">
+                <div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1551524559-8af4e6624178?w=700&q=80" class="ci" alt="Auli Skiing"><span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">5D / 4N</span></div>
+                <div class="p-5">
+                    <span class="eyebrow !tracking-widest">Adventure</span>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">Auli Skiing Expedition</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹18,999</div></div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+            <article class="card" data-cat="adventure">
+                <div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1621414050345-2d33fb1b0d0f?w=700&q=80" class="ci" alt="Bungee and rafting"><span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">2D / 1N</span></div>
+                <div class="p-5">
+                    <span class="eyebrow !tracking-widest">Adventure</span>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">Bungee &amp; Rafting Combo</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹6,499</div></div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+
+            <!-- Wildlife & Safari -->
+            <article class="card" data-cat="wildlife">
+                <div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=700&q=80" class="ci" alt="Jim Corbett Safari"><span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">2D / 1N</span></div>
+                <div class="p-5">
+                    <span class="eyebrow !tracking-widest">Wildlife &amp; Safari</span>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">Jim Corbett Safari</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹4,000</div></div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+            <article class="card" data-cat="wildlife">
+                <div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=700&q=80" class="ci" alt="Rajaji National Park"><span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">2D / 1N</span></div>
+                <div class="p-5">
+                    <span class="eyebrow !tracking-widest">Wildlife &amp; Safari</span>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">Rajaji National Park</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹5,500</div></div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+
+            <!-- Honeymoon -->
+            <article class="card" data-cat="honeymoon">
+                <div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=700&q=80" class="ci" alt="Goa Honeymoon"><span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">7D / 6N</span></div>
+                <div class="p-5">
+                    <span class="eyebrow !tracking-widest">Honeymoon</span>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">Goa Honeymoon Package</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹75,000</div></div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+            <article class="card" data-cat="honeymoon">
+                <div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=700&q=80" class="ci" alt="Nainital Getaway"><span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">3D / 2N</span></div>
+                <div class="p-5">
+                    <span class="eyebrow !tracking-widest">Honeymoon</span>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">Nainital Romantic Getaway</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">₹14,999</div></div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    document.querySelectorAll("#pkg-filters .pkg-pill").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var f = btn.dataset.filter;
+            document.querySelectorAll("#pkg-filters .pkg-pill").forEach(function (b) { b.classList.toggle("is-active", b === btn); });
+            document.querySelectorAll("#pkg-grid [data-cat]").forEach(function (c) {
+                c.style.display = (f === "all" || c.dataset.cat === f) ? "" : "none";
+            });
+        });
+    });
+</script>
+{% endblock %}

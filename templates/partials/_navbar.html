@@ -8,7 +8,7 @@
         <div class="hidden lg:flex items-center gap-9 text-[15px]">
             <a href="{% url 'core:home' %}" class="navlink" style="color:#1E4634">Home</a>
             <a href="#" class="navlink">Destinations</a>
-            <a href="#packages" class="navlink">Packages</a>
+            <a href="{% url 'tours:list' %}" class="navlink">Packages</a>
             <a href="#" class="navlink">About</a>
             <a href="#" class="navlink">Gallery</a>
             <a href="#" class="navlink">Blog</a>
@@ -28,7 +28,7 @@
     <div data-mobile-menu class="hidden lg:hidden border-t border-sand bg-ivory px-4 py-4 space-y-2 text-[15px]">
         <a href="{% url 'core:home' %}" class="block py-1 text-forest font-600">Home</a>
         <a href="#" class="block py-1">Destinations</a>
-        <a href="#packages" class="block py-1">Packages</a>
+        <a href="{% url 'tours:list' %}" class="block py-1">Packages</a>
         <a href="#" class="block py-1">About</a>
         <a href="#" class="block py-1">Gallery</a>
         <a href="#" class="block py-1">Blog</a>

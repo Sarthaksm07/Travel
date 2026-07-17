@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Char Dham Yatra — Tour Package | Augy Travels{% endblock %}
+{% block meta_description %}Char Dham Yatra 10 days / 9 nights — Yamunotri, Gangotri, Kedarnath & Badrinath. Safe, women-friendly, transparently priced pilgrimage by Augy Travels.{% endblock %}
+
+{% block content %}
+{% with wa=site.whatsapp_number|default:'918630731034' %}
+
+<!-- HERO -->
+<section class="relative">
+    <div class="h-[300px] sm:h-[400px] w-full overflow-hidden">
+        <img src="/static/img/auli.jpg" class="w-full h-full object-cover" alt="Char Dham Yatra">
+        <div class="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/50 to-forest-deep/10"></div>
+    </div>
+    <div class="absolute inset-x-0 bottom-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 text-ivory">
+            <nav class="text-sm text-ivory/70 mb-3"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <a href="{% url 'tours:list' %}" class="hover:text-clay-soft">Packages</a> <span class="mx-1">/</span> <span class="text-ivory">Char Dham Yatra</span></nav>
+            <span class="inline-block bg-clay text-white text-xs font-600 px-3 py-1 rounded-full mb-3">Uttarakhand</span>
+            <h1 class="font-display text-4xl sm:text-5xl font-600 mb-4">Char Dham Yatra</h1>
+            <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-ivory/85">
+                <span><i class="fas fa-clock text-clay-soft mr-2"></i>10 Days / 9 Nights</span>
+                <span><i class="fas fa-users text-clay-soft mr-2"></i>Small groups</span>
+                <span><i class="fas fa-calendar text-clay-soft mr-2"></i>May – October</span>
+                <span><i class="fas fa-star text-clay-soft mr-2"></i>4.8 (600+ reviews)</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BODY -->
+<section class="py-14 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-3 gap-10">
+
+            <!-- Main content -->
+            <div class="lg:col-span-2 space-y-12">
+
+                <!-- Overview -->
+                <div>
+                    <span class="eyebrow">About this package</span>
+                    <h2 class="font-display text-3xl font-600 text-forest mt-2 mb-4">The complete Himalayan pilgrimage</h2>
+                    <p class="text-stone leading-relaxed">The Char Dham Yatra is the most sacred pilgrimage circuit in the Himalayas — Yamunotri, Gangotri, Kedarnath and Badrinath. Over ten unforgettable days you travel through the valleys of Garhwal with experienced local guides, comfortable hand-picked stays, and safe, well-maintained transport. We handle every detail so you can focus on the darshan and the mountains.</p>
+                </div>
+
+                <!-- Highlights / benefits -->
+                <div>
+                    <h2 class="font-display text-2xl font-600 text-forest mb-5">Package highlights</h2>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-forest/10 grid place-items-center text-clay text-[10px] mt-0.5"><i class="fas fa-check"></i></span><span class="text-stone">Darshan at all four dhams</span></div>
+                        <div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-forest/10 grid place-items-center text-clay text-[10px] mt-0.5"><i class="fas fa-check"></i></span><span class="text-stone">Experienced local guides</span></div>
+                        <div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-forest/10 grid place-items-center text-clay text-[10px] mt-0.5"><i class="fas fa-check"></i></span><span class="text-stone">Comfortable hand-picked stays</span></div>
+                        <div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-forest/10 grid place-items-center text-clay text-[10px] mt-0.5"><i class="fas fa-check"></i></span><span class="text-stone">Safe, hill-experienced drivers</span></div>
+                        <div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-forest/10 grid place-items-center text-clay text-[10px] mt-0.5"><i class="fas fa-check"></i></span><span class="text-stone">Women-friendly &amp; family-safe</span></div>
+                        <div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-forest/10 grid place-items-center text-clay text-[10px] mt-0.5"><i class="fas fa-check"></i></span><span class="text-stone">24/7 on-trip support</span></div>
+                    </div>
+                </div>
+
+                <!-- Itinerary -->
+                <div>
+                    <h2 class="font-display text-2xl font-600 text-forest mb-6">Day-by-day itinerary</h2>
+                    <div class="space-y-5 border-l-2 border-sand pl-6 ml-2">
+                        {% comment %} each step {% endcomment %}
+                        <div class="relative">
+                            <span class="absolute -left-[33px] top-0 w-6 h-6 rounded-full bg-forest text-ivory grid place-items-center text-[11px] font-600">1</span>
+                            <h4 class="font-600 text-forest">Haridwar → Barkot</h4>
+                            <p class="text-sm text-stone">Arrival, meet your guide, scenic drive to Barkot for an overnight stay.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[33px] top-0 w-6 h-6 rounded-full bg-forest text-ivory grid place-items-center text-[11px] font-600">2</span>
+                            <h4 class="font-600 text-forest">Yamunotri Darshan</h4>
+                            <p class="text-sm text-stone">Trek/pony to Yamunotri temple, darshan, return to Barkot.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[33px] top-0 w-6 h-6 rounded-full bg-forest text-ivory grid place-items-center text-[11px] font-600">3</span>
+                            <h4 class="font-600 text-forest">Barkot → Uttarkashi</h4>
+                            <p class="text-sm text-stone">Drive to Uttarkashi along the Bhagirathi; evening at leisure.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[33px] top-0 w-6 h-6 rounded-full bg-forest text-ivory grid place-items-center text-[11px] font-600">4</span>
+                            <h4 class="font-600 text-forest">Gangotri Darshan</h4>
+                            <p class="text-sm text-stone">Visit Gangotri, source of the Ganga, and return to Uttarkashi.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[33px] top-0 w-6 h-6 rounded-full bg-forest text-ivory grid place-items-center text-[11px] font-600">5–7</span>
+                            <h4 class="font-600 text-forest">Kedarnath Darshan</h4>
+                            <p class="text-sm text-stone">Drive to Guptkashi, then trek or helicopter to Kedarnath for darshan and stay.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[33px] top-0 w-6 h-6 rounded-full bg-forest text-ivory grid place-items-center text-[11px] font-600">8–9</span>
+                            <h4 class="font-600 text-forest">Badrinath Darshan</h4>
+                            <p class="text-sm text-stone">Journey to Badrinath, darshan, Mana village visit, then to Rudraprayag.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[33px] top-0 w-6 h-6 rounded-full bg-clay text-white grid place-items-center text-[11px] font-600">10</span>
+                            <h4 class="font-600 text-forest">Return to Haridwar</h4>
+                            <p class="text-sm text-stone">Scenic drive back to Haridwar with fond memories — trip concludes.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inclusions / Exclusions -->
+                <div class="grid sm:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="font-display text-xl font-600 text-forest mb-4">What's included</h3>
+                        <ul class="space-y-2.5 text-sm text-stone">
+                            <li><i class="fas fa-check text-forest mr-2"></i>Accommodation (twin sharing)</li>
+                            <li><i class="fas fa-check text-forest mr-2"></i>Daily breakfast &amp; dinner</li>
+                            <li><i class="fas fa-check text-forest mr-2"></i>All transfers by private vehicle</li>
+                            <li><i class="fas fa-check text-forest mr-2"></i>Experienced driver &amp; guide</li>
+                            <li><i class="fas fa-check text-forest mr-2"></i>Toll, parking &amp; driver allowance</li>
+                            <li><i class="fas fa-check text-forest mr-2"></i>All applicable taxes</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-display text-xl font-600 text-forest mb-4">What's not included</h3>
+                        <ul class="space-y-2.5 text-sm text-stone">
+                            <li><i class="fas fa-xmark text-clay mr-2"></i>Train/air fare to Haridwar</li>
+                            <li><i class="fas fa-xmark text-clay mr-2"></i>Lunch &amp; personal expenses</li>
+                            <li><i class="fas fa-xmark text-clay mr-2"></i>Helicopter tickets (optional)</li>
+                            <li><i class="fas fa-xmark text-clay mr-2"></i>Pony / palki at Kedarnath</li>
+                            <li><i class="fas fa-xmark text-clay mr-2"></i>Anything not in inclusions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Booking process -->
+                <div>
+                    <h2 class="font-display text-2xl font-600 text-forest mb-6">How booking works</h2>
+                    <div class="grid sm:grid-cols-4 gap-4">
+                        <div class="text-center"><div class="w-12 h-12 mx-auto rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-2"><i class="fas fa-comment-dots"></i></div><div class="font-600 text-forest text-sm">1. Enquire</div><p class="text-xs text-stone mt-1">Share your dates &amp; group.</p></div>
+                        <div class="text-center"><div class="w-12 h-12 mx-auto rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-2"><i class="fas fa-sliders"></i></div><div class="font-600 text-forest text-sm">2. Customise</div><p class="text-xs text-stone mt-1">We tailor the plan &amp; quote.</p></div>
+                        <div class="text-center"><div class="w-12 h-12 mx-auto rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-2"><i class="fas fa-circle-check"></i></div><div class="font-600 text-forest text-sm">3. Confirm</div><p class="text-xs text-stone mt-1">Reserve with a simple advance.</p></div>
+                        <div class="text-center"><div class="w-12 h-12 mx-auto rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-2"><i class="fas fa-mountain-sun"></i></div><div class="font-600 text-forest text-sm">4. Travel</div><p class="text-xs text-stone mt-1">Relax — we handle the rest.</p></div>
+                    </div>
+                </div>
+
+                <!-- FAQ -->
+                <div>
+                    <h2 class="font-display text-2xl font-600 text-forest mb-5">Frequently asked</h2>
+                    <div class="space-y-3">
+                        <details class="bg-white border border-sand rounded-xl p-4 group">
+                            <summary class="font-600 text-forest cursor-pointer list-none flex justify-between items-center">When is the best time for Char Dham Yatra?<i class="fas fa-plus text-clay group-open:rotate-45 transition"></i></summary>
+                            <p class="text-sm text-stone mt-3">The yatra runs from May to October, when the temples are open. May–June and September are the most pleasant.</p>
+                        </details>
+                        <details class="bg-white border border-sand rounded-xl p-4 group">
+                            <summary class="font-600 text-forest cursor-pointer list-none flex justify-between items-center">How fit do I need to be?<i class="fas fa-plus text-clay group-open:rotate-45 transition"></i></summary>
+                            <p class="text-sm text-stone mt-3">Basic fitness helps for the Kedarnath and Yamunotri treks. Pony, palki and helicopter options are available for those who prefer.</p>
+                        </details>
+                        <details class="bg-white border border-sand rounded-xl p-4 group">
+                            <summary class="font-600 text-forest cursor-pointer list-none flex justify-between items-center">Is it women-friendly?<i class="fas fa-plus text-clay group-open:rotate-45 transition"></i></summary>
+                            <p class="text-sm text-stone mt-3">Absolutely. Safe stays, respectful guides and thoughtful arrangements make this comfortable for women and families.</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar: booking / enquiry -->
+            <aside class="lg:col-span-1">
+                <div class="lg:sticky lg:top-28 bg-white border border-sand rounded-2xl softshadow p-6">
+                    <div class="flex items-end gap-2">
+                        <span class="text-sm text-stone">From</span>
+                        <span class="font-display text-3xl font-600 text-clay leading-none">On request</span>
+                    </div>
+                    <p class="text-xs text-stone mt-1 mb-5">Per person · taxes included · fully customisable</p>
+
+                    <ul class="space-y-3 text-sm text-forest mb-6">
+                        <li class="flex justify-between"><span class="text-stone">Duration</span><span class="font-600">10D / 9N</span></li>
+                        <li class="flex justify-between"><span class="text-stone">Group size</span><span class="font-600">Private / small group</span></li>
+                        <li class="flex justify-between"><span class="text-stone">Best season</span><span class="font-600">May – Oct</span></li>
+                        <li class="flex justify-between"><span class="text-stone">Starts from</span><span class="font-600">Haridwar</span></li>
+                    </ul>
+
+                    <div class="space-y-3">
+                        <a href="https://wa.me/{{ wa }}?text=Enquiry about Char Dham Yatra" target="_blank" rel="noopener" class="btn btn-clay w-full !rounded-xl"><i class="fab fa-whatsapp"></i> Enquire on WhatsApp</a>
+                        <a href="tel:+{{ wa }}" class="btn btn-ghost w-full !rounded-xl"><i class="fas fa-phone"></i> Call us</a>
+                        <a href="#" class="btn btn-primary w-full !rounded-xl"><i class="fas fa-paper-plane"></i> Send an enquiry</a>
+                    </div>
+
+                    <div class="rule my-6"></div>
+                    <div class="space-y-2 text-xs text-stone">
+                        <div><i class="fas fa-shield-heart text-forest mr-2"></i>Women-friendly &amp; safe</div>
+                        <div><i class="fas fa-tags text-forest mr-2"></i>Transparent pricing</div>
+                        <div><i class="fas fa-headset text-forest mr-2"></i>24/7 support</div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="pb-20 bg-ivory">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative overflow-hidden rounded-[32px] bg-forest text-ivory p-10 sm:p-14 text-center grain">
+            <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-pine/30 blur-3xl"></div>
+            <div class="absolute -bottom-16 -right-10 w-56 h-56 rounded-full bg-clay/25 blur-3xl"></div>
+            <div class="relative">
+                <h2 class="font-display text-3xl sm:text-4xl font-600 mb-3">Ready to begin your yatra?</h2>
+                <p class="text-ivory/75 max-w-xl mx-auto mb-8">Tell us your dates and group size — we'll craft a tailored plan and quote, usually within a few hours.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://wa.me/{{ wa }}?text=Enquiry about Char Dham Yatra" target="_blank" rel="noopener" class="btn btn-clay"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                    <a href="tel:+{{ wa }}" class="btn btn-ghost !border-ivory/40 !text-ivory"><i class="fas fa-phone"></i> Call us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endwith %}
+{% endblock %}
