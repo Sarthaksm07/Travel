@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contact Us — Augy Travels{% endblock %}
+{% block meta_description %}Contact Augy Travels — call, WhatsApp or email us, or send an enquiry. Head office in Rudraprayag, Uttarakhand.{% endblock %}
+
+{% block content %}
+{% with wa=site.whatsapp_number|default:'918630731034' phone=site.phone|default:'+91 8630 731 034' email=site.email|default:'augytravels@gmail.com' address=site.address|default:'Bedubagarh, Kedarnath Road, Rudraprayag, Uttarakhand 246421' %}
+
+<!-- Header -->
+<section class="relative overflow-hidden bg-forest text-ivory grain">
+    <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-pine/30 blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <nav class="text-sm text-ivory/60 mb-4"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <span class="text-ivory">Contact</span></nav>
+        <span class="eyebrow !text-clay-soft">Get in touch</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-600 mt-3 mb-3">We'd love to plan your journey</h1>
+        <p class="text-ivory/75 max-w-xl">Call, WhatsApp or send us a message — our team usually replies within a few hours.</p>
+    </div>
+</section>
+
+<!-- Quick contact cards -->
+<section class="py-14 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <a href="tel:+{{ wa }}" class="bg-white border border-sand rounded-2xl p-6 softshadow hover:border-clay/40 transition">
+            <div class="w-12 h-12 rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-3"><i class="fas fa-phone"></i></div>
+            <div class="text-xs uppercase tracking-widest text-clay font-600 mb-1">Call us</div>
+            <div class="font-600 text-forest">{{ phone }}</div>
+        </a>
+        <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" class="bg-white border border-sand rounded-2xl p-6 softshadow hover:border-clay/40 transition">
+            <div class="w-12 h-12 rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-3"><i class="fab fa-whatsapp"></i></div>
+            <div class="text-xs uppercase tracking-widest text-clay font-600 mb-1">WhatsApp</div>
+            <div class="font-600 text-forest">Chat with us</div>
+        </a>
+        <a href="mailto:{{ email }}" class="bg-white border border-sand rounded-2xl p-6 softshadow hover:border-clay/40 transition">
+            <div class="w-12 h-12 rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-3"><i class="fas fa-envelope"></i></div>
+            <div class="text-xs uppercase tracking-widest text-clay font-600 mb-1">Email</div>
+            <div class="font-600 text-forest break-all text-sm">{{ email }}</div>
+        </a>
+        <div class="bg-white border border-sand rounded-2xl p-6 softshadow">
+            <div class="w-12 h-12 rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-3"><i class="fas fa-clock"></i></div>
+            <div class="text-xs uppercase tracking-widest text-clay font-600 mb-1">Office hours</div>
+            <div class="font-600 text-forest text-sm">Mon–Sun · 8am – 8pm</div>
+        </div>
+    </div>
+</section>
+
+<!-- Form + address -->
+<section class="pb-16 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-5 gap-8 items-start">
+
+        <!-- Form -->
+        <div class="lg:col-span-3 bg-white border border-sand rounded-2xl softshadow p-6 sm:p-8">
+            <h2 class="font-display text-2xl font-600 text-forest mb-1">Send us an enquiry</h2>
+            <p class="text-sm text-stone mb-6">Fill this in and we'll get back to you — it opens WhatsApp with your details ready to send.</p>
+            <form id="contactForm" class="grid sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-xs font-600 text-forest">Name</label>
+                    <input id="cf-name" required class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Your name">
+                </div>
+                <div>
+                    <label class="text-xs font-600 text-forest">Phone</label>
+                    <input id="cf-phone" required class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Your phone number">
+                </div>
+                <div>
+                    <label class="text-xs font-600 text-forest">Email <span class="text-stone font-400">(optional)</span></label>
+                    <input id="cf-email" type="email" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="you@email.com">
+                </div>
+                <div>
+                    <label class="text-xs font-600 text-forest">Destination / package</label>
+                    <input id="cf-subject" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. Char Dham Yatra">
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="text-xs font-600 text-forest">Message</label>
+                    <textarea id="cf-message" rows="4" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Tell us your dates, group size and what you have in mind…"></textarea>
+                </div>
+                <div class="sm:col-span-2">
+                    <button type="submit" class="btn btn-clay w-full !rounded-xl"><i class="fab fa-whatsapp"></i> Send via WhatsApp</button>
+                    <p class="text-[11px] text-stone mt-2 text-center">By sending, you agree to be contacted about your enquiry.</p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Address + socials -->
+        <div class="lg:col-span-2 space-y-5">
+            <div class="bg-white border border-sand rounded-2xl softshadow p-6">
+                <div class="flex items-start gap-3">
+                    <div class="w-11 h-11 flex-none rounded-full bg-forest/10 text-forest grid place-items-center"><i class="fas fa-location-dot"></i></div>
+                    <div>
+                        <div class="font-600 text-forest mb-1">Head Office</div>
+                        <p class="text-sm text-stone">{{ address }}</p>
+                        {% if site.google_maps_link %}<a href="{{ site.google_maps_link }}" target="_blank" rel="noopener" class="text-sm font-600 text-clay mt-2 inline-block">Open in Google Maps &rarr;</a>{% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white border border-sand rounded-2xl softshadow p-6">
+                <div class="font-600 text-forest mb-3">Follow us</div>
+                <div class="flex gap-3">
+                    <a href="{{ site.facebook_url|default:'#' }}" class="w-10 h-10 rounded-full bg-forest/10 text-forest grid place-items-center hover:bg-clay hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{ site.instagram_url|default:'#' }}" class="w-10 h-10 rounded-full bg-forest/10 text-forest grid place-items-center hover:bg-clay hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                    <a href="{{ site.youtube_url|default:'#' }}" class="w-10 h-10 rounded-full bg-forest/10 text-forest grid place-items-center hover:bg-clay hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                    <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" class="w-10 h-10 rounded-full bg-forest/10 text-forest grid place-items-center hover:bg-clay hover:text-white transition"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="rounded-2xl overflow-hidden border border-sand softshadow h-56">
+                <iframe src="https://www.google.com/maps?q=30.4020537,79.0444981&z=11&output=embed" width="100%" height="100%" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Augy Travels location"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var name = document.getElementById("cf-name").value.trim();
+        var phone = document.getElementById("cf-phone").value.trim();
+        var email = document.getElementById("cf-email").value.trim();
+        var subject = document.getElementById("cf-subject").value.trim();
+        var message = document.getElementById("cf-message").value.trim();
+        var text = "Hello Augy Travels! I'd like to enquire.%0A%0A"
+            + "Name: " + encodeURIComponent(name) + "%0A"
+            + "Phone: " + encodeURIComponent(phone) + "%0A"
+            + (email ? "Email: " + encodeURIComponent(email) + "%0A" : "")
+            + (subject ? "Destination/Package: " + encodeURIComponent(subject) + "%0A" : "")
+            + (message ? "Message: " + encodeURIComponent(message) : "");
+        window.open("https://wa.me/{{ wa }}?text=" + text, "_blank");
+    });
+</script>
+
+{% endwith %}
+{% endblock %}

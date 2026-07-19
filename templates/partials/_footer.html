@@ -17,11 +17,11 @@
         <div>
             <h4 class="text-ivory font-600 mb-4">Quick Links</h4>
             <ul class="space-y-2 text-sm">
-                <li><a href="#" class="hover:text-clay-soft">About Us</a></li>
-                <li><a href="#" class="hover:text-clay-soft">Destinations</a></li>
+                <li><a href="{% url 'core:about' %}" class="hover:text-clay-soft">About Us</a></li>
+                <li><a href="{% url 'destinations:list' %}" class="hover:text-clay-soft">Destinations</a></li>
                 <li><a href="#packages" class="hover:text-clay-soft">Packages</a></li>
                 <li><a href="#" class="hover:text-clay-soft">Blog</a></li>
-                <li><a href="#" class="hover:text-clay-soft">Contact</a></li>
+                <li><a href="{% url 'core:contact' %}" class="hover:text-clay-soft">Contact</a></li>
             </ul>
         </div>
         <div>

@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Travel Blog — Augy Travels{% endblock %}
+{% block meta_description %}Himalayan travel stories, Char Dham & Kedarnath guides, tips and itineraries from Augy Travels.{% endblock %}
+
+{% block content %}
+<style>
+    .blog-pill{padding:.5rem 1.1rem;border-radius:999px;border:1.5px solid rgba(30,70,52,.25);background:#fff;color:#1E4634;font-weight:600;font-size:.85rem;cursor:pointer;transition:.2s}
+    .blog-pill:hover{border-color:#BC6C43}
+    .blog-pill.is-active{background:#1E4634;color:#F7F4EE;border-color:#1E4634}
+</style>
+
+<!-- Header -->
+<section class="relative overflow-hidden bg-forest text-ivory grain">
+    <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-pine/30 blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <nav class="text-sm text-ivory/60 mb-4"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <span class="text-ivory">Blog</span></nav>
+        <span class="eyebrow !text-clay-soft">Travel Blog</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-600 mt-3 mb-3">Travel stories &amp; guides</h1>
+        <p class="text-ivory/75 max-w-xl">Tips, itineraries and inspiration for your Himalayan journey — straight from our local team.</p>
+    </div>
+</section>
+
+<!-- Filters + grid -->
+<section class="py-16 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap justify-center gap-3 mb-12" id="blog-filters">
+            <button class="blog-pill is-active" data-filter="all">All</button>
+            <button class="blog-pill" data-filter="chardham">Char Dham</button>
+            <button class="blog-pill" data-filter="kedarnath">Kedarnath</button>
+            <button class="blog-pill" data-filter="tips">Travel Tips</button>
+            <button class="blog-pill" data-filter="adventure">Adventure</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
+
+            <article class="card" data-cat="kedarnath">
+                <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}"><div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1712388430474-ace0c16051e2?w=700&q=80" class="ci" alt=""><span class="absolute top-4 left-4 bg-clay text-white text-xs font-600 px-3 py-1 rounded-full">Kedarnath</span></div></a>
+                <div class="p-5">
+                    <div class="text-xs text-stone mb-2">By Admin &middot; Jun 11, 2026 &middot; 8 min read</div>
+                    <h3 class="font-display text-lg font-600 text-forest leading-snug mb-2"><a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="hover:text-clay transition">Kedarnath Heli Ticket Price: Booking Guide &amp; Cost Breakdown</a></h3>
+                    <p class="text-sm text-stone mb-3">Current prices, booking windows, and how to plan a smooth helicopter darshan.</p>
+                    <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="text-sm font-600 text-forest">Read more &rarr;</a>
+                </div>
+            </article>
+
+            <article class="card" data-cat="chardham">
+                <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}"><div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?w=700&q=80" class="ci" alt=""><span class="absolute top-4 left-4 bg-clay text-white text-xs font-600 px-3 py-1 rounded-full">Char Dham</span></div></a>
+                <div class="p-5">
+                    <div class="text-xs text-stone mb-2">By Admin &middot; Jun 10, 2026 &middot; 6 min read</div>
+                    <h3 class="font-display text-lg font-600 text-forest leading-snug mb-2"><a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="hover:text-clay transition">Rishikesh Mussoorie Haridwar Package: Scenic &amp; Spiritual Journey</a></h3>
+                    <p class="text-sm text-stone mb-3">A relaxed Garhwal circuit blending rivers, hill stations and ghats.</p>
+                    <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="text-sm font-600 text-forest">Read more &rarr;</a>
+                </div>
+            </article>
+
+            <article class="card" data-cat="kedarnath">
+                <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}"><div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1591123720164-de1348028e4b?w=700&q=80" class="ci" alt=""><span class="absolute top-4 left-4 bg-clay text-white text-xs font-600 px-3 py-1 rounded-full">Kedarnath</span></div></a>
+                <div class="p-5">
+                    <div class="text-xs text-stone mb-2">By Admin &middot; May 18, 2026 &middot; 5 min read</div>
+                    <h3 class="font-display text-lg font-600 text-forest leading-snug mb-2"><a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="hover:text-clay transition">Kedarnath Package: Trekking, Helicopter &amp; Stay Options</a></h3>
+                    <p class="text-sm text-stone mb-3">Everything you need to plan your Kedarnath darshan, your way.</p>
+                    <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="text-sm font-600 text-forest">Read more &rarr;</a>
+                </div>
+            </article>
+
+            <article class="card" data-cat="tips">
+                <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}"><div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=700&q=80" class="ci" alt=""><span class="absolute top-4 left-4 bg-clay text-white text-xs font-600 px-3 py-1 rounded-full">Travel Tips</span></div></a>
+                <div class="p-5">
+                    <div class="text-xs text-stone mb-2">By Admin &middot; May 14, 2026 &middot; 4 min read</div>
+                    <h3 class="font-display text-lg font-600 text-forest leading-snug mb-2"><a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="hover:text-clay transition">What to Pack for a Himalayan Yatra: A Simple Checklist</a></h3>
+                    <p class="text-sm text-stone mb-3">Clothing, documents and essentials for a comfortable pilgrimage.</p>
+                    <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="text-sm font-600 text-forest">Read more &rarr;</a>
+                </div>
+            </article>
+
+            <article class="card" data-cat="adventure">
+                <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}"><div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1530866495561-507c9faab2ed?w=700&q=80" class="ci" alt=""><span class="absolute top-4 left-4 bg-clay text-white text-xs font-600 px-3 py-1 rounded-full">Adventure</span></div></a>
+                <div class="p-5">
+                    <div class="text-xs text-stone mb-2">By Admin &middot; May 2, 2026 &middot; 5 min read</div>
+                    <h3 class="font-display text-lg font-600 text-forest leading-snug mb-2"><a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="hover:text-clay transition">Rishikesh Rafting: Grades, Season &amp; Safety Guide</a></h3>
+                    <p class="text-sm text-stone mb-3">When to go, which rapids to pick, and how we keep you safe.</p>
+                    <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="text-sm font-600 text-forest">Read more &rarr;</a>
+                </div>
+            </article>
+
+            <article class="card" data-cat="tips">
+                <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}"><div class="relative h-52 overflow-hidden"><img src="https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=700&q=80" class="ci" alt=""><span class="absolute top-4 left-4 bg-clay text-white text-xs font-600 px-3 py-1 rounded-full">Travel Tips</span></div></a>
+                <div class="p-5">
+                    <div class="text-xs text-stone mb-2">By Admin &middot; Apr 26, 2026 &middot; 3 min read</div>
+                    <h3 class="font-display text-lg font-600 text-forest leading-snug mb-2"><a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="hover:text-clay transition">Best Time to Visit Uttarakhand: A Month-by-Month Guide</a></h3>
+                    <p class="text-sm text-stone mb-3">Weather, crowds and festivals — plan your trip at the right time.</p>
+                    <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="text-sm font-600 text-forest">Read more &rarr;</a>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    document.querySelectorAll("#blog-filters .blog-pill").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var f = btn.dataset.filter;
+            document.querySelectorAll("#blog-filters .blog-pill").forEach(function (b) { b.classList.toggle("is-active", b === btn); });
+            document.querySelectorAll("#blog-grid [data-cat]").forEach(function (c) {
+                c.style.display = (f === "all" || c.dataset.cat === f) ? "" : "none";
+            });
+        });
+    });
+</script>
+{% endblock %}

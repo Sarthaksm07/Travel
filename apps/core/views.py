@@ -9,3 +9,11 @@ def home(request):
         "featured_packages": TourPackage.objects.filter(is_featured=True)[:8],
     }
     return render(request, "pages/home.html", context)
+
+
+def about(request):
+    return render(request, "pages/about.html")
+
+
+def contact(request):
+    return render(request, "pages/contact.html")

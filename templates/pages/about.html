@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us — Augy Travels{% endblock %}
+{% block meta_description %}Augy Travels — a women-friendly Uttarakhand travel company based in the Kedarnath valley, with branches in Delhi and Dehradun. Safe, transparent, local pilgrimage & mountain travel.{% endblock %}
+
+{% block content %}
+{% with wa=site.whatsapp_number|default:'918630731034' %}
+
+<!-- Header -->
+<section class="relative overflow-hidden bg-forest text-ivory grain">
+    <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-pine/30 blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <nav class="text-sm text-ivory/60 mb-4"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <span class="text-ivory">About</span></nav>
+        <span class="eyebrow !text-clay-soft">About Us</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-600 mt-3 mb-3">Local hearts, Himalayan journeys</h1>
+        <p class="text-ivory/75 max-w-xl">The story of Augy Travels — born in the valleys of Kedarnath, driven by safe, honest, women-friendly travel.</p>
+    </div>
+</section>
+
+<!-- Story -->
+<section class="py-16 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-14 items-center">
+        <div class="relative">
+            <div class="arch overflow-hidden softshadow h-[380px] lg:h-[460px]"><img src="https://images.unsplash.com/photo-1591123720164-de1348028e4b?w=1000&q=80" class="w-full h-full object-cover" alt="Kedarnath valley"></div>
+            <div class="absolute -bottom-6 -left-4 sm:left-6 bg-cream border border-sand rounded-2xl px-5 py-4 softshadow flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-forest text-ivory grid place-items-center text-lg"><i class="fas fa-mountain"></i></div>
+                <div><div class="font-display text-2xl font-600 text-forest leading-none">600+</div><div class="text-xs text-stone mt-1">Happy travellers &amp; counting</div></div>
+            </div>
+        </div>
+        <div>
+            <span class="eyebrow">Our journey</span>
+            <h2 class="font-display text-3xl sm:text-4xl font-600 text-forest mt-3 mb-5">Rooted in the mountains we love</h2>
+            <div class="space-y-4 text-stone leading-relaxed">
+                <p>Augy Travels was born in the valleys of Kedarnath, out of a simple belief: travel to the Himalayas should be safe, honest and unforgettable. From our head office in the Kedarnath valley — with branches in Delhi and Dehradun — a team of experienced travel operators works day and night to make every journey smooth and memorable.</p>
+                <p>We keep things clear and uncomplicated. No last-minute extras you didn't know about, no surprise charges — just straightforward service you can trust. Beyond the Char Dham, we craft religious and nature trips to Rishikesh, Haridwar, Mussoorie, Auli and Chopta, wildlife tours in Corbett, and restful stays in Nainital.</p>
+                <p>Above all, we're passionate about <span class="text-forest font-600">safe, women-friendly travel</span> — every woman should feel secure venturing into the mountains with us, with comfort, safety and support always at the forefront.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision -->
+<section class="py-16 bg-sand">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-2xl border border-sand-2 p-8 softshadow">
+            <div class="w-12 h-12 rounded-xl bg-forest/10 grid place-items-center text-forest text-xl mb-4"><i class="fas fa-bullseye"></i></div>
+            <h3 class="font-display text-2xl font-600 text-forest mb-3">Our Mission</h3>
+            <p class="text-stone leading-relaxed">To make Himalayan pilgrimage and mountain travel safe, affordable and effortless for every traveller — handling every detail so you can focus on the experience.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-sand-2 p-8 softshadow">
+            <div class="w-12 h-12 rounded-xl bg-clay/15 grid place-items-center text-clay text-xl mb-4"><i class="fas fa-mountain-sun"></i></div>
+            <h3 class="font-display text-2xl font-600 text-forest mb-3">Our Vision</h3>
+            <p class="text-stone leading-relaxed">To be Uttarakhand's most trusted, women-friendly travel company — known for honesty, care and genuine local expertise across the Garhwal Himalayas.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<section class="py-14 bg-ivory">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div><div class="font-display text-4xl font-600 text-forest">600+</div><div class="text-sm text-stone mt-1">Happy Travellers</div></div>
+        <div><div class="font-display text-4xl font-600 text-forest">4.8<span class="text-clay">★</span></div><div class="text-sm text-stone mt-1">Google Rating</div></div>
+        <div><div class="font-display text-4xl font-600 text-forest">3</div><div class="text-sm text-stone mt-1">Offices</div></div>
+        <div><div class="font-display text-4xl font-600 text-forest">100%</div><div class="text-sm text-stone mt-1">Women-Friendly</div></div>
+    </div>
+</section>
+
+<!-- Values -->
+<section class="py-16 bg-sand">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="eyebrow">What we stand for</span>
+            <h2 class="font-display text-3xl sm:text-4xl font-600 text-forest mt-3">Values that guide every trip</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white rounded-2xl p-7 border border-sand-2"><div class="w-12 h-12 rounded-xl bg-forest/10 grid place-items-center text-forest text-xl mb-4"><i class="fas fa-mountain"></i></div><h3 class="font-600 text-lg text-forest mb-2">Local Experts</h3><p class="text-sm text-stone">Guides and drivers who were born in these valleys and know every turn.</p></div>
+            <div class="bg-white rounded-2xl p-7 border border-sand-2"><div class="w-12 h-12 rounded-xl bg-forest/10 grid place-items-center text-forest text-xl mb-4"><i class="fas fa-venus"></i></div><h3 class="font-600 text-lg text-forest mb-2">Women-Friendly</h3><p class="text-sm text-stone">Thoughtful, safe travel designed so women can explore with peace of mind.</p></div>
+            <div class="bg-white rounded-2xl p-7 border border-sand-2"><div class="w-12 h-12 rounded-xl bg-forest/10 grid place-items-center text-forest text-xl mb-4"><i class="fas fa-tags"></i></div><h3 class="font-600 text-lg text-forest mb-2">Transparent Pricing</h3><p class="text-sm text-stone">Every cost shared upfront — no fine print, no hidden fees, ever.</p></div>
+            <div class="bg-white rounded-2xl p-7 border border-sand-2"><div class="w-12 h-12 rounded-xl bg-forest/10 grid place-items-center text-forest text-xl mb-4"><i class="fas fa-headset"></i></div><h3 class="font-600 text-lg text-forest mb-2">24/7 Support</h3><p class="text-sm text-stone">Help with bookings, advice or emergencies — we're always a call away.</p></div>
+            <div class="bg-white rounded-2xl p-7 border border-sand-2"><div class="w-12 h-12 rounded-xl bg-forest/10 grid place-items-center text-forest text-xl mb-4"><i class="fas fa-car-side"></i></div><h3 class="font-600 text-lg text-forest mb-2">Safe Hill Drivers</h3><p class="text-sm text-stone">Well-maintained vehicles and experienced drivers for mountain roads.</p></div>
+            <div class="bg-white rounded-2xl p-7 border border-sand-2"><div class="w-12 h-12 rounded-xl bg-forest/10 grid place-items-center text-forest text-xl mb-4"><i class="fas fa-hand-holding-heart"></i></div><h3 class="font-600 text-lg text-forest mb-2">Honest Service</h3><p class="text-sm text-stone">Straightforward, uncomplicated planning built on trust and care.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- Offices -->
+<section class="py-16 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="eyebrow">Find us</span>
+            <h2 class="font-display text-3xl sm:text-4xl font-600 text-forest mt-3">Our offices</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-2xl border border-sand p-7 softshadow">
+                <div class="text-clay font-600 text-sm mb-2"><i class="fas fa-location-dot mr-1"></i> Head Office</div>
+                <h3 class="font-display text-xl font-600 text-forest mb-2">Rudraprayag</h3>
+                <p class="text-sm text-stone">{{ site.address|default:'Bedubagarh, Kedarnath Road, Rudraprayag, Uttarakhand 246421' }}</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-sand p-7 softshadow">
+                <div class="text-clay font-600 text-sm mb-2"><i class="fas fa-location-dot mr-1"></i> Branch</div>
+                <h3 class="font-display text-xl font-600 text-forest mb-2">Delhi</h3>
+                <p class="text-sm text-stone">Serving travellers from the capital with pickups and trip planning across North India.</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-sand p-7 softshadow">
+                <div class="text-clay font-600 text-sm mb-2"><i class="fas fa-location-dot mr-1"></i> Branch</div>
+                <h3 class="font-display text-xl font-600 text-forest mb-2">Dehradun</h3>
+                <p class="text-sm text-stone">Your gateway to the Garhwal Himalayas — airport transfers and yatra departures.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="pb-20 bg-ivory">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative overflow-hidden rounded-[32px] bg-forest text-ivory p-10 sm:p-14 text-center grain">
+            <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-pine/30 blur-3xl"></div>
+            <div class="absolute -bottom-16 -right-10 w-56 h-56 rounded-full bg-clay/25 blur-3xl"></div>
+            <div class="relative">
+                <h2 class="font-display text-3xl sm:text-4xl font-600 mb-3">Travel with people who call these mountains home</h2>
+                <p class="text-ivory/75 max-w-xl mx-auto mb-8">Tell us your dates and we'll craft a safe, memorable journey — the way you imagined it.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" class="btn btn-clay"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                    <a href="tel:+{{ wa }}" class="btn btn-ghost !border-ivory/40 !text-ivory"><i class="fas fa-phone"></i> Call us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endwith %}
+{% endblock %}

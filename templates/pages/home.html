@@ -79,7 +79,7 @@
             </div>
             <p class="text-stone leading-relaxed mb-8 max-w-lg">We keep things clear and uncomplicated — no surprise charges, just honest service you can trust. Our head office sits in the Kedarnath valley, with branches in Delhi and Dehradun. Behind the scenes, a team of expert travel operators works day and night to make your journey smooth, memorable, and exactly as you imagined.</p>
             <div class="flex flex-wrap items-center gap-6">
-                <a href="#" class="btn btn-primary">More about us</a>
+                <a href="{% url 'core:about' %}" class="btn btn-primary">More about us</a>
                 <div class="flex items-center gap-3">
                     <div class="w-11 h-11 rounded-full bg-clay/15 grid place-items-center text-clay"><i class="fas fa-users"></i></div>
                     <div><div class="font-display text-xl font-600 text-forest leading-none">600+</div><div class="text-xs text-stone">Happy customers</div></div>
@@ -177,10 +177,10 @@
             <h2 class="font-display text-4xl sm:text-5xl font-600 text-forest mt-3">Iconic destinations</h2>
         </div>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            <a href="#" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/kedarnath.jpg" class="ci group-hover:scale-105" alt="Kedarnath"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Kedarnath</h3></a>
-            <a href="#" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Rishikesh.jpg" class="ci group-hover:scale-105" alt="Rishikesh"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Rishikesh</h3></a>
-            <a href="#" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Auli.jpg" class="ci group-hover:scale-105" alt="Auli"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Auli</h3></a>
-            <a href="#" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Badrinath.jpg" class="ci group-hover:scale-105" alt="Badrinath"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Badrinath</h3></a>
+            <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/kedarnath.jpg" class="ci group-hover:scale-105" alt="Kedarnath"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Kedarnath</h3></a>
+            <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Rishikesh.jpg" class="ci group-hover:scale-105" alt="Rishikesh"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Rishikesh</h3></a>
+            <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Auli.jpg" class="ci group-hover:scale-105" alt="Auli"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Auli</h3></a>
+            <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Badrinath.jpg" class="ci group-hover:scale-105" alt="Badrinath"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Badrinath</h3></a>
         </div>
     </div>
 </section>
@@ -511,13 +511,13 @@
                     <div class="text-xs text-stone mb-3">By <span class="text-forest font-600">Admin</span> &middot; Jun 11, 2026 &middot; 8 comments</div>
                     <h3 class="font-display text-2xl font-600 text-forest mb-3 leading-tight group-hover:text-clay transition">Kedarnath Heli Ticket Price: Booking Guide &amp; Cost Breakdown</h3>
                     <p class="text-sm text-stone leading-relaxed mb-6">Everything you need to know about Kedarnath helicopter tickets — current prices, booking windows, and how to plan a smooth darshan for your family.</p>
-                    <a href="#" class="btn btn-ghost !py-2.5 !px-5 text-sm">View post <i class="fas fa-arrow-right-long"></i></a>
+                    <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="btn btn-ghost !py-2.5 !px-5 text-sm">View post <i class="fas fa-arrow-right-long"></i></a>
                 </div>
             </article>
 
             <!-- Recent posts list -->
             <div class="space-y-5">
-                <a href="#" class="flex gap-4 bg-white rounded-2xl border border-sand p-3 hover:shadow-xl hover:shadow-forest/5 transition group">
+                <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="flex gap-4 bg-white rounded-2xl border border-sand p-3 hover:shadow-xl hover:shadow-forest/5 transition group">
                     <div class="relative w-32 sm:w-40 h-32 flex-none rounded-xl overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?w=500&q=80" class="ci" alt="Rishikesh">
                         <span class="absolute top-2 left-2 bg-forest/85 backdrop-blur text-ivory text-[10px] font-600 rounded-full w-11 h-11 grid place-items-center text-center leading-none">10<br>Jun</span>
@@ -532,7 +532,7 @@
                     </div>
                 </a>
 
-                <a href="#" class="flex gap-4 bg-white rounded-2xl border border-sand p-3 hover:shadow-xl hover:shadow-forest/5 transition group">
+                <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="flex gap-4 bg-white rounded-2xl border border-sand p-3 hover:shadow-xl hover:shadow-forest/5 transition group">
                     <div class="relative w-32 sm:w-40 h-32 flex-none rounded-xl overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1591123720164-de1348028e4b?w=500&q=80" class="ci" alt="Kedarnath">
                         <span class="absolute top-2 left-2 bg-forest/85 backdrop-blur text-ivory text-[10px] font-600 rounded-full w-11 h-11 grid place-items-center text-center leading-none">18<br>May</span>
@@ -547,7 +547,7 @@
                     </div>
                 </a>
 
-                <a href="#" class="flex gap-4 bg-white rounded-2xl border border-sand p-3 hover:shadow-xl hover:shadow-forest/5 transition group">
+                <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="flex gap-4 bg-white rounded-2xl border border-sand p-3 hover:shadow-xl hover:shadow-forest/5 transition group">
                     <div class="relative w-32 sm:w-40 h-32 flex-none rounded-xl overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=500&q=80" class="ci" alt="Tirupati hills">
                         <span class="absolute top-2 left-2 bg-forest/85 backdrop-blur text-ivory text-[10px] font-600 rounded-full w-11 h-11 grid place-items-center text-center leading-none">14<br>May</span>
@@ -565,7 +565,7 @@
         </div>
 
         <div class="text-center mt-10">
-            <a href="#" class="btn btn-primary">Read all articles <i class="fas fa-arrow-right-long"></i></a>
+            <a href="{% url 'blog:list' %}" class="btn btn-primary">Read all articles <i class="fas fa-arrow-right-long"></i></a>
         </div>
     </div>
 </section>
