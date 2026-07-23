@@ -48,3 +48,58 @@
         <span class="flex gap-4"><a href="#" class="hover:text-clay-soft">Privacy Policy</a><a href="#" class="hover:text-clay-soft">Terms &amp; Conditions</a></span>
     </div>
 </footer>
+
+<!-- General query popup (shows once per session after a little scroll) -->
+<div id="queryModal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-forest-deep/60 backdrop-blur-sm">
+    <div class="bg-ivory rounded-3xl w-full max-w-md overflow-hidden shadow-2xl relative">
+        <button id="queryClose" aria-label="Close" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 text-ivory grid place-items-center z-10 transition">&times;</button>
+        <div class="bg-forest text-ivory p-6 pr-14">
+            <h3 class="font-display text-2xl font-600">Have a question?</h3>
+            <p class="text-ivory/80 text-sm mt-1">Leave your number — our team will call you back. Free, no obligation.</p>
+        </div>
+        <form id="queryForm" method="post" action="{% url 'leads:query' %}" class="p-6 space-y-3">
+            {% csrf_token %}
+            <input name="name" class="w-full border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-white" placeholder="Your name">
+            <input name="phone" required class="w-full border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-white" placeholder="Phone number *">
+            <textarea name="message" rows="2" class="w-full border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-white" placeholder="Your question (optional)"></textarea>
+            <button type="submit" class="btn btn-clay w-full !rounded-xl"><i class="fas fa-paper-plane"></i> Send my query</button>
+            <p class="text-[11px] text-stone text-center">We respect your privacy — no spam, ever.</p>
+        </form>
+        <div id="queryThanks" class="hidden p-10 text-center">
+            <div class="w-14 h-14 mx-auto rounded-full bg-forest/10 grid place-items-center text-forest text-2xl mb-3"><i class="fas fa-circle-check"></i></div>
+            <p class="font-display text-xl font-600 text-forest">Thank you!</p>
+            <p class="text-sm text-stone mt-1">We'll get back to you shortly.</p>
+        </div>
+    </div>
+</div>
+<script>
+    (function () {
+        var modal = document.getElementById("queryModal");
+        if (!modal) return;
+        var KEY = "augyQuerySeen";
+        function show() {
+            if (sessionStorage.getItem(KEY)) return;
+            modal.classList.remove("hidden"); modal.classList.add("flex");
+            sessionStorage.setItem(KEY, "1");
+        }
+        function hide() { modal.classList.add("hidden"); modal.classList.remove("flex"); }
+        window.augyOpenQuery = function () {
+            document.getElementById("queryForm").classList.remove("hidden");
+            document.getElementById("queryThanks").classList.add("hidden");
+            modal.classList.remove("hidden"); modal.classList.add("flex");
+        };
+        function onScroll() { if (window.scrollY > 800) { show(); window.removeEventListener("scroll", onScroll); } }
+        window.addEventListener("scroll", onScroll);
+        setTimeout(show, 15000); // fallback if user doesn't scroll
+        document.getElementById("queryClose").addEventListener("click", hide);
+        modal.addEventListener("click", function (e) { if (e.target === modal) hide(); });
+        var form = document.getElementById("queryForm");
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            fetch(form.action, { method: "POST", body: new FormData(form) });
+            form.classList.add("hidden");
+            document.getElementById("queryThanks").classList.remove("hidden");
+            setTimeout(hide, 3000);
+        });
+    })();
+</script>

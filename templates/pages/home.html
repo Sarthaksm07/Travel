@@ -24,7 +24,7 @@
             </p>
             <div class="flex flex-wrap gap-4 mb-6">
                 <a href="{% url 'tours:list' %}" class="btn btn-primary"><i class="fas fa-compass"></i> Explore Packages</a>
-                <a href="https://wa.me/{{ site.whatsapp_number|default:'918630731034' }}" class="btn btn-ghost"><i class="fas fa-route"></i> Plan Your Journey</a>
+                <a href="{% url 'leads:booking' %}" class="btn btn-ghost"><i class="fas fa-route"></i> Plan Your Journey</a>
             </div>
             <div class="flex items-center gap-6 text-sm text-stone">
                 <div class="flex items-center gap-2"><span class="text-clay text-base">★★★★★</span> 4.8 · 600+ travellers</div>
@@ -176,12 +176,25 @@
             <span class="eyebrow">Where we travel</span>
             <h2 class="font-display text-4xl sm:text-5xl font-600 text-forest mt-3">Iconic destinations</h2>
         </div>
+        {% if featured_destinations %}
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for d in featured_destinations %}
+            <a href="{% url 'destinations:list' %}" class="group">
+                <div class="arch-sm overflow-hidden h-64 softshadow">
+                    {% if d.cover_image %}<img src="{{ d.cover_image.url }}" class="ci group-hover:scale-105" alt="{{ d.name }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-mountain text-4xl"></i></div>{% endif %}
+                </div>
+                <h3 class="font-display text-lg font-600 text-forest mt-4 text-center">{{ d.name }}</h3>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
             <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/kedarnath.jpg" class="ci group-hover:scale-105" alt="Kedarnath"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Kedarnath</h3></a>
             <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Rishikesh.jpg" class="ci group-hover:scale-105" alt="Rishikesh"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Rishikesh</h3></a>
             <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Auli.jpg" class="ci group-hover:scale-105" alt="Auli"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Auli</h3></a>
             <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Badrinath.jpg" class="ci group-hover:scale-105" alt="Badrinath"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Badrinath</h3></a>
         </div>
+        {% endif %}
     </div>
 </section>
 
@@ -447,6 +460,24 @@
             </div>
         </div>
 
+        {% if testimonials %}
+        <div class="grid md:grid-cols-3 gap-6">
+            {% for t in testimonials %}
+            <article class="bg-white border border-sand rounded-2xl p-6 softshadow relative">
+                <i class="fab fa-google absolute top-6 right-6 text-lg" style="color:#4285F4"></i>
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-11 h-11 rounded-full {% cycle 'bg-clay' 'bg-forest' 'bg-pine' %} text-white grid place-items-center font-600">{{ t.customer_name.0|upper }}</div>
+                    <div>
+                        <div class="font-600 text-forest leading-tight">{{ t.customer_name }}</div>
+                        <div class="text-xs text-stone">{{ t.location|default:'India' }}</div>
+                    </div>
+                </div>
+                <div class="text-sm mb-3" style="color:#FBBC04">{% for s in ""|ljust:t.rating %}★{% endfor %}</div>
+                <p class="text-sm text-stone leading-relaxed">{{ t.text }}</p>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
         <div class="grid md:grid-cols-3 gap-6">
             <article class="bg-white border border-sand rounded-2xl p-6 softshadow relative">
                 <i class="fab fa-google absolute top-6 right-6 text-lg" style="color:#4285F4"></i>
@@ -460,7 +491,6 @@
                 <div class="text-sm mb-3" style="color:#FBBC04">★★★★★</div>
                 <p class="text-sm text-stone leading-relaxed">A wonderful experience booking through Augy Travels. From planning to the end of the tour, everything was organised and stress-free — professional, responsive and genuinely caring.</p>
             </article>
-
             <article class="bg-white border border-sand rounded-2xl p-6 softshadow relative">
                 <i class="fab fa-google absolute top-6 right-6 text-lg" style="color:#4285F4"></i>
                 <div class="flex items-center gap-3 mb-3">
@@ -473,7 +503,6 @@
                 <div class="text-sm mb-3" style="color:#FBBC04">★★★★★</div>
                 <p class="text-sm text-stone leading-relaxed">Amazing all-girls trip to Goa! From the very beginning we felt safe, relaxed and cared for — truly a women-friendly company. We could just focus on making memories.</p>
             </article>
-
             <article class="bg-white border border-sand rounded-2xl p-6 softshadow relative">
                 <i class="fab fa-google absolute top-6 right-6 text-lg" style="color:#4285F4"></i>
                 <div class="flex items-center gap-3 mb-3">
@@ -487,6 +516,7 @@
                 <p class="text-sm text-stone leading-relaxed">Fantastic experience with Augy Travels — smooth planning, knowledgeable local guides and a Himalayan trip to remember. Highly recommended!</p>
             </article>
         </div>
+        {% endif %}
 
         <div class="text-center mt-10">
             <a href="{{ gmaps }}" target="_blank" rel="noopener" class="btn btn-ghost"><i class="fab fa-google" style="color:#4285F4"></i> Read all reviews on Google <i class="fas fa-arrow-up-right-from-square text-xs"></i></a>
@@ -503,6 +533,37 @@
             <h2 class="font-display text-4xl sm:text-5xl font-600 text-forest mt-3">Latest travel blog</h2>
         </div>
 
+        {% if latest_post %}
+        <div class="grid lg:grid-cols-2 gap-8 items-start">
+            <!-- Featured post -->
+            <article class="bg-white rounded-3xl border border-sand overflow-hidden softshadow group">
+                <a href="{% url 'blog:detail' latest_post.slug %}"><div class="h-72 overflow-hidden">{% if latest_post.cover_image %}<img src="{{ latest_post.cover_image.url }}" class="ci" alt="{{ latest_post.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-newspaper text-5xl"></i></div>{% endif %}</div></a>
+                <div class="p-7">
+                    <div class="text-xs text-stone mb-3">By <span class="text-forest font-600">{{ latest_post.author.get_full_name|default:'Admin' }}</span>{% if latest_post.category %} &middot; {{ latest_post.category.name }}{% endif %}{% if latest_post.published_at %} &middot; {{ latest_post.published_at|date:"M j, Y" }}{% endif %}</div>
+                    <h3 class="font-display text-2xl font-600 text-forest mb-3 leading-tight group-hover:text-clay transition"><a href="{% url 'blog:detail' latest_post.slug %}">{{ latest_post.title }}</a></h3>
+                    {% if latest_post.excerpt %}<p class="text-sm text-stone leading-relaxed mb-6">{{ latest_post.excerpt }}</p>{% endif %}
+                    <a href="{% url 'blog:detail' latest_post.slug %}" class="btn btn-ghost !py-2.5 !px-5 text-sm">View post <i class="fas fa-arrow-right-long"></i></a>
+                </div>
+            </article>
+
+            <!-- Recent posts list -->
+            <div class="space-y-5">
+                {% for p in recent_posts %}
+                <a href="{% url 'blog:detail' p.slug %}" class="flex gap-4 bg-white rounded-2xl border border-sand p-3 hover:shadow-xl hover:shadow-forest/5 transition group">
+                    <div class="relative w-32 sm:w-40 h-32 flex-none rounded-xl overflow-hidden">
+                        {% if p.cover_image %}<img src="{{ p.cover_image.url }}" class="ci" alt="{{ p.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-newspaper text-2xl"></i></div>{% endif %}
+                        {% if p.published_at %}<span class="absolute top-2 left-2 bg-forest/85 backdrop-blur text-ivory text-[10px] font-600 rounded-full w-11 h-11 grid place-items-center text-center leading-none">{{ p.published_at|date:"d" }}<br>{{ p.published_at|date:"M" }}</span>{% endif %}
+                    </div>
+                    <div class="py-1 pr-2">
+                        <div class="text-[11px] text-stone mb-1.5">By <span class="text-forest font-600">Admin</span>{% if p.category %} &middot; <span class="text-clay">{{ p.category.name }}</span>{% endif %}</div>
+                        <h4 class="font-display text-lg font-600 text-forest leading-snug mb-3 group-hover:text-clay transition">{{ p.title }}</h4>
+                        <span class="text-xs font-600 text-forest">View post &rarr;</span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
         <div class="grid lg:grid-cols-2 gap-8 items-start">
             <!-- Featured post -->
             <article class="bg-white rounded-3xl border border-sand overflow-hidden softshadow group">
@@ -563,6 +624,7 @@
                 </a>
             </div>
         </div>
+        {% endif %}
 
         <div class="text-center mt-10">
             <a href="{% url 'blog:list' %}" class="btn btn-primary">Read all articles <i class="fas fa-arrow-right-long"></i></a>
