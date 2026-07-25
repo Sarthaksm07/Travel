@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% if destination %}{{ destination.name }} — Destination{% else %}Kedarnath — Destination{% endif %} | Augy Travels{% endblock %}
+{% block meta_description %}{% if destination %}{{ destination.meta_description|default:destination.name }}{% else %}Kedarnath — one of the holiest of the Char Dham.{% endif %}{% endblock %}
+
+{% block content %}
+{% with wa=site.whatsapp_number|default:'918630731034' %}
+
+{% if destination %}
+<!-- ===== DYNAMIC (from admin) ===== -->
+<section class="relative">
+    <div class="h-[320px] sm:h-[420px] w-full overflow-hidden">
+        {% if destination.cover_image %}<img src="{{ destination.cover_image.url }}" class="w-full h-full object-cover" alt="{{ destination.name }}">{% else %}<div class="w-full h-full bg-forest"></div>{% endif %}
+        <div class="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/50 to-forest-deep/10"></div>
+    </div>
+    <div class="absolute inset-x-0 bottom-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 text-ivory">
+            <nav class="text-sm text-ivory/70 mb-3"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <a href="{% url 'destinations:list' %}" class="hover:text-clay-soft">Destinations</a> <span class="mx-1">/</span> <span class="text-ivory">{{ destination.name }}</span></nav>
+            <span class="inline-block bg-clay text-white text-xs font-600 px-3 py-1 rounded-full mb-3">Uttarakhand</span>
+            <h1 class="font-display text-4xl sm:text-5xl font-600 mb-4">{{ destination.name }}</h1>
+            {% if destination.best_time_to_visit %}<div class="text-sm text-ivory/85"><i class="fas fa-calendar text-clay-soft mr-2"></i>Best time: {{ destination.best_time_to_visit }}</div>{% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="py-14 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-3 gap-10">
+        <div class="lg:col-span-2 space-y-12">
+            {% if destination.overview %}
+            <div>
+                <span class="eyebrow">About the destination</span>
+                <h2 class="font-display text-3xl font-600 text-forest mt-2 mb-4">About {{ destination.name }}</h2>
+                <div class="text-stone leading-relaxed space-y-3">{{ destination.overview|safe }}</div>
+            </div>
+            {% endif %}
+            {% if destination.attractions %}
+            <div>
+                <h3 class="font-display text-2xl font-600 text-forest mb-4">Highlights &amp; attractions</h3>
+                <div class="text-stone leading-relaxed space-y-3">{{ destination.attractions|safe }}</div>
+            </div>
+            {% endif %}
+            {% if destination.travel_guide %}
+            <div>
+                <h3 class="font-display text-2xl font-600 text-forest mb-4">Travel guide</h3>
+                <div class="text-stone leading-relaxed space-y-3">{{ destination.travel_guide|safe }}</div>
+            </div>
+            {% endif %}
+
+            {% if gallery %}
+            <div>
+                <h3 class="font-display text-2xl font-600 text-forest mb-5">Gallery</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {% for img in gallery %}<img src="{{ img.image.url }}" class="rounded-xl h-40 w-full object-cover" alt="{{ img.caption }}">{% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div>
+                <h3 class="font-display text-2xl font-600 text-forest mb-5">Packages to {{ destination.name }}</h3>
+                <div class="grid sm:grid-cols-2 gap-6">
+                    {% for p in packages %}
+                    <article class="card">
+                        <div class="relative h-44 overflow-hidden">
+                            {% if p.cover_image %}<img src="{{ p.cover_image.url }}" class="ci" alt="{{ p.title }}">{% else %}<div class="w-full h-full bg-sand grid place-items-center text-forest/30"><i class="fas fa-mountain text-3xl"></i></div>{% endif %}
+                            {% if p.duration %}<span class="absolute top-3 left-3 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">{{ p.duration }}</span>{% endif %}
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-display text-lg font-600 text-forest mb-2">{{ p.title }}</h4>
+                            <div class="flex items-center justify-between"><div class="font-display text-clay font-600">{% if p.price %}₹{{ p.price|floatformat:0 }}{% else %}On request{% endif %}</div><a href="{% url 'tours:detail' p.slug %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                        </div>
+                    </article>
+                    {% empty %}
+                    <p class="text-stone sm:col-span-2">Packages for this destination are coming soon — <a href="https://wa.me/{{ wa }}" class="text-clay font-600">ask us</a>.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% if faqs %}
+            <div>
+                <h3 class="font-display text-2xl font-600 text-forest mb-5">Good to know</h3>
+                <div class="space-y-3">
+                    {% for f in faqs %}
+                    <details class="bg-white border border-sand rounded-xl p-4 group">
+                        <summary class="font-600 text-forest cursor-pointer list-none flex justify-between items-center">{{ f.question }}<i class="fas fa-plus text-clay group-open:rotate-45 transition"></i></summary>
+                        <p class="text-sm text-stone mt-3">{{ f.answer }}</p>
+                    </details>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <aside class="lg:col-span-1">
+            <div class="lg:sticky lg:top-28 bg-white border border-sand rounded-2xl softshadow p-6">
+                <h3 class="font-display text-xl font-600 text-forest mb-2">Plan a {{ destination.name }} trip</h3>
+                <p class="text-sm text-stone mb-5">Tell us your dates and group — we'll tailor the perfect plan.</p>
+                <div class="space-y-3">
+                    <a href="{% url 'leads:booking' %}" class="btn btn-clay w-full !rounded-xl"><i class="fas fa-paper-plane"></i> Plan my trip</a>
+                    <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" class="btn btn-ghost w-full !rounded-xl"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                </div>
+                <div class="rule my-6"></div>
+                <div class="space-y-2 text-xs text-stone">
+                    <div><i class="fas fa-shield-heart text-forest mr-2"></i>Women-friendly &amp; safe</div>
+                    <div><i class="fas fa-tags text-forest mr-2"></i>Transparent pricing</div>
+                    <div><i class="fas fa-headset text-forest mr-2"></i>24/7 support</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</section>
+
+{% else %}
+<!-- ===== STATIC SAMPLE (shown until this destination exists in admin) ===== -->
+<section class="relative">
+    <div class="h-[320px] sm:h-[420px] w-full overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1591123720164-de1348028e4b?w=1600&q=80" class="w-full h-full object-cover" alt="Kedarnath">
+        <div class="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/50 to-forest-deep/10"></div>
+    </div>
+    <div class="absolute inset-x-0 bottom-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 text-ivory">
+            <nav class="text-sm text-ivory/70 mb-3"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <a href="{% url 'destinations:list' %}" class="hover:text-clay-soft">Destinations</a> <span class="mx-1">/</span> <span class="text-ivory">Kedarnath</span></nav>
+            <span class="inline-block bg-clay text-white text-xs font-600 px-3 py-1 rounded-full mb-3">Char Dham · Uttarakhand</span>
+            <h1 class="font-display text-4xl sm:text-5xl font-600 mb-4">Kedarnath</h1>
+            <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-ivory/85">
+                <span><i class="fas fa-mountain text-clay-soft mr-2"></i>3,583 m altitude</span>
+                <span><i class="fas fa-calendar text-clay-soft mr-2"></i>Best: May – Oct</span>
+                <span><i class="fas fa-person-hiking text-clay-soft mr-2"></i>16 km trek / helicopter</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-14 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-3 gap-10">
+        <div class="lg:col-span-2 space-y-12">
+            <div>
+                <span class="eyebrow">About the destination</span>
+                <h2 class="font-display text-3xl font-600 text-forest mt-2 mb-4">The abode of Lord Shiva</h2>
+                <p class="text-stone leading-relaxed mb-4">Set against the majestic Kedarnath range at 3,583 m, the Kedarnath temple is one of the twelve Jyotirlingas and among the holiest of the Char Dham. The journey — through pine forests, along the Mandakini river, and up a scenic Himalayan trail — is as moving as the darshan itself.</p>
+                <p class="text-stone leading-relaxed">Reachable by a 16 km trek from Gaurikund, by pony/palki, or by helicopter, Kedarnath rewards every traveller with crisp mountain air and a deep sense of peace.</p>
+            </div>
+            <div>
+                <h3 class="font-display text-2xl font-600 text-forest mb-5">Highlights &amp; attractions</h3>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-forest/10 grid place-items-center text-clay text-[10px] mt-0.5"><i class="fas fa-check"></i></span><span class="text-stone">Kedarnath Jyotirlinga temple</span></div>
+                    <div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-forest/10 grid place-items-center text-clay text-[10px] mt-0.5"><i class="fas fa-check"></i></span><span class="text-stone">Bhairavnath temple views</span></div>
+                    <div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-forest/10 grid place-items-center text-clay text-[10px] mt-0.5"><i class="fas fa-check"></i></span><span class="text-stone">Vasuki Tal &amp; Gandhi Sarovar</span></div>
+                    <div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-forest/10 grid place-items-center text-clay text-[10px] mt-0.5"><i class="fas fa-check"></i></span><span class="text-stone">Adi Shankaracharya Samadhi</span></div>
+                </div>
+            </div>
+            <div>
+                <h3 class="font-display text-2xl font-600 text-forest mb-5">Packages to Kedarnath</h3>
+                <div class="grid sm:grid-cols-2 gap-6">
+                    <article class="card">
+                        <div class="relative h-44 overflow-hidden"><img src="https://images.unsplash.com/photo-1571536802807-30451e3955d8?w=600&q=80" class="ci" alt=""><span class="absolute top-3 left-3 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">3N / 4D</span></div>
+                        <div class="p-5"><h4 class="font-display text-lg font-600 text-forest mb-2">Kedarnath Package</h4><div class="flex items-center justify-between"><div class="font-display text-clay font-600">₹10,999</div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div></div>
+                    </article>
+                    <article class="card">
+                        <div class="relative h-44 overflow-hidden"><img src="https://images.unsplash.com/photo-1712388430474-ace0c16051e2?w=600&q=80" class="ci" alt=""><span class="absolute top-3 left-3 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">6D / 5N</span></div>
+                        <div class="p-5"><h4 class="font-display text-lg font-600 text-forest mb-2">Do Dham Yatra</h4><div class="flex items-center justify-between"><div class="font-display text-clay font-600">₹12,999</div><a href="{% url 'tours:detail' 'char-dham-yatra' %}" class="text-sm font-600 text-forest">View details &rarr;</a></div></div>
+                    </article>
+                </div>
+            </div>
+        </div>
+        <aside class="lg:col-span-1">
+            <div class="lg:sticky lg:top-28 bg-white border border-sand rounded-2xl softshadow p-6">
+                <h3 class="font-display text-xl font-600 text-forest mb-2">Plan a Kedarnath trip</h3>
+                <p class="text-sm text-stone mb-5">Tell us your dates and group — we'll tailor the perfect plan.</p>
+                <div class="space-y-3">
+                    <a href="{% url 'leads:booking' %}" class="btn btn-clay w-full !rounded-xl"><i class="fas fa-paper-plane"></i> Plan my trip</a>
+                    <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" class="btn btn-ghost w-full !rounded-xl"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+</section>
+{% endif %}
+
+{% endwith %}
+{% endblock %}

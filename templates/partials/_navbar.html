@@ -9,6 +9,7 @@
             <a href="{% url 'core:home' %}" class="navlink" style="color:#1E4634">Home</a>
             <a href="{% url 'destinations:list' %}" class="navlink">Destinations</a>
             <a href="{% url 'tours:list' %}" class="navlink">Packages</a>
+            <a href="{% url 'core:vehicles' %}" class="navlink">Rentals</a>
             <a href="{% url 'core:about' %}" class="navlink">About</a>
             <a href="#" class="navlink">Gallery</a>
             <a href="{% url 'blog:list' %}" class="navlink">Blog</a>
@@ -19,7 +20,7 @@
             <a href="tel:+{{ site.whatsapp_number|default:'918630731034' }}" class="hidden sm:flex items-center gap-2 text-forest font-600 text-sm">
                 <i class="fas fa-phone text-clay"></i> {{ site.phone|default:'+91 8630 731 034' }}
             </a>
-            <a href="https://wa.me/{{ site.whatsapp_number|default:'918630731034' }}" class="btn btn-clay !py-2.5 !px-4 text-sm"><i class="fab fa-whatsapp"></i> Enquire</a>
+            <a href="{% url 'leads:booking' %}" class="btn btn-clay !py-2.5 !px-4 text-sm"><i class="fas fa-paper-plane"></i> Enquire</a>
             <button data-nav-toggle class="lg:hidden text-forest text-2xl"><i class="fas fa-bars"></i></button>
         </div>
     </div>
@@ -29,6 +30,7 @@
         <a href="{% url 'core:home' %}" class="block py-1 text-forest font-600">Home</a>
         <a href="{% url 'destinations:list' %}" class="block py-1">Destinations</a>
         <a href="{% url 'tours:list' %}" class="block py-1">Packages</a>
+        <a href="{% url 'core:vehicles' %}" class="block py-1">Rentals</a>
         <a href="{% url 'core:about' %}" class="block py-1">About</a>
         <a href="#" class="block py-1">Gallery</a>
         <a href="{% url 'blog:list' %}" class="block py-1">Blog</a>

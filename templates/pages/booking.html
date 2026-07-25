@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Plan Your Trip — Augy Travels{% endblock %}
+{% block meta_description %}Tell us about your trip — travellers, destination, vehicle and hotel preference. We'll craft a tailored plan and quote.{% endblock %}
+
+{% block content %}
+{% with wa=site.whatsapp_number|default:'918630731034' %}
+
+<!-- Header -->
+<section class="relative overflow-hidden bg-forest text-ivory grain">
+    <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-pine/30 blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <nav class="text-sm text-ivory/60 mb-4"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <span class="text-ivory">Plan your trip</span></nav>
+        <span class="eyebrow !text-clay-soft">Plan your trip</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-600 mt-3 mb-3">Tell us about your journey</h1>
+        <p class="text-ivory/75 max-w-xl">Share a few details and we'll craft a tailored plan and quote — usually within a few hours. No payment now, just a friendly plan.</p>
+    </div>
+</section>
+
+<section class="py-16 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-3 gap-8 items-start">
+
+        <!-- Form -->
+        <div class="lg:col-span-2 bg-white border border-sand rounded-2xl softshadow p-6 sm:p-8">
+            <h2 class="font-display text-2xl font-600 text-forest mb-1">Trip request</h2>
+            <p class="text-sm text-stone mb-6">Fields marked <span class="text-clay">*</span> are required.</p>
+
+            <form id="bookingForm" method="post" action="{% url 'leads:booking' %}" class="grid sm:grid-cols-2 gap-4">
+                {% csrf_token %}
+                <div>
+                    <label class="text-xs font-600 text-forest">Name</label>
+                    <input name="name" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Your name">
+                </div>
+                <div>
+                    <label class="text-xs font-600 text-forest">Contact number <span class="text-clay">*</span></label>
+                    <input name="phone" required class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. +91 98xxxxxxx">
+                </div>
+                <div>
+                    <label class="text-xs font-600 text-forest">Destination(s)</label>
+                    <input name="destination" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. Char Dham, Auli">
+                </div>
+                <div>
+                    <label class="text-xs font-600 text-forest">Travel date</label>
+                    <input name="travel_date" type="date" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory">
+                </div>
+                <div>
+                    <label class="text-xs font-600 text-forest">No. of travellers</label>
+                    <input name="num_travellers" type="number" min="1" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. 4">
+                </div>
+                <div>
+                    <label class="text-xs font-600 text-forest">No. of kids (below 5 yrs)</label>
+                    <input name="num_kids" type="number" min="0" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. 1">
+                </div>
+                <div>
+                    <label class="text-xs font-600 text-forest">Vehicle preference</label>
+                    <select name="vehicle_preference" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory text-stone">
+                        <option value="">No preference</option>
+                        <option>Sedan</option>
+                        <option>SUV / Innova</option>
+                        <option>Tempo Traveller</option>
+                        <option>Bus</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-600 text-forest">Hotel category</label>
+                    <select name="hotel_category" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory text-stone">
+                        <option value="">No preference</option>
+                        <option>Budget</option>
+                        <option>Standard (3★)</option>
+                        <option>Deluxe (4★)</option>
+                        <option>Luxury (5★)</option>
+                    </select>
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="text-xs font-600 text-forest">Anything else? <span class="text-stone font-400">(optional)</span></label>
+                    <textarea name="message" rows="3" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Special requests, food preferences, elders in group…"></textarea>
+                </div>
+                <div class="sm:col-span-2">
+                    <button type="submit" class="btn btn-clay w-full !rounded-xl"><i class="fab fa-whatsapp"></i> Send my request</button>
+                    <p class="text-[11px] text-stone mt-2 text-center">On submit, we save your request, email our team, and open WhatsApp so you can send a copy instantly.</p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Side info -->
+        <aside class="space-y-5">
+            <div class="bg-white border border-sand rounded-2xl softshadow p-6">
+                <h3 class="font-display text-lg font-600 text-forest mb-4">What happens next</h3>
+                <ol class="space-y-3 text-sm text-stone">
+                    <li class="flex gap-3"><span class="w-6 h-6 flex-none rounded-full bg-forest text-ivory grid place-items-center text-[11px] font-600">1</span> We receive your request instantly.</li>
+                    <li class="flex gap-3"><span class="w-6 h-6 flex-none rounded-full bg-forest text-ivory grid place-items-center text-[11px] font-600">2</span> Our team calls/messages you back.</li>
+                    <li class="flex gap-3"><span class="w-6 h-6 flex-none rounded-full bg-forest text-ivory grid place-items-center text-[11px] font-600">3</span> You get a tailored plan &amp; quote.</li>
+                </ol>
+            </div>
+            <div class="bg-white border border-sand rounded-2xl softshadow p-6">
+                <h3 class="font-display text-lg font-600 text-forest mb-3">Prefer to talk?</h3>
+                <a href="tel:+{{ wa }}" class="flex items-center gap-2 text-forest font-600 mb-2"><i class="fas fa-phone text-clay"></i> {{ site.phone|default:'+91 8630 731 034' }}</a>
+                <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" class="flex items-center gap-2 text-forest font-600"><i class="fab fa-whatsapp text-clay"></i> Chat on WhatsApp</a>
+            </div>
+            <div class="bg-sand rounded-2xl p-6 text-sm text-stone space-y-2">
+                <div><i class="fas fa-shield-heart text-forest mr-2"></i>Women-friendly &amp; safe</div>
+                <div><i class="fas fa-tags text-forest mr-2"></i>Transparent pricing</div>
+                <div><i class="fas fa-headset text-forest mr-2"></i>24/7 support</div>
+            </div>
+        </aside>
+    </div>
+</section>
+
+<script>
+    document.getElementById("bookingForm").addEventListener("submit", function () {
+        var f = this;
+        var g = function (n) { return f.elements[n] ? f.elements[n].value.trim() : ""; };
+        var t = "New trip request via website:%0A%0A"
+            + "Name: " + encodeURIComponent(g("name")) + "%0A"
+            + "Phone: " + encodeURIComponent(g("phone")) + "%0A"
+            + (g("destination") ? "Destination: " + encodeURIComponent(g("destination")) + "%0A" : "")
+            + (g("travel_date") ? "Travel date: " + encodeURIComponent(g("travel_date")) + "%0A" : "")
+            + (g("num_travellers") ? "Travellers: " + encodeURIComponent(g("num_travellers")) + "%0A" : "")
+            + (g("num_kids") ? "Kids (<5): " + encodeURIComponent(g("num_kids")) + "%0A" : "")
+            + (g("vehicle_preference") ? "Vehicle: " + encodeURIComponent(g("vehicle_preference")) + "%0A" : "")
+            + (g("hotel_category") ? "Hotel: " + encodeURIComponent(g("hotel_category")) + "%0A" : "")
+            + (g("message") ? "Message: " + encodeURIComponent(g("message")) : "");
+        window.open("https://wa.me/{{ wa }}?text=" + t, "_blank");
+        // form continues to submit → saves the lead + emails the owner
+    });
+</script>
+
+{% endwith %}
+{% endblock %}

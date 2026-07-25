@@ -10,6 +10,7 @@ urlpatterns = [
     path("packages/", include("tours.urls")),
     path("blog/", include("blog.urls")),
     path("destinations/", include("destinations.urls")),
+    path("booking/", include("leads.urls")),
     path("", include("core.urls")),
 ]
 

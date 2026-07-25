@@ -25,11 +25,42 @@
 </head>
 <body class="antialiased selection:bg-clay/20">
 
-    <!-- Offer bar -->
-    <div class="bg-forest text-ivory text-center text-sm py-2.5 px-4">
-        <i class="fas fa-mountain-sun text-clay-soft mr-2"></i> Char Dham Yatra 2026 — early-bird planning is open.
-        <a href="#" class="underline decoration-clay-soft underline-offset-4 font-600 ml-1">Enquire now</a>
+    <!-- Offer bar (carousel) -->
+    <div class="bg-forest text-ivory text-sm relative" id="offerBar">
+        <div class="max-w-2xl mx-auto flex items-center gap-2 px-4">
+            <button type="button" id="offerPrev" aria-label="Previous offer" class="flex-none w-7 h-7 rounded-full bg-ivory/15 hover:bg-ivory/30 grid place-items-center text-[11px] transition"><i class="fas fa-chevron-left"></i></button>
+            <div class="overflow-hidden flex-1">
+                <div id="offerTrack" class="flex transition-transform duration-500 ease-out">
+                    <div class="w-full flex-none text-center py-2.5 px-2">
+                        <i class="fas fa-mountain-sun text-clay-soft mr-2"></i> Char Dham Yatra 2026 — early-bird planning is open.
+                        <button type="button" onclick="window.augyOpenQuery && window.augyOpenQuery()" class="underline decoration-clay-soft underline-offset-4 font-600 ml-1">Enquire now</button>
+                    </div>
+                    <div class="w-full flex-none text-center py-2.5 px-2">
+                        <i class="fas fa-helicopter text-clay-soft mr-2"></i> Kedarnath helicopter tickets — limited slots this season.
+                        <button type="button" onclick="window.augyOpenQuery && window.augyOpenQuery()" class="underline decoration-clay-soft underline-offset-4 font-600 ml-1">Enquire now</button>
+                    </div>
+                    <div class="w-full flex-none text-center py-2.5 px-2">
+                        <i class="fas fa-users text-clay-soft mr-2"></i> Special group &amp; family discounts on Himalayan tours.
+                        <button type="button" onclick="window.augyOpenQuery && window.augyOpenQuery()" class="underline decoration-clay-soft underline-offset-4 font-600 ml-1">Get a quote</button>
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="offerNext" aria-label="Next offer" class="flex-none w-7 h-7 rounded-full bg-ivory/15 hover:bg-ivory/30 grid place-items-center text-[11px] transition"><i class="fas fa-chevron-right"></i></button>
+        </div>
     </div>
+    <script>
+        (function () {
+            var track = document.getElementById("offerTrack");
+            if (!track) return;
+            var n = track.children.length, idx = 0, timer;
+            function go(i) { idx = (i + n) % n; track.style.transform = "translateX(-" + (idx * 100) + "%)"; }
+            function start() { timer = setInterval(function () { go(idx + 1); }, 5000); }
+            function reset() { clearInterval(timer); start(); }
+            document.getElementById("offerPrev").addEventListener("click", function () { go(idx - 1); reset(); });
+            document.getElementById("offerNext").addEventListener("click", function () { go(idx + 1); reset(); });
+            start();
+        })();
+    </script>
 
     {% include "partials/_navbar.html" %}
 

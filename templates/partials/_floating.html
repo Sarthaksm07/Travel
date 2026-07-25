@@ -1,4 +1,5 @@
 <div class="fixed right-5 bottom-5 z-50 flex flex-col gap-3">
+    <button type="button" onclick="window.augyOpenQuery && window.augyOpenQuery()" class="w-14 h-14 rounded-full bg-clay text-white grid place-items-center text-xl shadow-lg shadow-black/30 hover:scale-105 transition" title="Send an enquiry"><i class="fas fa-paper-plane"></i></button>
     <a href="https://wa.me/{{ site.whatsapp_number|default:'918630731034' }}" class="w-14 h-14 rounded-full bg-[#25D366] text-white grid place-items-center text-2xl shadow-xl hover:scale-105 transition" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
     <a href="tel:+{{ site.whatsapp_number|default:'918630731034' }}" class="w-14 h-14 rounded-full bg-forest text-ivory grid place-items-center text-xl shadow-xl hover:scale-105 transition" title="Call"><i class="fas fa-phone"></i></a>
 </div>

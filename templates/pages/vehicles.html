@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Vehicle Rental — Chauffeur-Driven Cabs | Augy Travels{% endblock %}
+{% block meta_description %}Rent a chauffeur-driven vehicle in Uttarakhand with clear per-kilometre pricing — sedans, SUVs, Tempo Travellers and Urbania vans with experienced hill drivers.{% endblock %}
+
+{% block content %}
+{% with wa=site.whatsapp_number|default:'918630731034' %}
+
+<!-- Header -->
+<section class="relative overflow-hidden bg-forest text-ivory grain">
+    <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-pine/30 blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <nav class="text-sm text-ivory/60 mb-4"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <span class="text-ivory">Vehicle Rental</span></nav>
+        <span class="eyebrow !text-clay-soft">Vehicle Rental</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-600 mt-3 mb-3">Chauffeur-driven, all the way</h1>
+        <p class="text-ivory/75 max-w-xl">Comfortable, well-maintained vehicles with experienced local drivers and clear per-kilometre pricing — from airport pickups to full yatra circuits across Uttarakhand.</p>
+    </div>
+</section>
+
+<!-- Why rent with us -->
+<section class="py-12 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-3 gap-5">
+        <div class="flex items-center gap-3 bg-white border border-sand rounded-2xl p-5 softshadow"><span class="w-11 h-11 flex-none rounded-full bg-forest/10 grid place-items-center text-clay text-lg"><i class="fas fa-user-tie"></i></span><div><div class="font-600 text-forest">Expert local drivers</div><p class="text-xs text-stone">Safe hands on every hill road.</p></div></div>
+        <div class="flex items-center gap-3 bg-white border border-sand rounded-2xl p-5 softshadow"><span class="w-11 h-11 flex-none rounded-full bg-forest/10 grid place-items-center text-clay text-lg"><i class="fas fa-tags"></i></span><div><div class="font-600 text-forest">Transparent per-km</div><p class="text-xs text-stone">No hidden charges, ever.</p></div></div>
+        <div class="flex items-center gap-3 bg-white border border-sand rounded-2xl p-5 softshadow"><span class="w-11 h-11 flex-none rounded-full bg-forest/10 grid place-items-center text-clay text-lg"><i class="fas fa-shield-halved"></i></span><div><div class="font-600 text-forest">Clean &amp; maintained</div><p class="text-xs text-stone">Sanitised, serviced vehicles.</p></div></div>
+    </div>
+</section>
+
+<!-- Fleet + rates -->
+<section class="pb-16 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="eyebrow">Our Fleet &amp; Rates</span>
+            <h2 class="font-display text-3xl sm:text-4xl font-600 text-forest mt-3">Choose your vehicle</h2>
+            <p class="text-stone mt-3 text-sm">Indicative per-km rates (with driver) — your final quote depends on route, dates and running kilometres.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <article class="bg-white border border-sand rounded-2xl overflow-hidden softshadow flex flex-col hover:shadow-xl hover:shadow-forest/5 transition">
+                <div class="bg-forest/5 h-28 grid place-items-center relative"><i class="fas fa-car text-forest text-5xl"></i><span class="absolute top-3 right-3 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">4 seats</span></div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="eyebrow !tracking-widest mb-1">Sedan</div>
+                    <h3 class="font-display text-xl font-600 text-forest mb-2">Swift / Aura</h3>
+                    <p class="text-sm text-stone mb-4">Ideal for couples &amp; small families.</p>
+                    <div class="mt-auto flex items-end justify-between">
+                        <div><span class="text-xs text-stone">From</span><div class="font-display text-2xl font-600 text-clay leading-none">₹12<span class="text-sm text-stone font-sans"> /km</span></div></div>
+                        <a href="{% url 'leads:booking' %}" class="btn btn-primary !py-2.5 !px-4 text-sm">Book</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="bg-white border border-sand rounded-2xl overflow-hidden softshadow flex flex-col hover:shadow-xl hover:shadow-forest/5 transition">
+                <div class="bg-forest/5 h-28 grid place-items-center relative"><i class="fas fa-car-side text-forest text-5xl"></i><span class="absolute top-3 right-3 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">6–7 seats</span></div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="eyebrow !tracking-widest mb-1">MUV</div>
+                    <h3 class="font-display text-xl font-600 text-forest mb-2">Ertiga / Rumion</h3>
+                    <p class="text-sm text-stone mb-4">Comfortable for families &amp; small groups.</p>
+                    <div class="mt-auto flex items-end justify-between">
+                        <div><span class="text-xs text-stone">From</span><div class="font-display text-2xl font-600 text-clay leading-none">₹16<span class="text-sm text-stone font-sans"> /km</span></div></div>
+                        <a href="{% url 'leads:booking' %}" class="btn btn-primary !py-2.5 !px-4 text-sm">Book</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="bg-white border border-sand rounded-2xl overflow-hidden softshadow flex flex-col hover:shadow-xl hover:shadow-forest/5 transition">
+                <div class="bg-forest/5 h-28 grid place-items-center relative"><i class="fas fa-car-side text-forest text-5xl"></i><span class="absolute top-3 right-3 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">6–7 seats</span></div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="eyebrow !tracking-widest mb-1">Premium SUV</div>
+                    <h3 class="font-display text-xl font-600 text-forest mb-2">Innova / Crysta</h3>
+                    <p class="text-sm text-stone mb-4">Extra comfort for long Himalayan drives.</p>
+                    <div class="mt-auto flex items-end justify-between">
+                        <div><span class="text-xs text-stone">From</span><div class="font-display text-2xl font-600 text-clay leading-none">₹19<span class="text-sm text-stone font-sans"> /km</span></div></div>
+                        <a href="{% url 'leads:booking' %}" class="btn btn-primary !py-2.5 !px-4 text-sm">Book</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="bg-white border border-sand rounded-2xl overflow-hidden softshadow flex flex-col hover:shadow-xl hover:shadow-forest/5 transition">
+                <div class="bg-forest/5 h-28 grid place-items-center relative"><i class="fas fa-bus text-forest text-5xl"></i><span class="absolute top-3 right-3 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">12–26 seats</span></div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="eyebrow !tracking-widest mb-1">Tempo Traveller</div>
+                    <h3 class="font-display text-xl font-600 text-forest mb-2">Tempo Traveller</h3>
+                    <p class="text-sm text-stone mb-4">12–26 seaters for large yatra groups.</p>
+                    <div class="mt-auto flex items-end justify-between">
+                        <div><span class="text-xs text-stone">From</span><div class="font-display text-2xl font-600 text-clay leading-none">₹26<span class="text-sm text-stone font-sans"> /km</span></div></div>
+                        <a href="{% url 'leads:booking' %}" class="btn btn-primary !py-2.5 !px-4 text-sm">Book</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="bg-white border border-sand rounded-2xl overflow-hidden softshadow flex flex-col hover:shadow-xl hover:shadow-forest/5 transition">
+                <div class="bg-forest/5 h-28 grid place-items-center relative"><i class="fas fa-van-shuttle text-forest text-5xl"></i><span class="absolute top-3 right-3 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">9–15 seats</span></div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="eyebrow !tracking-widest mb-1">Premium Van</div>
+                    <h3 class="font-display text-xl font-600 text-forest mb-2">Force Urbania</h3>
+                    <p class="text-sm text-stone mb-4">9–15 seater luxury van for mid-size groups.</p>
+                    <div class="mt-auto flex items-end justify-between">
+                        <div><span class="text-xs text-stone">From</span><div class="font-display text-2xl font-600 text-clay leading-none">₹32<span class="text-sm text-stone font-sans"> /km</span></div></div>
+                        <a href="{% url 'leads:booking' %}" class="btn btn-primary !py-2.5 !px-4 text-sm">Book</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="bg-forest text-ivory rounded-2xl overflow-hidden softshadow flex flex-col justify-center p-8 text-center">
+                <i class="fas fa-route text-clay-soft text-3xl mb-3"></i>
+                <h3 class="font-display text-xl font-600 mb-2">Have a route in mind?</h3>
+                <p class="text-sm text-ivory/70 mb-5">Share your pickup, drop &amp; dates for an exact per-km quote.</p>
+                <a href="{% url 'leads:booking' %}" class="btn btn-clay !py-2.5 self-center"><i class="fas fa-paper-plane"></i> Get a quote</a>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<!-- Good to know -->
+<section class="py-14 bg-sand">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-display text-2xl sm:text-3xl font-600 text-forest mb-6">Good to know</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 text-sm">
+            <div class="bg-white rounded-2xl p-5 border border-sand"><i class="fas fa-gas-pump text-clay mb-2 text-lg"></i><div class="font-600 text-forest mb-1">Fuel &amp; tolls</div><p class="text-stone">Fuel, tolls, parking &amp; state permits are billed as applicable / included per quote.</p></div>
+            <div class="bg-white rounded-2xl p-5 border border-sand"><i class="fas fa-road text-clay mb-2 text-lg"></i><div class="font-600 text-forest mb-1">Minimum running</div><p class="text-stone">A minimum of ~250 km/day usually applies for outstation trips.</p></div>
+            <div class="bg-white rounded-2xl p-5 border border-sand"><i class="fas fa-bed text-clay mb-2 text-lg"></i><div class="font-600 text-forest mb-1">Driver allowance</div><p class="text-stone">A small nightly driver allowance applies for multi-day journeys.</p></div>
+            <div class="bg-white rounded-2xl p-5 border border-sand"><i class="fas fa-plane-arrival text-clay mb-2 text-lg"></i><div class="font-600 text-forest mb-1">Local &amp; outstation</div><p class="text-stone">Airport/station pickups, local sightseeing and long yatra circuits — all covered.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="pb-20 bg-sand">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative overflow-hidden rounded-[32px] bg-forest text-ivory p-10 sm:p-14 text-center grain">
+            <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-pine/30 blur-3xl"></div>
+            <div class="absolute -bottom-16 -right-10 w-56 h-56 rounded-full bg-clay/25 blur-3xl"></div>
+            <div class="relative">
+                <h2 class="font-display text-3xl sm:text-4xl font-600 mb-3">Book a vehicle for your journey</h2>
+                <p class="text-ivory/75 max-w-xl mx-auto mb-8">Tell us your route and dates — we'll confirm availability and an exact per-km quote.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{% url 'leads:booking' %}" class="btn btn-clay"><i class="fas fa-paper-plane"></i> Request a quote</a>
+                    <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" class="btn btn-ghost !border-ivory/40 !text-ivory"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endwith %}
+{% endblock %}
