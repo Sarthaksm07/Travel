@@ -6,6 +6,7 @@ class Inquiry(models.Model):
         GENERAL = "general", "General"
         PACKAGE = "package", "Package"
         BOOKING = "booking", "Booking request"
+        RENTAL = "rental", "Vehicle rental"
         CUSTOM_TOUR = "custom-tour", "Custom tour"
         CALLBACK = "callback", "Callback"
         WHATSAPP = "whatsapp", "WhatsApp"

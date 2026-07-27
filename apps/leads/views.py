@@ -5,6 +5,8 @@ from django.shortcuts import redirect, render
 from django.utils.dateparse import parse_date
 from django.views.decorators.http import require_POST
 
+from destinations.models import Destination
+
 from .models import Inquiry
 
 
@@ -18,6 +20,7 @@ def _to_int(value):
 def booking(request):
     if request.method == "POST":
         d = request.POST
+        is_rental = d.get("source", "").strip() == "rental"
         inq = Inquiry.objects.create(
             name=d.get("name", "").strip(),
             phone=d.get("phone", "").strip(),
@@ -29,10 +32,14 @@ def booking(request):
             vehicle_preference=d.get("vehicle_preference", "").strip(),
             hotel_category=d.get("hotel_category", "").strip(),
             message=d.get("message", "").strip(),
-            source_type=Inquiry.SourceType.BOOKING,
+            source_type=(
+                Inquiry.SourceType.RENTAL if is_rental
+                else Inquiry.SourceType.BOOKING
+            ),
         )
+        label = "rental enquiry" if is_rental else "trip request"
         body = "\n".join([
-            f"New trip request from {inq.name}",
+            f"New {label} from {inq.name}",
             "",
             f"Phone:        {inq.phone}",
             f"Email:        {inq.email or '-'}",
@@ -45,14 +52,25 @@ def booking(request):
             f"Message:      {inq.message or '-'}",
         ])
         send_mail(
-            subject=f"New trip request — {inq.name}",
+            subject=f"New {label} — {inq.name}",
             message=body,
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[settings.LEADS_NOTIFY_EMAIL],
             fail_silently=True,
         )
         return redirect("core:thank_you")
-    return render(request, "pages/booking.html")
+
+    # Pre-fill from the homepage enquiry bar (or vehicle "Book" links).
+    # Each value maps 1:1 into its own structured field on the form.
+    g = request.GET
+    return render(request, "pages/booking.html", {
+        "prefill_vehicle": g.get("vehicle", "").strip(),
+        "is_rental": g.get("source", "").strip() == "rental",
+        "prefill_destination": g.get("destination", "").strip(),
+        "prefill_travel_date": g.get("travel_date", "").strip(),
+        "prefill_travellers": g.get("num_travellers", "").strip(),
+        "dest_names": list(Destination.objects.values_list("name", flat=True)),
+    })
 
 
 @require_POST

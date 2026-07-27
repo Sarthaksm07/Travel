@@ -1,12 +1,81 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Kedarnath Heli Ticket Price: Booking Guide — Augy Travels{% endblock %}
-{% block meta_description %}A clear guide to Kedarnath helicopter ticket prices, booking windows and how to plan your darshan.{% endblock %}
+{% block title %}{% if post %}{{ post.meta_title|default:post.title }}{% else %}Kedarnath Heli Ticket Price{% endif %} — Augy Travels{% endblock %}
+{% block meta_description %}{% if post %}{{ post.meta_description|default:post.excerpt }}{% else %}A clear guide to Kedarnath helicopter ticket prices and booking.{% endif %}{% endblock %}
 
 {% block content %}
+<style>
+    .blog-body{font-size:1.05rem}
+    .blog-body p{margin:0 0 1.15rem}
+    .blog-body h2{font-family:'Fraunces',serif;font-weight:600;color:#1E4634;font-size:1.6rem;margin:2rem 0 .75rem}
+    .blog-body h3{font-family:'Fraunces',serif;font-weight:600;color:#1E4634;font-size:1.3rem;margin:1.5rem 0 .6rem}
+    .blog-body ul,.blog-body ol{margin:0 0 1.15rem 1.25rem}
+    .blog-body ul{list-style:disc}
+    .blog-body ol{list-style:decimal}
+    .blog-body li{margin:.35rem 0}
+    .blog-body a{color:#BC6C43;text-decoration:underline;text-underline-offset:2px}
+    .blog-body blockquote{border-left:4px solid #BC6C43;background:rgba(230,220,205,.4);border-radius:0 .75rem .75rem 0;padding:1rem 1.25rem;margin:1.5rem 0;font-family:'Fraunces',serif;font-style:italic;color:#1E4634}
+    .blog-body img{border-radius:1rem;margin:1.5rem 0;max-width:100%}
+    .blog-body strong{color:#1E4634}
+</style>
 
-<!-- Article header -->
+{% if post %}
+<!-- ===== DYNAMIC ===== -->
+<article>
+    <section class="bg-ivory pt-10 pb-6">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="text-sm text-stone mb-5"><a href="{% url 'core:home' %}" class="hover:text-clay">Home</a> <span class="mx-1">/</span> <a href="{% url 'blog:list' %}" class="hover:text-clay">Blog</a> <span class="mx-1">/</span> <span class="text-forest">{{ post.title|truncatewords:6 }}</span></nav>
+            {% if post.category %}<span class="inline-block bg-clay/15 text-clay text-xs font-600 px-3 py-1 rounded-full mb-4">{{ post.category.name }}</span>{% endif %}
+            <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-600 text-forest leading-tight mb-5">{{ post.title }}</h1>
+            <div class="flex items-center gap-3 text-sm text-stone">
+                <div class="w-10 h-10 rounded-full bg-forest text-ivory grid place-items-center font-600">{{ post.author.get_full_name|default:'A'|first|upper }}</div>
+                <div>By <span class="text-forest font-600">{{ post.author.get_full_name|default:'Admin' }}</span></div>
+                {% if post.published_at %}<span>&middot;</span><span>{{ post.published_at|date:"M j, Y" }}</span>{% endif %}
+            </div>
+        </div>
+    </section>
+
+    {% if post.cover_image %}
+    <section class="bg-ivory pt-6">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <figure class="overflow-hidden rounded-lg"><img src="{{ post.cover_image.url }}" class="w-full h-auto block" alt="{{ post.title }}"></figure>
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="py-12 bg-ivory">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-ink/90 leading-relaxed blog-body">
+            {% if post.body %}{{ post.body|safe }}{% elif post.excerpt %}<p class="text-lg text-stone">{{ post.excerpt }}</p>{% endif %}
+
+            <div class="flex items-center gap-3 pt-6 border-t border-sand mt-8">
+                <span class="text-sm text-stone font-600">Share:</span>
+                <a href="#" class="w-9 h-9 rounded-full bg-white border border-sand grid place-items-center text-forest hover:bg-clay hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="w-9 h-9 rounded-full bg-white border border-sand grid place-items-center text-forest hover:bg-clay hover:text-white transition"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" class="w-9 h-9 rounded-full bg-white border border-sand grid place-items-center text-forest hover:bg-clay hover:text-white transition"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </section>
+
+    {% if related %}
+    <section class="py-14 bg-sand">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-display text-2xl font-600 text-forest mb-8">Related articles</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {% for r in related %}
+                <a href="{% url 'blog:detail' r.slug %}" class="card group">
+                    <div class="h-44 overflow-hidden">{% if r.cover_image %}<img src="{{ r.cover_image.url }}" class="ci" alt="{{ r.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-newspaper text-2xl"></i></div>{% endif %}</div>
+                    <div class="p-5">{% if r.published_at %}<div class="text-xs text-stone mb-1">{{ r.published_at|date:"M j, Y" }}</div>{% endif %}<h3 class="font-display text-lg font-600 text-forest group-hover:text-clay transition">{{ r.title }}</h3></div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+</article>
+
+{% else %}
+<!-- ===== STATIC SAMPLE ===== -->
 <section class="bg-ivory pt-10 pb-6">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav class="text-sm text-stone mb-5"><a href="{% url 'core:home' %}" class="hover:text-clay">Home</a> <span class="mx-1">/</span> <a href="{% url 'blog:list' %}" class="hover:text-clay">Blog</a> <span class="mx-1">/</span> <span class="text-forest">Kedarnath Heli Ticket Price</span></nav>
@@ -14,75 +83,24 @@
         <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-600 text-forest leading-tight mb-5">Kedarnath Heli Ticket Price: Booking Guide &amp; Cost Breakdown</h1>
         <div class="flex items-center gap-3 text-sm text-stone">
             <div class="w-10 h-10 rounded-full bg-forest text-ivory grid place-items-center font-600">A</div>
-            <div>By <span class="text-forest font-600">Admin</span></div>
-            <span>&middot;</span><span>Jun 11, 2026</span>
-            <span>&middot;</span><span><i class="fas fa-fire text-clay mr-1"></i>8 min read</span>
+            <div>By <span class="text-forest font-600">Admin</span></div><span>&middot;</span><span>Jun 11, 2026</span>
         </div>
     </div>
 </section>
-
-<!-- Cover -->
-<section class="bg-ivory">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="rounded-3xl overflow-hidden softshadow h-[300px] sm:h-[420px]">
-            <img src="https://images.unsplash.com/photo-1712388430474-ace0c16051e2?w=1400&q=80" class="w-full h-full object-cover" alt="Kedarnath helicopter">
-        </div>
+<section class="bg-ivory pt-6">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <figure class="overflow-hidden rounded-lg"><img src="https://images.unsplash.com/photo-1712388430474-ace0c16051e2?w=1400&q=80" class="w-full h-auto block" alt="Kedarnath helicopter"></figure>
     </div>
 </section>
-
-<!-- Body -->
 <article class="py-12 bg-ivory">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-ink/90 leading-relaxed space-y-5">
-        <p class="text-lg text-stone">Planning a Kedarnath darshan and short on time? The helicopter service is the fastest, most comfortable way to reach the temple — especially for elders and families. Here's a clear breakdown of prices and how booking works.</p>
-
+        <p class="text-lg text-stone">Planning a Kedarnath darshan and short on time? The helicopter service is the fastest, most comfortable way to reach the temple — especially for elders and families.</p>
         <h2 class="font-display text-2xl font-600 text-forest pt-4">Why choose the helicopter?</h2>
-        <p>The traditional route involves a 16 km trek from Gaurikund. The helicopter cuts that to a short, scenic flight from one of the helipads in the Kedarnath valley — saving a full day and a lot of effort, so you arrive fresh for darshan.</p>
-
-        <h2 class="font-display text-2xl font-600 text-forest pt-4">Indicative ticket prices</h2>
-        <p>Fares vary by helipad and season. As a guide, round-trip tickets typically range as below (per person):</p>
-        <ul class="space-y-2 pl-1">
-            <li class="flex items-center gap-2"><i class="fas fa-helicopter text-clay"></i> Phata → Kedarnath (round trip): from ₹4,720</li>
-            <li class="flex items-center gap-2"><i class="fas fa-helicopter text-clay"></i> Guptkashi → Kedarnath (round trip): from ₹7,750</li>
-            <li class="flex items-center gap-2"><i class="fas fa-helicopter text-clay"></i> Sersi → Kedarnath (round trip): from ₹4,680</li>
-        </ul>
-
-        <blockquote class="border-l-4 border-clay bg-sand/60 rounded-r-xl px-5 py-4 my-6">
-            <p class="font-display text-lg text-forest italic">Tip: helicopter slots sell out fast in peak season (May–June). Book early and keep a buffer day for weather delays.</p>
-        </blockquote>
-
-        <h2 class="font-display text-2xl font-600 text-forest pt-4">How to book with Augy Travels</h2>
-        <p>Share your travel dates and group size, and we'll check live availability, confirm the best helipad for you, and handle the booking end-to-end — along with your stay and transport if needed. Transparent pricing, no surprises.</p>
-
-        <!-- Share -->
-        <div class="flex items-center gap-3 pt-6 border-t border-sand mt-8">
-            <span class="text-sm text-stone font-600">Share:</span>
-            <a href="#" class="w-9 h-9 rounded-full bg-white border border-sand grid place-items-center text-forest hover:bg-clay hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full bg-white border border-sand grid place-items-center text-forest hover:bg-clay hover:text-white transition"><i class="fab fa-x-twitter"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full bg-white border border-sand grid place-items-center text-forest hover:bg-clay hover:text-white transition"><i class="fab fa-whatsapp"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full bg-white border border-sand grid place-items-center text-forest hover:bg-clay hover:text-white transition"><i class="fab fa-pinterest-p"></i></a>
-        </div>
+        <p>The traditional route is a 16 km trek from Gaurikund. The helicopter cuts that to a short, scenic flight — saving a full day so you arrive fresh for darshan.</p>
+        <blockquote class="border-l-4 border-clay bg-sand/60 rounded-r-xl px-5 py-4 my-6"><p class="font-display text-lg text-forest italic">Tip: helicopter slots sell out fast in peak season (May–June). Book early.</p></blockquote>
+        <p>Share your travel dates and group size and we'll handle the booking end-to-end — along with your stay and transport.</p>
     </div>
 </article>
-
-<!-- Related -->
-<section class="py-14 bg-sand">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="font-display text-2xl font-600 text-forest mb-8">Related articles</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="card group">
-                <div class="h-44 overflow-hidden"><img src="https://images.unsplash.com/photo-1591123720164-de1348028e4b?w=600&q=80" class="ci" alt=""></div>
-                <div class="p-5"><div class="text-xs text-stone mb-1">May 18, 2026</div><h3 class="font-display text-lg font-600 text-forest group-hover:text-clay transition">Kedarnath Package: Trekking, Helicopter &amp; Stay Options</h3></div>
-            </a>
-            <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="card group">
-                <div class="h-44 overflow-hidden"><img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?w=600&q=80" class="ci" alt=""></div>
-                <div class="p-5"><div class="text-xs text-stone mb-1">Jun 10, 2026</div><h3 class="font-display text-lg font-600 text-forest group-hover:text-clay transition">Rishikesh Mussoorie Haridwar Package</h3></div>
-            </a>
-            <a href="{% url 'blog:detail' 'kedarnath-heli-ticket-price' %}" class="card group">
-                <div class="h-44 overflow-hidden"><img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600&q=80" class="ci" alt=""></div>
-                <div class="p-5"><div class="text-xs text-stone mb-1">May 14, 2026</div><h3 class="font-display text-lg font-600 text-forest group-hover:text-clay transition">What to Pack for a Himalayan Yatra</h3></div>
-            </a>
-        </div>
-    </div>
-</section>
+{% endif %}
 
 {% endblock %}

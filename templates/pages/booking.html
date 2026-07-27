@@ -23,11 +23,19 @@
 
         <!-- Form -->
         <div class="lg:col-span-2 bg-white border border-sand rounded-2xl softshadow p-6 sm:p-8">
-            <h2 class="font-display text-2xl font-600 text-forest mb-1">Trip request</h2>
+            <h2 class="font-display text-2xl font-600 text-forest mb-1">{% if is_rental %}Vehicle rental enquiry{% else %}Trip request{% endif %}</h2>
             <p class="text-sm text-stone mb-6">Fields marked <span class="text-clay">*</span> are required.</p>
+
+            {% if is_rental and prefill_vehicle %}
+            <div class="flex items-center gap-3 bg-forest/5 border border-sand rounded-xl px-4 py-3 mb-6">
+                <span class="w-9 h-9 flex-none rounded-full bg-forest/10 grid place-items-center text-clay"><i class="fas fa-car-side"></i></span>
+                <div class="text-sm"><span class="text-stone">Enquiring about</span> <span class="font-600 text-forest">{{ prefill_vehicle }}</span> — share your route &amp; dates below for a per-km quote.</div>
+            </div>
+            {% endif %}
 
             <form id="bookingForm" method="post" action="{% url 'leads:booking' %}" class="grid sm:grid-cols-2 gap-4">
                 {% csrf_token %}
+                {% if is_rental %}<input type="hidden" name="source" value="rental">{% endif %}
                 <div>
                     <label class="text-xs font-600 text-forest">Name</label>
                     <input name="name" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Your name">
@@ -38,15 +46,24 @@
                 </div>
                 <div>
                     <label class="text-xs font-600 text-forest">Destination(s)</label>
-                    <input name="destination" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. Char Dham, Auli">
+                    {% if dest_names %}
+                    <select name="destination" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory text-stone">
+                        <option value="">Select a destination</option>
+                        {% if prefill_destination and prefill_destination not in dest_names %}<option value="{{ prefill_destination }}" selected>{{ prefill_destination }}</option>{% endif %}
+                        {% for name in dest_names %}<option value="{{ name }}"{% if name == prefill_destination %} selected{% endif %}>{{ name }}</option>{% endfor %}
+                        <option value="Other"{% if prefill_destination == "Other" %} selected{% endif %}>Other / not sure</option>
+                    </select>
+                    {% else %}
+                    <input name="destination" value="{{ prefill_destination }}" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. Char Dham, Auli">
+                    {% endif %}
                 </div>
                 <div>
                     <label class="text-xs font-600 text-forest">Travel date</label>
-                    <input name="travel_date" type="date" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory">
+                    <input name="travel_date" type="date" value="{{ prefill_travel_date }}" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory">
                 </div>
                 <div>
                     <label class="text-xs font-600 text-forest">No. of travellers</label>
-                    <input name="num_travellers" type="number" min="1" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. 4">
+                    <input name="num_travellers" type="number" min="1" value="{{ prefill_travellers }}" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. 4">
                 </div>
                 <div>
                     <label class="text-xs font-600 text-forest">No. of kids (below 5 yrs)</label>
@@ -55,6 +72,7 @@
                 <div>
                     <label class="text-xs font-600 text-forest">Vehicle preference</label>
                     <select name="vehicle_preference" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory text-stone">
+                        {% if prefill_vehicle %}<option selected>{{ prefill_vehicle }}</option>{% endif %}
                         <option value="">No preference</option>
                         <option>Sedan</option>
                         <option>SUV / Innova</option>
@@ -62,6 +80,7 @@
                         <option>Bus</option>
                     </select>
                 </div>
+                {% if not is_rental %}
                 <div>
                     <label class="text-xs font-600 text-forest">Hotel category</label>
                     <select name="hotel_category" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory text-stone">
@@ -72,6 +91,7 @@
                         <option>Luxury (5★)</option>
                     </select>
                 </div>
+                {% endif %}
                 <div class="sm:col-span-2">
                     <label class="text-xs font-600 text-forest">Anything else? <span class="text-stone font-400">(optional)</span></label>
                     <textarea name="message" rows="3" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Special requests, food preferences, elders in group…"></textarea>

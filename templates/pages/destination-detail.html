@@ -6,6 +6,15 @@
 
 {% block content %}
 {% with wa=site.whatsapp_number|default:'918630731034' %}
+<style>
+    .dest-prose{color:#5b5750;line-height:1.75}
+    .dest-prose p{margin:0 0 1rem}
+    .dest-prose h3{font-family:'Fraunces',serif;font-weight:600;color:#1E4634;font-size:1.15rem;margin:1.3rem 0 .5rem}
+    .dest-prose ul,.dest-prose ol{margin:0 0 1rem 1.2rem}
+    .dest-prose ul{list-style:disc}.dest-prose ol{list-style:decimal}
+    .dest-prose li{margin:.3rem 0}
+    .dest-prose strong{color:#1E4634}
+</style>
 
 {% if destination %}
 <!-- ===== DYNAMIC (from admin) ===== -->
@@ -31,19 +40,25 @@
             <div>
                 <span class="eyebrow">About the destination</span>
                 <h2 class="font-display text-3xl font-600 text-forest mt-2 mb-4">About {{ destination.name }}</h2>
-                <div class="text-stone leading-relaxed space-y-3">{{ destination.overview|safe }}</div>
+                <div class="dest-prose">{{ destination.overview|safe }}</div>
             </div>
             {% endif %}
             {% if destination.attractions %}
             <div>
                 <h3 class="font-display text-2xl font-600 text-forest mb-4">Highlights &amp; attractions</h3>
-                <div class="text-stone leading-relaxed space-y-3">{{ destination.attractions|safe }}</div>
+                <div class="dest-prose">{{ destination.attractions|safe }}</div>
             </div>
             {% endif %}
             {% if destination.travel_guide %}
             <div>
                 <h3 class="font-display text-2xl font-600 text-forest mb-4">Travel guide</h3>
-                <div class="text-stone leading-relaxed space-y-3">{{ destination.travel_guide|safe }}</div>
+                <div class="dest-prose">{{ destination.travel_guide|safe }}</div>
+            </div>
+            {% endif %}
+            {% if destination.local_activities %}
+            <div>
+                <h3 class="font-display text-2xl font-600 text-forest mb-4">Things to do</h3>
+                <div class="dest-prose">{{ destination.local_activities|safe }}</div>
             </div>
             {% endif %}
 

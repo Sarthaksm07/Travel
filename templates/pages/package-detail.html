@@ -1,11 +1,181 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Char Dham Yatra — Tour Package | Augy Travels{% endblock %}
-{% block meta_description %}Char Dham Yatra 10 days / 9 nights — Yamunotri, Gangotri, Kedarnath & Badrinath. Safe, women-friendly, transparently priced pilgrimage by Augy Travels.{% endblock %}
+{% block title %}{% if package %}{{ package.meta_title|default:package.title }}{% if not package.meta_title %} — Tour Package{% endif %} | Augy Travels{% else %}Char Dham Yatra — Tour Package | Augy Travels{% endif %}{% endblock %}
+{% block meta_description %}{% if package %}{{ package.meta_description|default:package.short_description|truncatechars:155 }}{% else %}Char Dham Yatra 10 days / 9 nights — Yamunotri, Gangotri, Kedarnath & Badrinath. Safe, women-friendly, transparently priced pilgrimage by Augy Travels.{% endif %}{% endblock %}
 
 {% block content %}
 {% with wa=site.whatsapp_number|default:'918630731034' %}
+<style>
+    .pkg-prose{color:#5b5750;line-height:1.75}
+    .pkg-prose p{margin:0 0 1rem}
+    .pkg-prose h3{font-family:'Fraunces',serif;font-weight:600;color:#1E4634;font-size:1.15rem;margin:1.4rem 0 .5rem}
+    .pkg-prose ul,.pkg-prose ol{margin:0 0 1rem 1.2rem}
+    .pkg-prose ul{list-style:disc}.pkg-prose ol{list-style:decimal}
+    .pkg-prose li{margin:.3rem 0}
+    .pkg-prose strong{color:#1E4634}
+</style>
+
+{% if package %}
+<!-- ===== DYNAMIC ===== -->
+<section class="relative">
+    <div class="h-[300px] sm:h-[400px] w-full overflow-hidden bg-forest">
+        {% if package.cover_image %}<img src="{{ package.cover_image.url }}" class="w-full h-full object-cover" alt="{{ package.title }}">{% endif %}
+        <div class="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/50 to-forest-deep/10"></div>
+    </div>
+    <div class="absolute inset-x-0 bottom-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 text-ivory">
+            <nav class="text-sm text-ivory/70 mb-3"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <a href="{% url 'tours:list' %}" class="hover:text-clay-soft">Packages</a> <span class="mx-1">/</span> <span class="text-ivory">{{ package.title|truncatewords:6 }}</span></nav>
+            {% if package.category %}<span class="inline-block bg-clay text-white text-xs font-600 px-3 py-1 rounded-full mb-3">{{ package.category.name }}</span>{% endif %}
+            <h1 class="font-display text-4xl sm:text-5xl font-600 mb-4">{{ package.title }}</h1>
+            <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-ivory/85">
+                {% if package.duration %}<span><i class="fas fa-clock text-clay-soft mr-2"></i>{{ package.duration }}</span>{% endif %}
+                <span><i class="fas fa-users text-clay-soft mr-2"></i>Private / small group</span>
+                <span><i class="fas fa-shield-heart text-clay-soft mr-2"></i>Women-friendly &amp; safe</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-14 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-3 gap-10">
+            <div class="lg:col-span-2 space-y-12">
+                {% if package.short_description %}
+                <div>
+                    <span class="eyebrow">About this package</span>
+                    <h2 class="font-display text-3xl font-600 text-forest mt-2 mb-4">Overview</h2>
+                    <p class="text-stone leading-relaxed">{{ package.short_description }}</p>
+                </div>
+                {% endif %}
+
+                {% if package.itinerary %}
+                <div><h2 class="font-display text-2xl font-600 text-forest mb-4">Day-by-day itinerary</h2><div class="pkg-prose">{{ package.itinerary|safe }}</div></div>
+                {% endif %}
+
+                {% if package.inclusions or package.exclusions %}
+                <div class="grid sm:grid-cols-2 gap-8">
+                    {% if package.inclusions %}<div><h3 class="font-display text-xl font-600 text-forest mb-4">What's included</h3><div class="pkg-prose text-sm">{{ package.inclusions|safe }}</div></div>{% endif %}
+                    {% if package.exclusions %}<div><h3 class="font-display text-xl font-600 text-forest mb-4">What's not included</h3><div class="pkg-prose text-sm">{{ package.exclusions|safe }}</div></div>{% endif %}
+                </div>
+                {% endif %}
+
+                {% if package.accommodation_details %}
+                <div><h2 class="font-display text-2xl font-600 text-forest mb-4">Stay &amp; accommodation</h2><div class="pkg-prose">{{ package.accommodation_details|safe }}</div></div>
+                {% endif %}
+                {% if package.transport_details %}
+                <div><h2 class="font-display text-2xl font-600 text-forest mb-4">Transport</h2><div class="pkg-prose">{{ package.transport_details|safe }}</div></div>
+                {% endif %}
+
+                {% if package.images.all %}
+                <div>
+                    <h2 class="font-display text-2xl font-600 text-forest mb-5">Gallery</h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        {% for img in package.images.all %}
+                        <figure class="overflow-hidden rounded-xl group">
+                            <img src="{{ img.image.url }}" alt="{{ img.caption|default:package.title }}" class="w-full h-40 object-cover group-hover:scale-105 transition duration-500">
+                            {% if img.caption %}<figcaption class="text-xs text-stone mt-1">{{ img.caption }}</figcaption>{% endif %}
+                        </figure>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Booking process -->
+                <div>
+                    <h2 class="font-display text-2xl font-600 text-forest mb-6">How booking works</h2>
+                    <div class="grid sm:grid-cols-4 gap-4">
+                        <div class="text-center"><div class="w-12 h-12 mx-auto rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-2"><i class="fas fa-comment-dots"></i></div><div class="font-600 text-forest text-sm">1. Enquire</div><p class="text-xs text-stone mt-1">Share your dates &amp; group.</p></div>
+                        <div class="text-center"><div class="w-12 h-12 mx-auto rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-2"><i class="fas fa-sliders"></i></div><div class="font-600 text-forest text-sm">2. Customise</div><p class="text-xs text-stone mt-1">We tailor the plan &amp; quote.</p></div>
+                        <div class="text-center"><div class="w-12 h-12 mx-auto rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-2"><i class="fas fa-circle-check"></i></div><div class="font-600 text-forest text-sm">3. Confirm</div><p class="text-xs text-stone mt-1">Reserve with a simple advance.</p></div>
+                        <div class="text-center"><div class="w-12 h-12 mx-auto rounded-full bg-forest/10 text-forest grid place-items-center text-lg mb-2"><i class="fas fa-mountain-sun"></i></div><div class="font-600 text-forest text-sm">4. Travel</div><p class="text-xs text-stone mt-1">Relax — we handle the rest.</p></div>
+                    </div>
+                </div>
+
+                {% with faqs=package.faqs.all %}
+                {% if faqs %}
+                <div>
+                    <h2 class="font-display text-2xl font-600 text-forest mb-5">Frequently asked</h2>
+                    <div class="space-y-3">
+                        {% for faq in faqs %}{% if faq.is_active %}
+                        <details class="bg-white border border-sand rounded-xl p-4 group">
+                            <summary class="font-600 text-forest cursor-pointer list-none flex justify-between items-center">{{ faq.question }}<i class="fas fa-plus text-clay group-open:rotate-45 transition"></i></summary>
+                            <p class="text-sm text-stone mt-3">{{ faq.answer|linebreaksbr }}</p>
+                        </details>
+                        {% endif %}{% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                {% if package.terms_and_conditions %}
+                <div><h2 class="font-display text-2xl font-600 text-forest mb-4">Terms &amp; conditions</h2><div class="pkg-prose text-sm">{{ package.terms_and_conditions|safe }}</div></div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="lg:col-span-1">
+                <div class="lg:sticky lg:top-28 bg-white border border-sand rounded-2xl softshadow p-6">
+                    <div class="flex items-end gap-2">
+                        <span class="text-sm text-stone">From</span>
+                        <span class="font-display text-3xl font-600 text-clay leading-none">{% if package.price %}₹{{ package.price|floatformat:0 }}{% else %}On request{% endif %}</span>
+                    </div>
+                    <p class="text-xs text-stone mt-1 mb-5">Per person · taxes included · fully customisable</p>
+                    <ul class="space-y-3 text-sm text-forest mb-6">
+                        {% if package.duration %}<li class="flex justify-between"><span class="text-stone">Duration</span><span class="font-600">{{ package.duration }}</span></li>{% endif %}
+                        {% if package.category %}<li class="flex justify-between"><span class="text-stone">Category</span><span class="font-600">{{ package.category.name }}</span></li>{% endif %}
+                        <li class="flex justify-between"><span class="text-stone">Group size</span><span class="font-600">Private / small group</span></li>
+                    </ul>
+                    <div class="space-y-3">
+                        <a href="https://wa.me/{{ wa }}?text=Enquiry about {{ package.title|urlencode }}" target="_blank" rel="noopener" class="btn btn-clay w-full !rounded-xl"><i class="fab fa-whatsapp"></i> Enquire on WhatsApp</a>
+                        <a href="tel:+{{ wa }}" class="btn btn-ghost w-full !rounded-xl"><i class="fas fa-phone"></i> Call us</a>
+                        <a href="{% url 'leads:booking' %}" class="btn btn-primary w-full !rounded-xl"><i class="fas fa-paper-plane"></i> Send an enquiry</a>
+                    </div>
+                    <div class="rule my-6"></div>
+                    <div class="space-y-2 text-xs text-stone">
+                        <div><i class="fas fa-shield-heart text-forest mr-2"></i>Women-friendly &amp; safe</div>
+                        <div><i class="fas fa-tags text-forest mr-2"></i>Transparent pricing</div>
+                        <div><i class="fas fa-headset text-forest mr-2"></i>24/7 support</div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        {% if related %}
+        <div class="mt-16">
+            <h2 class="font-display text-2xl font-600 text-forest mb-6">You may also like</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {% for r in related %}
+                <a href="{% url 'tours:detail' r.slug %}" class="card group">
+                    <div class="h-44 overflow-hidden">{% if r.cover_image %}<img src="{{ r.cover_image.url }}" class="ci" alt="{{ r.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/25"><i class="fas fa-mountain-sun text-2xl"></i></div>{% endif %}</div>
+                    <div class="p-5"><h3 class="font-display text-lg font-600 text-forest group-hover:text-clay transition">{{ r.title }}</h3>{% if r.duration %}<div class="text-xs text-stone mt-1">{{ r.duration }}</div>{% endif %}</div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="pb-20 bg-ivory">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative overflow-hidden rounded-[32px] bg-forest text-ivory p-10 sm:p-14 text-center grain">
+            <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-pine/30 blur-3xl"></div>
+            <div class="absolute -bottom-16 -right-10 w-56 h-56 rounded-full bg-clay/25 blur-3xl"></div>
+            <div class="relative">
+                <h2 class="font-display text-3xl sm:text-4xl font-600 mb-3">Ready to plan this trip?</h2>
+                <p class="text-ivory/75 max-w-xl mx-auto mb-8">Tell us your dates and group size — we'll craft a tailored plan and quote, usually within a few hours.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://wa.me/{{ wa }}?text=Enquiry about {{ package.title|urlencode }}" target="_blank" rel="noopener" class="btn btn-clay"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                    <a href="tel:+{{ wa }}" class="btn btn-ghost !border-ivory/40 !text-ivory"><i class="fas fa-phone"></i> Call us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% else %}
+<!-- ===== STATIC SAMPLE ===== -->
 
 <!-- HERO -->
 <section class="relative">
@@ -22,7 +192,7 @@
                 <span><i class="fas fa-clock text-clay-soft mr-2"></i>10 Days / 9 Nights</span>
                 <span><i class="fas fa-users text-clay-soft mr-2"></i>Small groups</span>
                 <span><i class="fas fa-calendar text-clay-soft mr-2"></i>May – October</span>
-                <span><i class="fas fa-star text-clay-soft mr-2"></i>4.8 (600+ reviews)</span>
+                <span><i class="fas fa-star text-clay-soft mr-2"></i>4.8 (6000+ reviews)</span>
             </div>
         </div>
     </div>
@@ -207,5 +377,6 @@
     </div>
 </section>
 
+{% endif %}
 {% endwith %}
 {% endblock %}

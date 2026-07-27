@@ -11,8 +11,8 @@
 {% block content %}
 
 <!-- HERO -->
-<header class="relative overflow-hidden grain">
-    <div class="absolute -top-24 -right-24 w-[440px] h-[440px] rounded-full bg-sand/60 blur-3xl -z-10"></div>
+<header class="relative grain">
+    <div class="absolute inset-0 overflow-hidden -z-10 pointer-events-none"><div class="absolute -top-24 -right-24 w-[440px] h-[440px] rounded-full bg-sand/60 blur-3xl"></div></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-10 lg:pt-12 lg:pb-14 grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
         <div>
             <span class="eyebrow">Devbhoomi Uttarakhand</span>
@@ -27,7 +27,7 @@
                 <a href="{% url 'leads:booking' %}" class="btn btn-ghost"><i class="fas fa-route"></i> Plan Your Journey</a>
             </div>
             <div class="flex items-center gap-6 text-sm text-stone">
-                <div class="flex items-center gap-2"><span class="text-clay text-base">★★★★★</span> 4.8 · 600+ travellers</div>
+                <div class="flex items-center gap-2"><span class="text-clay text-base">★★★★★</span> 4.8 · 6000+ travellers</div>
                 <div class="hidden sm:flex items-center gap-2"><i class="fas fa-shield-heart text-forest"></i> Women-friendly</div>
             </div>
         </div>
@@ -48,19 +48,75 @@
 
     <!-- Enquiry bar -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 -mt-2">
-        <form class="bg-white border border-sand rounded-2xl softshadow p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <form method="get" action="{% url 'leads:booking' %}" class="bg-white border border-sand rounded-2xl softshadow p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {% if all_destinations %}
+            <div class="relative" id="destDD">
+                <button type="button" id="destDDBtn" class="w-full flex items-center gap-3 bg-ivory border border-sand rounded-xl px-4 py-3 text-left focus:border-clay outline-none">
+                    <i class="fas fa-map-marker-alt text-clay"></i>
+                    <span id="destDDLabel" class="text-sm text-stone flex-1 truncate">Destination</span>
+                    <i class="fas fa-chevron-down text-xs text-stone transition" id="destDDChevron"></i>
+                </button>
+                <input type="hidden" name="destination" id="destDDInput" value="">
+                <div id="destDDPanel" class="hidden absolute z-30 left-0 right-0 top-full mt-2 bg-white border border-sand rounded-xl shadow-xl overflow-y-auto dest-dd-panel">
+                    {% for d in all_destinations %}<button type="button" class="dest-dd-opt" data-val="{{ d.name }}">{{ d.name }}</button>{% endfor %}
+                    <button type="button" class="dest-dd-opt" data-val="Other">Other / not sure</button>
+                </div>
+            </div>
+            {% else %}
             <div class="flex items-center gap-3 bg-ivory border border-sand rounded-xl px-4 py-3"><i class="fas fa-map-marker-alt text-clay"></i><input class="w-full outline-none text-sm bg-transparent" placeholder="Destination" name="destination"></div>
-            <div class="flex items-center gap-3 bg-ivory border border-sand rounded-xl px-4 py-3"><i class="fas fa-calendar-alt text-clay"></i><input class="w-full outline-none text-sm bg-transparent" placeholder="Travel dates" name="dates" data-date></div>
-            <div class="flex items-center gap-3 bg-ivory border border-sand rounded-xl px-4 py-3"><i class="fas fa-users text-clay"></i><select class="w-full outline-none text-sm bg-transparent text-stone" name="travellers"><option>Travellers</option><option>1–2</option><option>3–5</option><option>6+</option></select></div>
-            <button type="submit" class="btn btn-primary !rounded-xl"><i class="fab fa-whatsapp"></i> Get a Quote</button>
+            {% endif %}
+            <div class="flex items-center gap-3 bg-ivory border border-sand rounded-xl px-4 py-3"><i class="fas fa-calendar-alt text-clay"></i><input type="date" class="w-full outline-none text-sm bg-transparent text-stone" name="travel_date" aria-label="Travel date"></div>
+            <div class="flex items-center gap-3 bg-ivory border border-sand rounded-xl px-4 py-3"><i class="fas fa-users text-clay"></i><input type="number" min="1" class="w-full outline-none text-sm bg-transparent" placeholder="Travellers" name="num_travellers" aria-label="Number of travellers"></div>
+            <button type="submit" class="btn btn-primary !rounded-xl"><i class="fas fa-magnifying-glass"></i> Get a Quote</button>
         </form>
     </div>
+
+    <style>
+        /* ~6 options tall (44px each), then scroll */
+        .dest-dd-panel{max-height:264px}
+        .dest-dd-opt{display:block;width:100%;text-align:left;padding:.65rem 1rem;font-size:.875rem;color:#1E4634;cursor:pointer;transition:background .15s}
+        .dest-dd-opt:hover{background:rgba(30,70,52,.06)}
+        .dest-dd-opt.is-sel{background:#1E4634;color:#F7F4EE}
+        .dest-dd-panel::-webkit-scrollbar{width:8px}
+        .dest-dd-panel::-webkit-scrollbar-track{background:#ECE3D3;border-radius:0 12px 12px 0}
+        .dest-dd-panel::-webkit-scrollbar-thumb{background:#BC6C43;border-radius:8px}
+        .dest-dd-panel{scrollbar-width:thin;scrollbar-color:#BC6C43 #ECE3D3}
+    </style>
+    <script>
+        (function () {
+            var dd = document.getElementById("destDD");
+            if (!dd) return;
+            var btn = document.getElementById("destDDBtn"),
+                panel = document.getElementById("destDDPanel"),
+                label = document.getElementById("destDDLabel"),
+                input = document.getElementById("destDDInput"),
+                chev = document.getElementById("destDDChevron");
+            function close() { panel.classList.add("hidden"); chev.style.transform = ""; }
+            btn.addEventListener("click", function (e) {
+                e.stopPropagation();
+                var open = panel.classList.toggle("hidden");
+                chev.style.transform = open ? "" : "rotate(180deg)";
+            });
+            panel.querySelectorAll(".dest-dd-opt").forEach(function (opt) {
+                opt.addEventListener("click", function () {
+                    input.value = opt.dataset.val;
+                    label.textContent = opt.textContent;
+                    label.classList.remove("text-stone");
+                    label.classList.add("text-forest", "font-600");
+                    panel.querySelectorAll(".dest-dd-opt").forEach(function (o) { o.classList.remove("is-sel"); });
+                    opt.classList.add("is-sel");
+                    close();
+                });
+            });
+            document.addEventListener("click", function (e) { if (!dd.contains(e.target)) close(); });
+        })();
+    </script>
 </header>
 
 <!-- TRUST STRIP -->
 <section class="bg-sand">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div><div class="font-display text-4xl font-600 text-forest">600+</div><div class="text-sm text-stone mt-1">Happy Travellers</div></div>
+        <div><div class="font-display text-4xl font-600 text-forest">6000+</div><div class="text-sm text-stone mt-1">Happy Travellers</div></div>
         <div><div class="font-display text-4xl font-600 text-forest">4.8<span class="text-clay">★</span></div><div class="text-sm text-stone mt-1">Google Rating</div></div>
         <div><div class="font-display text-4xl font-600 text-forest">50+</div><div class="text-sm text-stone mt-1">Tour Packages</div></div>
         <div><div class="font-display text-4xl font-600 text-forest">100%</div><div class="text-sm text-stone mt-1">Women-Friendly</div></div>
@@ -82,7 +138,7 @@
                 <a href="{% url 'core:about' %}" class="btn btn-primary">More about us</a>
                 <div class="flex items-center gap-3">
                     <div class="w-11 h-11 rounded-full bg-clay/15 grid place-items-center text-clay"><i class="fas fa-users"></i></div>
-                    <div><div class="font-display text-xl font-600 text-forest leading-none">600+</div><div class="text-xs text-stone">Happy customers</div></div>
+                    <div><div class="font-display text-xl font-600 text-forest leading-none">6000+</div><div class="text-xs text-stone">Happy customers</div></div>
                 </div>
             </div>
         </div>
@@ -190,25 +246,33 @@
             <span class="eyebrow">Where we travel</span>
             <h2 class="font-display text-4xl sm:text-5xl font-600 text-forest mt-3">Iconic destinations</h2>
         </div>
+        <p class="text-center text-stone max-w-xl mx-auto -mt-8 mb-12">A handful of the places we know best across Devbhoomi Uttarakhand — from sacred dhams to snow-clad meadows.</p>
+
         {% if featured_destinations %}
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for d in featured_destinations %}
-            <a href="{% url 'destinations:list' %}" class="group">
-                <div class="arch-sm overflow-hidden h-64 softshadow">
-                    {% if d.cover_image %}<img src="{{ d.cover_image.url }}" class="ci group-hover:scale-105" alt="{{ d.name }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-mountain text-4xl"></i></div>{% endif %}
+            <a href="{% url 'destinations:detail' d.slug %}" class="group relative block rounded-2xl overflow-hidden h-80 softshadow">
+                {% if d.cover_image %}<img src="{{ d.cover_image.url }}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="{{ d.name }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-mountain text-4xl"></i></div>{% endif %}
+                <div class="absolute inset-0 bg-gradient-to-t from-forest-deep/90 via-forest-deep/25 to-transparent"></div>
+                <div class="absolute inset-x-0 bottom-0 p-5 text-ivory">
+                    <h3 class="font-display text-2xl font-600">{{ d.name }}</h3>
+                    {% if d.best_time_to_visit %}<p class="text-xs text-ivory/75 mt-1"><i class="fas fa-calendar-day mr-1.5 text-clay-soft"></i>Best: {{ d.best_time_to_visit }}</p>{% endif %}
+                    <span class="inline-flex items-center gap-1.5 mt-3 text-sm font-600 text-clay-soft opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition">Explore <i class="fas fa-arrow-right text-xs"></i></span>
                 </div>
-                <h3 class="font-display text-lg font-600 text-forest mt-4 text-center">{{ d.name }}</h3>
             </a>
             {% endfor %}
         </div>
         {% else %}
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/kedarnath.jpg" class="ci group-hover:scale-105" alt="Kedarnath"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Kedarnath</h3></a>
-            <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Rishikesh.jpg" class="ci group-hover:scale-105" alt="Rishikesh"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Rishikesh</h3></a>
-            <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Auli.jpg" class="ci group-hover:scale-105" alt="Auli"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Auli</h3></a>
-            <a href="{% url 'destinations:list' %}" class="group"><div class="arch-sm overflow-hidden h-64 softshadow"><img src="/static/img/Badrinath.jpg" class="ci group-hover:scale-105" alt="Badrinath"></div><h3 class="font-display text-lg font-600 text-forest mt-4 text-center">Badrinath</h3></a>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <a href="{% url 'destinations:list' %}" class="group relative block rounded-2xl overflow-hidden h-80 softshadow"><img src="/static/img/kedarnath.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Kedarnath"><div class="absolute inset-0 bg-gradient-to-t from-forest-deep/90 via-forest-deep/25 to-transparent"></div><div class="absolute inset-x-0 bottom-0 p-5 text-ivory"><h3 class="font-display text-2xl font-600">Kedarnath</h3><p class="text-xs text-ivory/75 mt-1">Lord Shiva's Himalayan abode</p></div></a>
+            <a href="{% url 'destinations:list' %}" class="group relative block rounded-2xl overflow-hidden h-80 softshadow"><img src="/static/img/Badrinath.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Badrinath"><div class="absolute inset-0 bg-gradient-to-t from-forest-deep/90 via-forest-deep/25 to-transparent"></div><div class="absolute inset-x-0 bottom-0 p-5 text-ivory"><h3 class="font-display text-2xl font-600">Badrinath</h3><p class="text-xs text-ivory/75 mt-1">Vishnu's sacred shrine</p></div></a>
+            <a href="{% url 'destinations:list' %}" class="group relative block rounded-2xl overflow-hidden h-80 softshadow"><img src="/static/img/Auli.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Auli"><div class="absolute inset-0 bg-gradient-to-t from-forest-deep/90 via-forest-deep/25 to-transparent"></div><div class="absolute inset-x-0 bottom-0 p-5 text-ivory"><h3 class="font-display text-2xl font-600">Auli</h3><p class="text-xs text-ivory/75 mt-1">Skiing &amp; snow meadows</p></div></a>
         </div>
         {% endif %}
+
+        <div class="text-center mt-10">
+            <a href="{% url 'destinations:list' %}" class="btn btn-ghost">View all destinations <i class="fas fa-arrow-right text-xs"></i></a>
+        </div>
     </div>
 </section>
 
@@ -224,8 +288,13 @@
                 <div class="absolute bottom-4 left-4 text-ivory font-display text-2xl font-600 drop-shadow">Sedans to 26-seaters</div>
             </div>
             <div class="absolute -bottom-5 -right-3 bg-clay text-white rounded-2xl px-5 py-4 shadow-xl text-center">
+                {% if vehicle_from_rate %}
+                <div class="text-[10px] uppercase tracking-wide text-white/80 leading-none mb-1">From</div>
+                <div class="font-display text-2xl font-600 leading-none">₹{{ vehicle_from_rate|floatformat:0 }}<span class="text-sm font-sans font-500">/km</span></div>
+                {% else %}
                 <div class="font-display text-2xl font-600 leading-none">5+</div>
                 <div class="text-[11px] mt-1 text-white/80">vehicle types</div>
+                {% endif %}
             </div>
         </div>
         <div class="order-1 lg:order-2">
@@ -348,7 +417,7 @@
                     <span class="text-xs text-stone mb-1">out of 5</span>
                 </div>
                 <div class="text-clay text-sm mt-1 tracking-wide">★★★★★</div>
-                <p class="text-[11px] text-stone mt-1 mb-3">Based on 600+ traveller reviews</p>
+                <p class="text-[11px] text-stone mt-1 mb-3">Based on 6000+ traveller reviews</p>
                 <div class="space-y-1.5">
                     <div class="flex items-center gap-2"><span class="w-5 text-[10px] text-stone">5★</span><div class="flex-1 h-1.5 bg-sand rounded-full overflow-hidden"><div class="h-full bg-clay rounded-full" style="width:88%"></div></div></div>
                     <div class="flex items-center gap-2"><span class="w-5 text-[10px] text-stone">4★</span><div class="flex-1 h-1.5 bg-sand rounded-full overflow-hidden"><div class="h-full bg-clay rounded-full" style="width:8%"></div></div></div>
@@ -430,7 +499,7 @@
                         <span class="font-display text-2xl font-600 text-forest leading-none">4.8</span>
                         <span class="text-sm tracking-wide" style="color:#FBBC04">★★★★★</span>
                     </div>
-                    <div class="text-xs text-stone mt-0.5">600+ Google reviews</div>
+                    <div class="text-xs text-stone mt-0.5">6000+ Google reviews</div>
                 </div>
                 <a href="{{ gmaps }}" target="_blank" rel="noopener" class="btn btn-primary !py-2.5 !px-5 text-sm ml-2">View all</a>
             </div>
@@ -509,35 +578,19 @@
             <h2 class="font-display text-4xl sm:text-5xl font-600 text-forest mt-3">Latest travel blog</h2>
         </div>
 
-        {% if latest_post %}
-        <div class="grid lg:grid-cols-2 gap-8 items-start">
-            <!-- Featured post -->
-            <article class="bg-white rounded-3xl border border-sand overflow-hidden softshadow group">
-                <a href="{% url 'blog:detail' latest_post.slug %}"><div class="h-72 overflow-hidden">{% if latest_post.cover_image %}<img src="{{ latest_post.cover_image.url }}" class="ci" alt="{{ latest_post.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-newspaper text-5xl"></i></div>{% endif %}</div></a>
-                <div class="p-7">
-                    <div class="text-xs text-stone mb-3">By <span class="text-forest font-600">{{ latest_post.author.get_full_name|default:'Admin' }}</span>{% if latest_post.category %} &middot; {{ latest_post.category.name }}{% endif %}{% if latest_post.published_at %} &middot; {{ latest_post.published_at|date:"M j, Y" }}{% endif %}</div>
-                    <h3 class="font-display text-2xl font-600 text-forest mb-3 leading-tight group-hover:text-clay transition"><a href="{% url 'blog:detail' latest_post.slug %}">{{ latest_post.title }}</a></h3>
-                    {% if latest_post.excerpt %}<p class="text-sm text-stone leading-relaxed mb-6">{{ latest_post.excerpt }}</p>{% endif %}
-                    <a href="{% url 'blog:detail' latest_post.slug %}" class="btn btn-ghost !py-2.5 !px-5 text-sm">View post <i class="fas fa-arrow-right-long"></i></a>
+        {% if latest_posts %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {% for p in latest_posts %}
+            <article class="card group">
+                <a href="{% url 'blog:detail' p.slug %}"><div class="h-52 overflow-hidden">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" class="ci" alt="{{ p.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-newspaper text-4xl"></i></div>{% endif %}</div></a>
+                <div class="p-6">
+                    <div class="text-xs text-stone mb-2">By <span class="text-forest font-600">{{ p.author.get_full_name|default:'Admin' }}</span>{% if p.category %} &middot; <span class="text-clay">{{ p.category.name }}</span>{% endif %}{% if p.published_at %} &middot; {{ p.published_at|date:"M j, Y" }}{% endif %}</div>
+                    <h3 class="font-display text-xl font-600 text-forest mb-2 leading-snug group-hover:text-clay transition"><a href="{% url 'blog:detail' p.slug %}">{{ p.title }}</a></h3>
+                    {% if p.excerpt %}<p class="text-sm text-stone leading-relaxed mb-4">{{ p.excerpt|truncatewords:18 }}</p>{% endif %}
+                    <a href="{% url 'blog:detail' p.slug %}" class="text-sm font-600 text-forest">Read more &rarr;</a>
                 </div>
             </article>
-
-            <!-- Recent posts list -->
-            <div class="space-y-5">
-                {% for p in recent_posts %}
-                <a href="{% url 'blog:detail' p.slug %}" class="flex gap-4 bg-white rounded-2xl border border-sand p-3 hover:shadow-xl hover:shadow-forest/5 transition group">
-                    <div class="relative w-32 sm:w-40 h-32 flex-none rounded-xl overflow-hidden">
-                        {% if p.cover_image %}<img src="{{ p.cover_image.url }}" class="ci" alt="{{ p.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-newspaper text-2xl"></i></div>{% endif %}
-                        {% if p.published_at %}<span class="absolute top-2 left-2 bg-forest/85 backdrop-blur text-ivory text-[10px] font-600 rounded-full w-11 h-11 grid place-items-center text-center leading-none">{{ p.published_at|date:"d" }}<br>{{ p.published_at|date:"M" }}</span>{% endif %}
-                    </div>
-                    <div class="py-1 pr-2">
-                        <div class="text-[11px] text-stone mb-1.5">By <span class="text-forest font-600">Admin</span>{% if p.category %} &middot; <span class="text-clay">{{ p.category.name }}</span>{% endif %}</div>
-                        <h4 class="font-display text-lg font-600 text-forest leading-snug mb-3 group-hover:text-clay transition">{{ p.title }}</h4>
-                        <span class="text-xs font-600 text-forest">View post &rarr;</span>
-                    </div>
-                </a>
-                {% endfor %}
-            </div>
+            {% endfor %}
         </div>
         {% else %}
         <div class="grid lg:grid-cols-2 gap-8 items-start">

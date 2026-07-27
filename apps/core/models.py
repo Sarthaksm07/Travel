@@ -64,6 +64,32 @@ class SitePage(models.Model):
         super().save(*args, **kwargs)
 
 
+class Vehicle(models.Model):
+    """A rentable, chauffeur-driven vehicle shown on the Rentals page."""
+
+    name = models.CharField(max_length=120, help_text='e.g. "Swift / Aura"')
+    category = models.CharField(max_length=80, blank=True, help_text='e.g. "Sedan", "Premium SUV"')
+    seating = models.CharField(max_length=40, blank=True, help_text='e.g. "4 seats", "12–26 seats"')
+    per_km_rate = models.DecimalField(
+        max_digits=6, decimal_places=0, null=True, blank=True,
+        help_text="Indicative per-km rate with driver, in ₹",
+    )
+    best_for = models.CharField(max_length=180, blank=True, help_text="Short one-line description")
+    icon = models.CharField(
+        max_length=40, default="fas fa-car",
+        help_text="Font Awesome class, used when no image is uploaded",
+    )
+    image = models.ImageField(upload_to="vehicles/", blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "per_km_rate"]
+
+    def __str__(self):
+        return self.name
+
+
 class FAQ(models.Model):
     """Shared FAQ. Attach to a destination or a package, or leave both blank for a general FAQ."""
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import FAQ, SiteConfig, SitePage
+from .models import FAQ, SiteConfig, SitePage, Vehicle
 
 
 @admin.register(SiteConfig)
@@ -17,6 +17,14 @@ class SitePageAdmin(admin.ModelAdmin):
     list_display = ("title", "slug", "updated_at")
     prepopulated_fields = {"slug": ("title",)}
     search_fields = ("title", "body")
+
+
+@admin.register(Vehicle)
+class VehicleAdmin(admin.ModelAdmin):
+    list_display = ("name", "category", "seating", "per_km_rate", "is_active", "order")
+    list_editable = ("per_km_rate", "is_active", "order")
+    list_filter = ("is_active", "category")
+    search_fields = ("name", "category")
 
 
 @admin.register(FAQ)

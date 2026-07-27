@@ -27,6 +27,31 @@
 <section class="py-16 bg-ivory">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
+    {% if packages %}
+        {% if categories %}
+        <div class="flex flex-wrap justify-center gap-3 mb-12" id="pkg-filters">
+            <button class="pkg-pill is-active" data-filter="all">All packages</button>
+            {% for c in categories %}<button class="pkg-pill" data-filter="{{ c.slug }}">{{ c.name }}</button>{% endfor %}
+        </div>
+        {% endif %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="pkg-grid">
+            {% for p in packages %}
+            <article class="card" data-cat="{% if p.category %}{{ p.category.slug }}{% else %}other{% endif %}">
+                <div class="relative h-52 overflow-hidden">
+                    {% if p.cover_image %}<img src="{{ p.cover_image.url }}" class="ci" alt="{{ p.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/25"><i class="fas fa-mountain-sun text-4xl"></i></div>{% endif %}
+                    {% if p.duration %}<span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">{{ p.duration }}</span>{% endif %}
+                </div>
+                <div class="p-5">
+                    {% if p.category %}<span class="eyebrow !tracking-widest">{{ p.category.name }}</span>{% endif %}
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">{{ p.title }}</h3>
+                    <div class="rule mb-3"></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">{% if p.price %}₹{{ p.price|floatformat:0 }}{% else %}On request{% endif %}</div></div><a href="{% url 'tours:detail' p.slug %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+    {% else %}
         <div class="flex flex-wrap justify-center gap-3 mb-12" id="pkg-filters">
             <button class="pkg-pill is-active" data-filter="all">All packages</button>
             <button class="pkg-pill" data-filter="uttarakhand"><i class="fas fa-mountain-sun mr-1 text-clay"></i> Uttarakhand</button>
@@ -145,6 +170,7 @@
             </article>
 
         </div>
+    {% endif %}
     </div>
 </section>
 
