@@ -129,7 +129,7 @@
                     <div class="space-y-3">
                         <a href="https://wa.me/{{ wa }}?text=Enquiry about {{ package.title|urlencode }}" target="_blank" rel="noopener" class="btn btn-clay w-full !rounded-xl"><i class="fab fa-whatsapp"></i> Enquire on WhatsApp</a>
                         <a href="tel:+{{ wa }}" class="btn btn-ghost w-full !rounded-xl"><i class="fas fa-phone"></i> Call us</a>
-                        <a href="{% url 'leads:booking' %}" class="btn btn-primary w-full !rounded-xl"><i class="fas fa-paper-plane"></i> Send an enquiry</a>
+                        <a href="{% url 'leads:booking' %}?package={{ package.slug }}" class="btn btn-primary w-full !rounded-xl"><i class="fas fa-paper-plane"></i> Send an enquiry</a>
                     </div>
                     <div class="rule my-6"></div>
                     <div class="space-y-2 text-xs text-stone">

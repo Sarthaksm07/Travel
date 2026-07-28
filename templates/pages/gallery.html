@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Gallery — Travel Experiences | Augy Travels{% endblock %}
+{% block meta_description %}Moments from the mountains — a gallery of Char Dham yatras, Himalayan treks and journeys across Uttarakhand with Augy Travels.{% endblock %}
+
+{% block content %}
+{% with wa=site.whatsapp_number|default:'918630731034' %}
+
+<!-- Header -->
+<section class="relative overflow-hidden bg-forest text-ivory grain">
+    <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-pine/30 blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <nav class="text-sm text-ivory/60 mb-4"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <span class="text-ivory">Gallery</span></nav>
+        <span class="eyebrow !text-clay-soft">Travel Experiences</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-600 mt-3 mb-3">Moments from the mountains</h1>
+        <p class="text-ivory/75 max-w-xl">A glimpse of the journeys, smiles and landscapes our travellers experience across Devbhoomi Uttarakhand.</p>
+    </div>
+</section>
+
+<section class="py-16 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {% if images %}
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {% for img in images %}
+            <button type="button" class="gal-item group relative block rounded-2xl overflow-hidden softshadow aspect-[4/3]" data-src="{{ img.image.url }}" data-title="{{ img.title }}">
+                <img src="{{ img.image.url }}" alt="{{ img.title|default:'Augy Travels' }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
+                <span class="absolute inset-0 bg-gradient-to-t from-forest-deep/80 via-transparent to-transparent"></span>
+                {% if img.title %}<span class="absolute left-3 bottom-3 text-ivory text-sm font-600 text-left drop-shadow">{{ img.title }}</span>{% endif %}
+                <span class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 backdrop-blur text-ivory grid place-items-center opacity-0 group-hover:opacity-100 transition"><i class="fas fa-expand text-xs"></i></span>
+            </button>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {% for u in "12345678"|make_list %}
+            <div class="rounded-2xl overflow-hidden softshadow aspect-[4/3]">
+                <img src="https://images.unsplash.com/photo-1591123720164-de1348028e4b?w=600&q=70&auto=format&{{ forloop.counter }}" alt="Himalayan travel" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            {% endfor %}
+        </div>
+        <p class="text-center text-sm text-stone mt-6">Sample images shown. Add your own photos in the admin (Core &rsaquo; Gallery images) to replace these.</p>
+    {% endif %}
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="pb-20 bg-ivory">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative overflow-hidden rounded-[32px] bg-forest text-ivory p-10 sm:p-14 text-center grain">
+            <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-pine/30 blur-3xl"></div>
+            <div class="relative">
+                <h2 class="font-display text-3xl sm:text-4xl font-600 mb-3">Create your own memories</h2>
+                <p class="text-ivory/75 max-w-xl mx-auto mb-8">Let's plan a journey worth photographing. Tell us your dates and we'll do the rest.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{% url 'leads:booking' %}" class="btn btn-clay"><i class="fas fa-paper-plane"></i> Plan my trip</a>
+                    <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" class="btn btn-ghost !border-ivory/40 !text-ivory"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if images %}
+<!-- Lightbox -->
+<div id="galLightbox" class="fixed inset-0 z-[60] hidden items-center justify-center bg-forest-deep/90 p-4">
+    <button type="button" id="galClose" class="absolute top-5 right-6 text-ivory/80 hover:text-ivory text-3xl" aria-label="Close">&times;</button>
+    <button type="button" id="galPrev" class="absolute left-4 sm:left-8 text-ivory/70 hover:text-ivory text-4xl" aria-label="Previous">&lsaquo;</button>
+    <figure class="max-w-4xl w-full text-center">
+        <img id="galImg" src="" alt="" class="max-h-[80vh] w-auto mx-auto rounded-xl">
+        <figcaption id="galCap" class="text-ivory/80 text-sm mt-3"></figcaption>
+    </figure>
+    <button type="button" id="galNext" class="absolute right-4 sm:right-8 text-ivory/70 hover:text-ivory text-4xl" aria-label="Next">&rsaquo;</button>
+</div>
+<script>
+    (function () {
+        var items = Array.prototype.slice.call(document.querySelectorAll(".gal-item"));
+        if (!items.length) return;
+        var box = document.getElementById("galLightbox"),
+            img = document.getElementById("galImg"),
+            cap = document.getElementById("galCap"),
+            i = 0;
+        function show(n) {
+            i = (n + items.length) % items.length;
+            img.src = items[i].dataset.src;
+            cap.textContent = items[i].dataset.title || "";
+        }
+        function open(n) { show(n); box.classList.remove("hidden"); box.classList.add("flex"); }
+        function close() { box.classList.add("hidden"); box.classList.remove("flex"); }
+        items.forEach(function (el, n) { el.addEventListener("click", function () { open(n); }); });
+        document.getElementById("galClose").addEventListener("click", close);
+        document.getElementById("galPrev").addEventListener("click", function () { show(i - 1); });
+        document.getElementById("galNext").addEventListener("click", function () { show(i + 1); });
+        box.addEventListener("click", function (e) { if (e.target === box) close(); });
+        document.addEventListener("keydown", function (e) {
+            if (box.classList.contains("hidden")) return;
+            if (e.key === "Escape") close();
+            if (e.key === "ArrowLeft") show(i - 1);
+            if (e.key === "ArrowRight") show(i + 1);
+        });
+    })();
+</script>
+{% endif %}
+
+{% endwith %}
+{% endblock %}

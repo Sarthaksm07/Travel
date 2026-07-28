@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% if q %}Search: {{ q }}{% else %}Search{% endif %} — Augy Travels{% endblock %}
+{% block meta_description %}Search Augy Travels packages and destinations across Uttarakhand.{% endblock %}
+
+{% block content %}
+{% with wa=site.whatsapp_number|default:'918630731034' %}
+
+<!-- Header + search box -->
+<section class="relative bg-forest text-ivory grain">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none"><div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-pine/30 blur-3xl"></div></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <nav class="text-sm text-ivory/60 mb-4"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <span class="text-ivory">Search</span></nav>
+        <h1 class="font-display text-4xl sm:text-5xl font-600 mb-5">Search</h1>
+        <div class="max-w-xl relative" id="acWrap">
+            <form method="get" action="{% url 'core:search' %}" class="flex items-center gap-2 bg-white rounded-xl p-2 softshadow" autocomplete="off">
+                <i class="fas fa-magnifying-glass text-clay ml-3"></i>
+                <input id="acInput" name="q" value="{{ q }}" autofocus placeholder="Search packages & destinations…" class="flex-1 outline-none text-sm text-ink bg-transparent px-1 py-2">
+                <button type="submit" class="btn btn-clay !py-2 !px-5 !rounded-lg text-sm">Search</button>
+            </form>
+            <div id="acPanel" class="hidden absolute z-40 left-0 right-0 mt-2 bg-white border border-sand rounded-xl shadow-xl overflow-hidden"></div>
+        </div>
+        <style>
+            .ac-opt{display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;padding:.6rem 1rem;font-size:.875rem;color:#1E4634;cursor:pointer}
+            .ac-opt:hover,.ac-opt.is-active{background:rgba(30,70,52,.06)}
+            .ac-tag{font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;color:#BC6C43;font-weight:600;margin-left:auto}
+        </style>
+        <script>
+            (function () {
+                var input = document.getElementById("acInput"),
+                    panel = document.getElementById("acPanel"),
+                    wrap = document.getElementById("acWrap"),
+                    timer, active = -1, opts = [];
+                function close() { panel.classList.add("hidden"); panel.innerHTML = ""; active = -1; opts = []; }
+                function render(list) {
+                    if (!list.length) { close(); return; }
+                    panel.innerHTML = list.map(function (r) {
+                        var ic = r.type === "Package" ? "fa-mountain-sun" : "fa-location-dot";
+                        return '<a class="ac-opt" href="' + r.url + '"><i class="fas ' + ic + ' text-clay"></i><span>' + r.label + '</span><span class="ac-tag">' + r.type + '</span></a>';
+                    }).join("");
+                    opts = Array.prototype.slice.call(panel.querySelectorAll(".ac-opt"));
+                    active = -1;
+                    panel.classList.remove("hidden");
+                }
+                input.addEventListener("input", function () {
+                    var q = input.value.trim();
+                    clearTimeout(timer);
+                    if (q.length < 2) { close(); return; }
+                    timer = setTimeout(function () {
+                        fetch("{% url 'core:search_suggest' %}?q=" + encodeURIComponent(q))
+                            .then(function (r) { return r.json(); })
+                            .then(function (d) { render(d.results || []); })
+                            .catch(close);
+                    }, 180);
+                });
+                input.addEventListener("keydown", function (e) {
+                    if (panel.classList.contains("hidden")) return;
+                    if (e.key === "ArrowDown") { e.preventDefault(); active = Math.min(active + 1, opts.length - 1); }
+                    else if (e.key === "ArrowUp") { e.preventDefault(); active = Math.max(active - 1, 0); }
+                    else if (e.key === "Enter" && active >= 0) { e.preventDefault(); window.location = opts[active].getAttribute("href"); return; }
+                    else return;
+                    opts.forEach(function (o, i) { o.classList.toggle("is-active", i === active); });
+                });
+                document.addEventListener("click", function (e) { if (!wrap.contains(e.target)) close(); });
+            })();
+        </script>
+    </div>
+</section>
+
+<section class="py-14 bg-ivory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+
+    {% if q %}
+        <p class="text-sm text-stone -mt-4">{{ total }} result{{ total|pluralize }} for “<span class="text-forest font-600">{{ q }}</span>”</p>
+
+        {% if packages %}
+        <div>
+            <h2 class="font-display text-2xl font-600 text-forest mb-6"><i class="fas fa-mountain-sun text-clay mr-2"></i>Packages</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for p in packages %}
+                <a href="{% url 'tours:detail' p.slug %}" class="card group">
+                    <div class="relative h-44 overflow-hidden">
+                        {% if p.cover_image %}<img src="{{ p.cover_image.url }}" class="ci" alt="{{ p.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/25"><i class="fas fa-mountain-sun text-3xl"></i></div>{% endif %}
+                        {% if p.duration %}<span class="absolute top-3 left-3 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">{{ p.duration }}</span>{% endif %}
+                    </div>
+                    <div class="p-5">
+                        {% if p.category %}<span class="eyebrow !tracking-widest">{{ p.category.name }}</span>{% endif %}
+                        <h3 class="font-display text-lg font-600 text-forest mt-1 group-hover:text-clay transition">{{ p.title }}</h3>
+                        <div class="font-display text-clay font-600 mt-2">{% if p.price %}From ₹{{ p.price|floatformat:0 }}{% else %}On request{% endif %}</div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if destinations %}
+        <div>
+            <h2 class="font-display text-2xl font-600 text-forest mb-6"><i class="fas fa-location-dot text-clay mr-2"></i>Destinations</h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+                {% for d in destinations %}
+                <a href="{% url 'destinations:detail' d.slug %}" class="group relative block rounded-2xl overflow-hidden h-56 softshadow">
+                    {% if d.cover_image %}<img src="{{ d.cover_image.url }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="{{ d.name }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/25"><i class="fas fa-mountain text-3xl"></i></div>{% endif %}
+                    <div class="absolute inset-0 bg-gradient-to-t from-forest-deep/90 via-forest-deep/20 to-transparent"></div>
+                    <div class="absolute bottom-0 p-4 text-ivory"><h3 class="font-display text-lg font-600">{{ d.name }}</h3>{% if d.best_time_to_visit %}<p class="text-xs text-ivory/70">Best: {{ d.best_time_to_visit }}</p>{% endif %}</div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if total == 0 %}
+        <div class="text-center py-16">
+            <div class="w-16 h-16 mx-auto rounded-full bg-forest/10 grid place-items-center text-forest/40 text-2xl mb-4"><i class="fas fa-magnifying-glass"></i></div>
+            <h2 class="font-display text-2xl font-600 text-forest mb-2">No matches for “{{ q }}”</h2>
+            <p class="text-stone max-w-md mx-auto mb-6">Try a different keyword, or browse everything we offer — or just tell us what you're looking for.</p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="{% url 'tours:list' %}" class="btn btn-primary">Browse all packages</a>
+                <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" class="btn btn-ghost"><i class="fab fa-whatsapp"></i> Ask us</a>
+            </div>
+        </div>
+        {% endif %}
+
+    {% else %}
+        <div class="text-center py-16">
+            <div class="w-16 h-16 mx-auto rounded-full bg-forest/10 grid place-items-center text-forest/40 text-2xl mb-4"><i class="fas fa-magnifying-glass"></i></div>
+            <p class="text-stone">Type a keyword above to search our packages and destinations.</p>
+        </div>
+    {% endif %}
+
+    </div>
+</section>
+
+{% endwith %}
+{% endblock %}

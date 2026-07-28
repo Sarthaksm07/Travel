@@ -10,4 +10,8 @@ urlpatterns = [
     path("contact/", views.contact, name="contact"),
     path("thank-you/", views.thank_you, name="thank_you"),
     path("vehicles/", views.vehicles, name="vehicles"),
+    path("gallery/", views.gallery, name="gallery"),
+    path("search/", views.search, name="search"),
+    path("search/suggest/", views.search_suggest, name="search_suggest"),
+    path("page/<slug:slug>/", views.page, name="page"),
 ]

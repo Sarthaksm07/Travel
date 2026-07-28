@@ -11,12 +11,13 @@
             <a href="{% url 'tours:list' %}" class="navlink">Packages</a>
             <a href="{% url 'core:vehicles' %}" class="navlink">Rentals</a>
             <a href="{% url 'core:about' %}" class="navlink">About</a>
-            <a href="#" class="navlink">Gallery</a>
+            <a href="{% url 'core:gallery' %}" class="navlink">Gallery</a>
             <a href="{% url 'blog:list' %}" class="navlink">Blog</a>
             <a href="{% url 'core:contact' %}" class="navlink">Contact</a>
         </div>
 
         <div class="flex items-center gap-3">
+            <a href="{% url 'core:search' %}" class="w-9 h-9 rounded-full border border-sand text-forest grid place-items-center hover:bg-forest hover:text-ivory transition" title="Search" aria-label="Search"><i class="fas fa-magnifying-glass text-sm"></i></a>
             <a href="tel:+{{ site.whatsapp_number|default:'918630731034' }}" class="hidden sm:flex items-center gap-2 text-forest font-600 text-sm">
                 <i class="fas fa-phone text-clay"></i> {{ site.phone|default:'+91 8630 731 034' }}
             </a>
@@ -32,8 +33,9 @@
         <a href="{% url 'tours:list' %}" class="block py-1">Packages</a>
         <a href="{% url 'core:vehicles' %}" class="block py-1">Rentals</a>
         <a href="{% url 'core:about' %}" class="block py-1">About</a>
-        <a href="#" class="block py-1">Gallery</a>
+        <a href="{% url 'core:gallery' %}" class="block py-1">Gallery</a>
         <a href="{% url 'blog:list' %}" class="block py-1">Blog</a>
         <a href="{% url 'core:contact' %}" class="block py-1">Contact</a>
+        <a href="{% url 'core:search' %}" class="block py-1"><i class="fas fa-magnifying-glass text-clay mr-1"></i> Search</a>
     </div>
 </nav>

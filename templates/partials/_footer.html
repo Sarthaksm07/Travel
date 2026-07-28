@@ -19,33 +19,36 @@
             <ul class="space-y-2 text-sm">
                 <li><a href="{% url 'core:about' %}" class="hover:text-clay-soft">About Us</a></li>
                 <li><a href="{% url 'destinations:list' %}" class="hover:text-clay-soft">Destinations</a></li>
-                <li><a href="#packages" class="hover:text-clay-soft">Packages</a></li>
-                <li><a href="#" class="hover:text-clay-soft">Blog</a></li>
+                <li><a href="{% url 'tours:list' %}" class="hover:text-clay-soft">Packages</a></li>
+                <li><a href="{% url 'core:vehicles' %}" class="hover:text-clay-soft">Vehicle Rentals</a></li>
+                <li><a href="{% url 'core:gallery' %}" class="hover:text-clay-soft">Gallery</a></li>
+                <li><a href="{% url 'blog:list' %}" class="hover:text-clay-soft">Blog</a></li>
                 <li><a href="{% url 'core:contact' %}" class="hover:text-clay-soft">Contact</a></li>
             </ul>
         </div>
         <div>
-            <h4 class="text-ivory font-600 mb-4">Popular</h4>
+            <h4 class="text-ivory font-600 mb-4">Popular Packages</h4>
             <ul class="space-y-2 text-sm">
-                <li><a href="#" class="hover:text-clay-soft">Char Dham Yatra</a></li>
-                <li><a href="#" class="hover:text-clay-soft">Do Dham Yatra</a></li>
-                <li><a href="#" class="hover:text-clay-soft">Kedarnath Package</a></li>
-                <li><a href="#" class="hover:text-clay-soft">Auli Chopta Tour</a></li>
-                <li><a href="#" class="hover:text-clay-soft">Kedarnath Helicopter</a></li>
+                {% for p in footer_packages %}
+                <li><a href="{% url 'tours:detail' p.slug %}" class="hover:text-clay-soft">{{ p.title }}</a></li>
+                {% empty %}
+                <li><a href="{% url 'tours:list' %}" class="hover:text-clay-soft">Browse all packages</a></li>
+                {% endfor %}
             </ul>
         </div>
         <div>
             <h4 class="text-ivory font-600 mb-4">Contact</h4>
             <ul class="space-y-3 text-sm">
-                <li><i class="fas fa-phone text-clay-soft mr-2"></i> {{ site.phone|default:'+91 8630 731 034' }}</li>
-                <li><i class="fas fa-envelope text-clay-soft mr-2"></i> {{ site.email|default:'augytravels@gmail.com' }}</li>
-                <li><i class="fas fa-location-dot text-clay-soft mr-2"></i> {{ site.address|default:'Bedubagarh, Kedarnath Road, Rudraprayag, Uttarakhand 246421' }}</li>
+                <li><a href="tel:+{{ site.whatsapp_number|default:'918630731034' }}" class="hover:text-clay-soft"><i class="fas fa-phone text-clay-soft mr-2"></i> {{ site.phone|default:'+91 8630 731 034' }}</a></li>
+                <li><a href="https://wa.me/{{ site.whatsapp_number|default:'918630731034' }}" target="_blank" rel="noopener" class="hover:text-clay-soft"><i class="fab fa-whatsapp text-clay-soft mr-2"></i> Chat on WhatsApp</a></li>
+                <li><a href="mailto:{{ site.email|default:'augytravels@gmail.com' }}" class="hover:text-clay-soft break-all"><i class="fas fa-envelope text-clay-soft mr-2"></i> {{ site.email|default:'augytravels@gmail.com' }}</a></li>
+                <li><a href="{{ site.google_maps_link|default:'https://maps.google.com/?q=Rudraprayag+Uttarakhand' }}" target="_blank" rel="noopener" class="hover:text-clay-soft"><i class="fas fa-location-dot text-clay-soft mr-2"></i> {{ site.address|default:'Bedubagarh, Kedarnath Road, Rudraprayag, Uttarakhand 246421' }}</a></li>
             </ul>
         </div>
     </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-ivory/10 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-ivory/50">
         <span>© {% now "Y" %} Augy Travels. All rights reserved.</span>
-        <span class="flex gap-4"><a href="#" class="hover:text-clay-soft">Privacy Policy</a><a href="#" class="hover:text-clay-soft">Terms &amp; Conditions</a></span>
+        <span class="flex gap-4"><a href="{% url 'core:page' 'privacy-policy' %}" class="hover:text-clay-soft">Privacy Policy</a><a href="{% url 'core:page' 'terms-and-conditions' %}" class="hover:text-clay-soft">Terms &amp; Conditions</a></span>
     </div>
 </footer>
 

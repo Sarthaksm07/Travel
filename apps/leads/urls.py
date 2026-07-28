@@ -7,4 +7,5 @@ app_name = "leads"
 urlpatterns = [
     path("", views.booking, name="booking"),
     path("query/", views.quick_query, name="query"),
+    path("callback/", views.callback, name="callback"),
 ]

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% if page %}{{ page.meta_title|default:page.title }}{% else %}Page{% endif %} — Augy Travels{% endblock %}
+{% block meta_description %}{% if page %}{{ page.meta_description|default:page.title }}{% endif %}{% endblock %}
+
+{% block content %}
+{% with wa=site.whatsapp_number|default:'918630731034' %}
+<style>
+    .legal-prose{color:#5b5750;line-height:1.8}
+    .legal-prose p{margin:0 0 1.1rem}
+    .legal-prose h2{font-family:'Fraunces',serif;font-weight:600;color:#1E4634;font-size:1.5rem;margin:2rem 0 .75rem}
+    .legal-prose h3{font-family:'Fraunces',serif;font-weight:600;color:#1E4634;font-size:1.2rem;margin:1.5rem 0 .5rem}
+    .legal-prose ul,.legal-prose ol{margin:0 0 1.1rem 1.25rem}
+    .legal-prose ul{list-style:disc}.legal-prose ol{list-style:decimal}
+    .legal-prose li{margin:.35rem 0}
+    .legal-prose a{color:#BC6C43;text-decoration:underline}
+    .legal-prose strong{color:#1E4634}
+</style>
+
+<!-- Header -->
+<section class="relative overflow-hidden bg-forest text-ivory grain">
+    <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-pine/30 blur-3xl"></div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <nav class="text-sm text-ivory/60 mb-4"><a href="{% url 'core:home' %}" class="hover:text-clay-soft">Home</a> <span class="mx-1">/</span> <span class="text-ivory">{% if page %}{{ page.title }}{% else %}Page{% endif %}</span></nav>
+        <h1 class="font-display text-4xl sm:text-5xl font-600">{% if page %}{{ page.title }}{% else %}Page not found{% endif %}</h1>
+        {% if page %}<p class="text-ivory/60 text-sm mt-3">Last updated: {{ page.updated_at|date:"F j, Y" }}</p>{% endif %}
+    </div>
+</section>
+
+<section class="py-16 bg-ivory">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if page and page.body %}
+        <div class="legal-prose">{{ page.body|safe }}</div>
+        {% else %}
+        <div class="text-center py-12">
+            <div class="w-16 h-16 mx-auto rounded-full bg-forest/10 grid place-items-center text-forest/40 text-2xl mb-4"><i class="fas fa-file-lines"></i></div>
+            <p class="text-stone max-w-md mx-auto mb-6">This page hasn't been published yet. Please check back soon, or get in touch if you have any questions.</p>
+            <a href="{% url 'core:contact' %}" class="btn btn-primary">Contact us</a>
+        </div>
+        {% endif %}
+
+        {% if page and page.body %}
+        <div class="mt-12 pt-8 border-t border-sand text-sm text-stone">
+            Questions about this policy? <a href="{% url 'core:contact' %}" class="text-clay font-600">Contact us</a> or WhatsApp us at
+            <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" class="text-clay font-600">{{ site.phone|default:'+91 8630 731 034' }}</a>.
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endwith %}
+{% endblock %}

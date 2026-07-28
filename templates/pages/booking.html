@@ -23,7 +23,7 @@
 
         <!-- Form -->
         <div class="lg:col-span-2 bg-white border border-sand rounded-2xl softshadow p-6 sm:p-8">
-            <h2 class="font-display text-2xl font-600 text-forest mb-1">{% if is_rental %}Vehicle rental enquiry{% else %}Trip request{% endif %}</h2>
+            <h2 class="font-display text-2xl font-600 text-forest mb-1">{% if is_rental %}Vehicle rental enquiry{% elif prefill_package %}Package enquiry{% else %}Trip request{% endif %}</h2>
             <p class="text-sm text-stone mb-6">Fields marked <span class="text-clay">*</span> are required.</p>
 
             {% if is_rental and prefill_vehicle %}
@@ -31,11 +31,17 @@
                 <span class="w-9 h-9 flex-none rounded-full bg-forest/10 grid place-items-center text-clay"><i class="fas fa-car-side"></i></span>
                 <div class="text-sm"><span class="text-stone">Enquiring about</span> <span class="font-600 text-forest">{{ prefill_vehicle }}</span> — share your route &amp; dates below for a per-km quote.</div>
             </div>
+            {% elif prefill_package %}
+            <div class="flex items-center gap-3 bg-forest/5 border border-sand rounded-xl px-4 py-3 mb-6">
+                <span class="w-9 h-9 flex-none rounded-full bg-forest/10 grid place-items-center text-clay"><i class="fas fa-mountain-sun"></i></span>
+                <div class="text-sm"><span class="text-stone">Enquiring about</span> <span class="font-600 text-forest">{{ prefill_package.title }}</span>{% if prefill_package.duration %} <span class="text-stone">· {{ prefill_package.duration }}</span>{% endif %} — share your dates &amp; group below for a tailored quote.</div>
+            </div>
             {% endif %}
 
             <form id="bookingForm" method="post" action="{% url 'leads:booking' %}" class="grid sm:grid-cols-2 gap-4">
                 {% csrf_token %}
                 {% if is_rental %}<input type="hidden" name="source" value="rental">{% endif %}
+                {% if prefill_package %}<input type="hidden" name="package" value="{{ prefill_package.slug }}">{% endif %}
                 <div>
                     <label class="text-xs font-600 text-forest">Name</label>
                     <input name="name" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Your name">
@@ -131,7 +137,10 @@
     document.getElementById("bookingForm").addEventListener("submit", function () {
         var f = this;
         var g = function (n) { return f.elements[n] ? f.elements[n].value.trim() : ""; };
-        var t = "New trip request via website:%0A%0A"
+        var HEAD = "{% if is_rental %}New vehicle rental enquiry{% elif prefill_package %}New package enquiry{% else %}New trip request{% endif %}";
+        var PKG = "{{ prefill_package.title|escapejs }}";
+        var t = HEAD + " via website:%0A%0A"
+            + (PKG ? "Package: " + encodeURIComponent(PKG) + "%0A" : "")
             + "Name: " + encodeURIComponent(g("name")) + "%0A"
             + "Phone: " + encodeURIComponent(g("phone")) + "%0A"
             + (g("destination") ? "Destination: " + encodeURIComponent(g("destination")) + "%0A" : "")

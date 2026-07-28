@@ -92,6 +92,21 @@
                     </div>
                 </div>
             </div>
+            <div class="bg-forest text-ivory rounded-2xl softshadow p-6 relative overflow-hidden grain">
+                <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-clay/25 blur-2xl"></div>
+                <div class="relative">
+                    <div class="font-display text-xl font-600 mb-1">Prefer a callback?</div>
+                    <p class="text-sm text-ivory/70 mb-4">Leave your number and we'll call you back — no forms, no fuss.</p>
+                    <form id="callbackForm" class="space-y-3">
+                        {% csrf_token %}
+                        <input name="name" class="w-full border border-ivory/25 bg-ivory/10 rounded-xl px-4 py-2.5 text-sm text-ivory placeholder-ivory/50 outline-none focus:border-clay-soft" placeholder="Your name">
+                        <input name="phone" required class="w-full border border-ivory/25 bg-ivory/10 rounded-xl px-4 py-2.5 text-sm text-ivory placeholder-ivory/50 outline-none focus:border-clay-soft" placeholder="Phone number *">
+                        <input name="preferred_time" class="w-full border border-ivory/25 bg-ivory/10 rounded-xl px-4 py-2.5 text-sm text-ivory placeholder-ivory/50 outline-none focus:border-clay-soft" placeholder="Best time to call (optional)">
+                        <button type="submit" class="btn btn-clay w-full !rounded-xl"><i class="fas fa-phone-volume"></i> Request a callback</button>
+                    </form>
+                    <p id="callbackThanks" class="hidden text-sm text-clay-soft font-600 mt-3"><i class="fas fa-circle-check mr-1"></i> Thanks! We'll call you back shortly.</p>
+                </div>
+            </div>
             <div class="bg-white border border-sand rounded-2xl softshadow p-6">
                 <div class="font-600 text-forest mb-3">Follow us</div>
                 <div class="flex gap-3">
@@ -123,6 +138,17 @@
             + (subject ? "Destination/Package: " + encodeURIComponent(subject) + "%0A" : "")
             + (message ? "Message: " + encodeURIComponent(message) : "");
         window.open("https://wa.me/{{ wa }}?text=" + text, "_blank");
+    });
+
+    document.getElementById("callbackForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var form = this;
+        fetch("{% url 'leads:callback' %}", { method: "POST", body: new FormData(form) })
+            .then(function () {
+                form.classList.add("hidden");
+                document.getElementById("callbackThanks").classList.remove("hidden");
+            })
+            .catch(function () { alert("Something went wrong — please call us directly."); });
     });
 </script>
 

@@ -64,6 +64,22 @@ class SitePage(models.Model):
         super().save(*args, **kwargs)
 
 
+class GalleryImage(models.Model):
+    """A photo for the site-wide Travel Experiences gallery."""
+
+    title = models.CharField(max_length=150, blank=True, help_text="Optional caption/location")
+    image = models.ImageField(upload_to="gallery/")
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["order", "-created_at"]
+
+    def __str__(self):
+        return self.title or f"Photo #{self.pk}"
+
+
 class Vehicle(models.Model):
     """A rentable, chauffeur-driven vehicle shown on the Rentals page."""
 
