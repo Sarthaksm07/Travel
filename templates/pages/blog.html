@@ -34,13 +34,13 @@
         {% endif %}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
             {% for p in posts %}
-            <article class="card" data-cat="{% if p.category %}{{ p.category.slug }}{% else %}other{% endif %}">
-                <a href="{% url 'blog:detail' p.slug %}"><div class="relative h-52 overflow-hidden">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" class="ci" alt="{{ p.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-newspaper text-4xl"></i></div>{% endif %}{% if p.category %}<span class="absolute top-4 left-4 bg-clay text-white text-xs font-600 px-3 py-1 rounded-full">{{ p.category.name }}</span>{% endif %}</div></a>
+            <article class="card relative group cursor-pointer" data-cat="{% if p.category %}{{ p.category.slug }}{% else %}other{% endif %}">
+                <div class="relative h-52 overflow-hidden">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" class="ci" alt="{{ p.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-newspaper text-4xl"></i></div>{% endif %}{% if p.category %}<span class="absolute top-4 left-4 bg-clay text-white text-xs font-600 px-3 py-1 rounded-full">{{ p.category.name }}</span>{% endif %}</div>
                 <div class="p-5">
                     <div class="text-xs text-stone mb-2">By {{ p.author.get_full_name|default:'Admin' }}{% if p.published_at %} &middot; {{ p.published_at|date:"M j, Y" }}{% endif %}</div>
-                    <h3 class="font-display text-lg font-600 text-forest leading-snug mb-2"><a href="{% url 'blog:detail' p.slug %}" class="hover:text-clay transition">{{ p.title }}</a></h3>
+                    <h3 class="font-display text-lg font-600 text-forest leading-snug mb-2 group-hover:text-clay transition">{{ p.title }}</h3>
                     {% if p.excerpt %}<p class="text-sm text-stone mb-3">{{ p.excerpt|truncatewords:20 }}</p>{% endif %}
-                    <a href="{% url 'blog:detail' p.slug %}" class="text-sm font-600 text-forest">Read more &rarr;</a>
+                    <a href="{% url 'blog:detail' p.slug %}" class="text-sm font-600 text-forest after:absolute after:inset-0">Read more &rarr;</a>
                 </div>
             </article>
             {% endfor %}

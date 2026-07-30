@@ -57,12 +57,22 @@
 </section>
 
 <!-- Stats -->
-<section class="py-14 bg-ivory">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div><div class="font-display text-4xl font-600 text-forest">6000+</div><div class="text-sm text-stone mt-1">Happy Travellers</div></div>
-        <div><div class="font-display text-4xl font-600 text-forest">4.8<span class="text-clay">★</span></div><div class="text-sm text-stone mt-1">Google Rating</div></div>
-        <div><div class="font-display text-4xl font-600 text-forest">3</div><div class="text-sm text-stone mt-1">Offices</div></div>
-        <div><div class="font-display text-4xl font-600 text-forest">100%</div><div class="text-sm text-stone mt-1">Women-Friendly</div></div>
+<section class="py-8 bg-ivory">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto no-scrollbar">
+        <div class="flex gap-4 sm:gap-6 w-max mx-auto snap-x pb-1">
+            {% for s in stats %}
+            <div class="group flex-none w-[190px] snap-start bg-sand/60 border border-white rounded-2xl p-4 text-center transition hover:-translate-y-1 hover:shadow-xl hover:shadow-forest/5">
+                <div class="w-9 h-9 mx-auto rounded-full bg-forest/10 text-clay grid place-items-center text-sm mb-2 transition group-hover:bg-forest group-hover:text-ivory"><i class="{{ s.icon }}"></i></div>
+                <div class="font-display text-2xl sm:text-3xl font-600 text-forest leading-none">{{ s.value }}</div>
+                <div class="text-sm text-stone mt-2">{{ s.label }}</div>
+            </div>
+            {% empty %}
+            <div class="group flex-none w-[190px] snap-start bg-sand/60 border border-white rounded-2xl p-4 text-center"><div class="w-9 h-9 mx-auto rounded-full bg-forest/10 text-clay grid place-items-center text-sm mb-2"><i class="fas fa-users"></i></div><div class="font-display text-2xl sm:text-3xl font-600 text-forest leading-none">6000+</div><div class="text-sm text-stone mt-2">Happy Travellers</div></div>
+            <div class="group flex-none w-[190px] snap-start bg-sand/60 border border-white rounded-2xl p-4 text-center"><div class="w-9 h-9 mx-auto rounded-full bg-forest/10 text-clay grid place-items-center text-sm mb-2"><i class="fas fa-star"></i></div><div class="font-display text-2xl sm:text-3xl font-600 text-forest leading-none">4.8</div><div class="text-sm text-stone mt-2">Google Rating</div></div>
+            <div class="group flex-none w-[190px] snap-start bg-sand/60 border border-white rounded-2xl p-4 text-center"><div class="w-9 h-9 mx-auto rounded-full bg-forest/10 text-clay grid place-items-center text-sm mb-2"><i class="fas fa-mountain-sun"></i></div><div class="font-display text-2xl sm:text-3xl font-600 text-forest leading-none">50+</div><div class="text-sm text-stone mt-2">Tour Packages</div></div>
+            <div class="group flex-none w-[190px] snap-start bg-sand/60 border border-white rounded-2xl p-4 text-center"><div class="w-9 h-9 mx-auto rounded-full bg-forest/10 text-clay grid place-items-center text-sm mb-2"><i class="fas fa-shield-heart"></i></div><div class="font-display text-2xl sm:text-3xl font-600 text-forest leading-none">100%</div><div class="text-sm text-stone mt-2">Women-Friendly</div></div>
+            {% endfor %}
+        </div>
     </div>
 </section>
 
