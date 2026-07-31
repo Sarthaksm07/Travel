@@ -1,19 +1,26 @@
 {% load static %}
+<style>
+    .nav-active{position:relative;color:#1E4634;font-weight:600}
+    .nav-active::after{content:"";position:absolute;left:0;right:0;bottom:-6px;width:100%;height:2px;background:#BC6C43;border-radius:1px}
+</style>
+{% with rm=request.resolver_match %}
 <nav class="sticky top-0 z-50 bg-ivory/85 backdrop-blur border-b border-sand">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
-        <a href="{% url 'core:home' %}" class="flex items-center">
-            <img src="{% static 'img/logo.png' %}" alt="Augy Travels — Simplify Your Journey with Us" class="h-16 w-auto">
-        </a>
+        <div class="flex items-center gap-8">
+            <a href="{% url 'core:home' %}" class="flex items-center">
+                <img src="{% if site.logo %}{{ site.logo.url }}{% else %}{% static 'img/logo.png' %}{% endif %}" alt="Augy Travels — Simplify Your Journey with Us" class="h-16 w-auto">
+            </a>
 
-        <div class="hidden lg:flex items-center gap-9 text-[15px]">
-            <a href="{% url 'core:home' %}" class="navlink" style="color:#1E4634">Home</a>
-            <a href="{% url 'destinations:list' %}" class="navlink">Destinations</a>
-            <a href="{% url 'tours:list' %}" class="navlink">Packages</a>
-            <a href="{% url 'core:vehicles' %}" class="navlink">Rentals</a>
-            <a href="{% url 'core:about' %}" class="navlink">About</a>
-            <a href="{% url 'core:gallery' %}" class="navlink">Gallery</a>
-            <a href="{% url 'blog:list' %}" class="navlink">Blog</a>
-            <a href="{% url 'core:contact' %}" class="navlink">Contact</a>
+            <div class="hidden lg:flex items-center gap-6 text-[15px]">
+                <a href="{% url 'core:home' %}" class="navlink{% if rm.url_name == 'home' %} nav-active{% endif %}">Home</a>
+                <a href="{% url 'destinations:list' %}" class="navlink{% if rm.namespace == 'destinations' %} nav-active{% endif %}">Destinations</a>
+                <a href="{% url 'tours:list' %}" class="navlink{% if rm.namespace == 'tours' %} nav-active{% endif %}">Packages</a>
+                <a href="{% url 'core:vehicles' %}" class="navlink{% if rm.url_name == 'vehicles' %} nav-active{% endif %}">Rentals</a>
+                <a href="{% url 'core:about' %}" class="navlink{% if rm.url_name == 'about' %} nav-active{% endif %}">About</a>
+                <a href="{% url 'core:gallery' %}" class="navlink{% if rm.url_name == 'gallery' %} nav-active{% endif %}">Gallery</a>
+                <a href="{% url 'blog:list' %}" class="navlink{% if rm.namespace == 'blog' %} nav-active{% endif %}">Blog</a>
+                <a href="{% url 'core:contact' %}" class="navlink{% if rm.namespace == 'core' and rm.url_name == 'contact' %} nav-active{% endif %}">Contact</a>
+            </div>
         </div>
 
         <div class="flex items-center gap-3">
@@ -28,14 +35,15 @@
 
     <!-- Mobile menu -->
     <div data-mobile-menu class="hidden lg:hidden border-t border-sand bg-ivory px-4 py-4 space-y-2 text-[15px]">
-        <a href="{% url 'core:home' %}" class="block py-1 text-forest font-600">Home</a>
-        <a href="{% url 'destinations:list' %}" class="block py-1">Destinations</a>
-        <a href="{% url 'tours:list' %}" class="block py-1">Packages</a>
-        <a href="{% url 'core:vehicles' %}" class="block py-1">Rentals</a>
-        <a href="{% url 'core:about' %}" class="block py-1">About</a>
-        <a href="{% url 'core:gallery' %}" class="block py-1">Gallery</a>
-        <a href="{% url 'blog:list' %}" class="block py-1">Blog</a>
-        <a href="{% url 'core:contact' %}" class="block py-1">Contact</a>
+        <a href="{% url 'core:home' %}" class="block py-1{% if rm.url_name == 'home' %} text-clay font-600{% endif %}">Home</a>
+        <a href="{% url 'destinations:list' %}" class="block py-1{% if rm.namespace == 'destinations' %} text-clay font-600{% endif %}">Destinations</a>
+        <a href="{% url 'tours:list' %}" class="block py-1{% if rm.namespace == 'tours' %} text-clay font-600{% endif %}">Packages</a>
+        <a href="{% url 'core:vehicles' %}" class="block py-1{% if rm.url_name == 'vehicles' %} text-clay font-600{% endif %}">Rentals</a>
+        <a href="{% url 'core:about' %}" class="block py-1{% if rm.url_name == 'about' %} text-clay font-600{% endif %}">About</a>
+        <a href="{% url 'core:gallery' %}" class="block py-1{% if rm.url_name == 'gallery' %} text-clay font-600{% endif %}">Gallery</a>
+        <a href="{% url 'blog:list' %}" class="block py-1{% if rm.namespace == 'blog' %} text-clay font-600{% endif %}">Blog</a>
+        <a href="{% url 'core:contact' %}" class="block py-1{% if rm.namespace == 'core' and rm.url_name == 'contact' %} text-clay font-600{% endif %}">Contact</a>
         <a href="{% url 'core:search' %}" class="block py-1"><i class="fas fa-magnifying-glass text-clay mr-1"></i> Search</a>
     </div>
 </nav>
+{% endwith %}

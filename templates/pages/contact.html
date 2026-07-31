@@ -51,31 +51,36 @@
         <!-- Form -->
         <div class="lg:col-span-3 bg-white border border-sand rounded-2xl softshadow p-6 sm:p-8">
             <h2 class="font-display text-2xl font-600 text-forest mb-1">Send us an enquiry</h2>
-            <p class="text-sm text-stone mb-6">Fill this in and we'll get back to you — it opens WhatsApp with your details ready to send.</p>
-            <form id="contactForm" class="grid sm:grid-cols-2 gap-4">
+            <p class="text-sm text-stone mb-6">Fill this in and our team will get back to you, usually within a few hours.</p>
+            <form id="contactForm" method="post" action="{% url 'leads:contact' %}" class="grid sm:grid-cols-2 gap-4">
+                {% csrf_token %}
                 <div>
                     <label class="text-xs font-600 text-forest">Name</label>
-                    <input id="cf-name" required class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Your name">
+                    <input name="name" required class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Your name">
                 </div>
                 <div>
-                    <label class="text-xs font-600 text-forest">Phone</label>
-                    <input id="cf-phone" required class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Your phone number">
+                    <label class="text-xs font-600 text-forest">Phone <span class="text-clay">*</span></label>
+                    <input id="cf-phone" type="tel" required class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="10-digit number">
+                    <input type="hidden" name="phone" id="cf-phone-full">
+                    <p id="cf-phone-err" class="hidden text-[11px] text-clay mt-1">Please enter a valid phone number.</p>
                 </div>
                 <div>
                     <label class="text-xs font-600 text-forest">Email <span class="text-stone font-400">(optional)</span></label>
-                    <input id="cf-email" type="email" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="you@email.com">
+                    <input name="email" id="cf-email" type="email" pattern="[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}" title="Enter a complete email, e.g. name@example.com" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="you@email.com">
+                    <p id="cf-email-err" class="hidden text-[11px] text-clay mt-1">Please enter a complete email (e.g. name@example.com).</p>
+                    <p id="cf-email-err" class="hidden text-[11px] text-clay mt-1">Please enter a valid email address ending with .com</p>
                 </div>
                 <div>
                     <label class="text-xs font-600 text-forest">Destination / package</label>
-                    <input id="cf-subject" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. Char Dham Yatra">
+                    <input name="destination" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. Char Dham Yatra">
                 </div>
                 <div class="sm:col-span-2">
                     <label class="text-xs font-600 text-forest">Message</label>
-                    <textarea id="cf-message" rows="4" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Tell us your dates, group size and what you have in mind…"></textarea>
+                    <textarea name="message" rows="4" class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="Tell us your dates, group size and what you have in mind…"></textarea>
                 </div>
                 <div class="sm:col-span-2">
-                    <button type="submit" class="btn btn-clay w-full !rounded-xl"><i class="fab fa-whatsapp"></i> Send via WhatsApp</button>
-                    <p class="text-[11px] text-stone mt-2 text-center">By sending, you agree to be contacted about your enquiry.</p>
+                    <button type="submit" class="btn btn-clay w-full !rounded-xl"><i class="fas fa-paper-plane"></i> Submit enquiry</button>
+                    <p class="text-[11px] text-stone mt-2 text-center">By submitting, you agree to be contacted about your enquiry.</p>
                 </div>
             </form>
         </div>
@@ -100,7 +105,10 @@
                     <form id="callbackForm" class="space-y-3">
                         {% csrf_token %}
                         <input name="name" class="w-full border border-ivory/25 bg-ivory/10 rounded-xl px-4 py-2.5 text-sm text-ivory placeholder-ivory/50 outline-none focus:border-clay-soft" placeholder="Your name">
-                        <input name="phone" required class="w-full border border-ivory/25 bg-ivory/10 rounded-xl px-4 py-2.5 text-sm text-ivory placeholder-ivory/50 outline-none focus:border-clay-soft" placeholder="Phone number *">
+                        <div>
+                            <input name="phone" id="cb-phone" required class="w-full border border-ivory/25 bg-ivory/10 rounded-xl px-4 py-2.5 text-sm text-ivory placeholder-ivory/50 outline-none focus:border-clay-soft" placeholder="Phone number *">
+                            <p id="cb-phone-err" class="hidden text-xs text-red-300 mt-1">Please enter a valid 10-digit phone number.</p>
+                        </div>
                         <input name="preferred_time" class="w-full border border-ivory/25 bg-ivory/10 rounded-xl px-4 py-2.5 text-sm text-ivory placeholder-ivory/50 outline-none focus:border-clay-soft" placeholder="Best time to call (optional)">
                         <button type="submit" class="btn btn-clay w-full !rounded-xl"><i class="fas fa-phone-volume"></i> Request a callback</button>
                     </form>
@@ -123,26 +131,87 @@
     </div>
 </section>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.min.css">
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+<style>
+    .iti{width:100%;margin-top:.25rem}
+    .iti__flag-container{border:1px solid #ECE3D3;border-right:0;border-radius:.75rem 0 0 .75rem}
+    #cf-phone{border-radius:.75rem}
+</style>
 <script>
-    document.getElementById("contactForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        var name = document.getElementById("cf-name").value.trim();
-        var phone = document.getElementById("cf-phone").value.trim();
-        var email = document.getElementById("cf-email").value.trim();
-        var subject = document.getElementById("cf-subject").value.trim();
-        var message = document.getElementById("cf-message").value.trim();
-        var text = "Hello Augy Travels! I'd like to enquire.%0A%0A"
-            + "Name: " + encodeURIComponent(name) + "%0A"
-            + "Phone: " + encodeURIComponent(phone) + "%0A"
-            + (email ? "Email: " + encodeURIComponent(email) + "%0A" : "")
-            + (subject ? "Destination/Package: " + encodeURIComponent(subject) + "%0A" : "")
-            + (message ? "Message: " + encodeURIComponent(message) : "");
-        window.open("https://wa.me/{{ wa }}?text=" + text, "_blank");
-    });
+    (function () {
+        var input = document.getElementById("cf-phone"),
+            form = document.getElementById("contactForm"),
+            err = document.getElementById("cf-phone-err"),
+            full = document.getElementById("cf-phone-full"),
+            emailInput = document.getElementById("cf-email"),
+            emailErr = document.getElementById("cf-email-err");
+        if (!input) return;
+        var iti = window.intlTelInput ? window.intlTelInput(input, {
+            initialCountry: "in", separateDialCode: true, preferredCountries: ["in"],
+        }) : null;
+        function dial() { return iti ? (iti.getSelectedCountryData().dialCode || "91") : "91"; }
+        input.addEventListener("input", function () {
+            var max = dial() === "91" ? 10 : 15;
+            this.value = this.value.replace(/\D/g, "").slice(0, max);
+        });
+        if (emailInput) {
+            emailInput.addEventListener("input", function () {
+                if (emailErr) emailErr.classList.add("hidden");
+            });
+        }
+        form.addEventListener("submit", function (e) {
+            var nat = input.value.replace(/\D/g, ""), dc = dial();
+            var ok = dc === "91" ? nat.length === 10 : (nat.length >= 6 && nat.length <= 15);
+            if (!ok) { e.preventDefault(); err.classList.remove("hidden"); input.focus(); return; }
+            err.classList.add("hidden");
+
+            if (emailInput) {
+                var emailVal = emailInput.value.trim();
+                if (emailVal.length > 0) {
+                    var emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/i;
+                    if (!emailRegex.test(emailVal)) {
+                        e.preventDefault();
+                        if (emailErr) emailErr.classList.remove("hidden");
+                        emailInput.focus();
+                        return;
+                    }
+                }
+                if (emailErr) emailErr.classList.add("hidden");
+            }
+
+            full.value = "+" + dc + nat;
+        });
+    })();
+
+    // Callback phone: digits only, max 10
+    (function () {
+        var cb = document.querySelector("#callbackForm input[name='phone']");
+        var cbErr = document.getElementById("cb-phone-err");
+        if (cb) {
+            cb.addEventListener("input", function () {
+                this.value = this.value.replace(/\D/g, "").slice(0, 10);
+                if (cbErr && this.value.length === 10) {
+                    cbErr.classList.add("hidden");
+                }
+            });
+        }
+    })();
 
     document.getElementById("callbackForm").addEventListener("submit", function (e) {
         e.preventDefault();
         var form = this;
+        var phoneInput = form.querySelector("input[name='phone']");
+        var cbErr = document.getElementById("cb-phone-err");
+        var phoneVal = phoneInput ? phoneInput.value.replace(/\D/g, "") : "";
+
+        if (phoneVal.length !== 10) {
+            if (cbErr) cbErr.classList.remove("hidden");
+            if (phoneInput) phoneInput.focus();
+            return;
+        }
+        if (cbErr) cbErr.classList.add("hidden");
+
         fetch("{% url 'leads:callback' %}", { method: "POST", body: new FormData(form) })
             .then(function () {
                 form.classList.add("hidden");

@@ -36,16 +36,16 @@
         {% endif %}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="pkg-grid">
             {% for p in packages %}
-            <article class="card" data-cat="{% if p.category %}{{ p.category.slug }}{% else %}other{% endif %}">
+            <article class="card relative group cursor-pointer" data-cat="{% if p.category %}{{ p.category.slug }}{% else %}other{% endif %}">
                 <div class="relative h-52 overflow-hidden">
                     {% if p.cover_image %}<img src="{{ p.cover_image.url }}" class="ci" alt="{{ p.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/25"><i class="fas fa-mountain-sun text-4xl"></i></div>{% endif %}
                     {% if p.duration %}<span class="absolute top-4 left-4 bg-forest text-ivory text-xs font-600 px-3 py-1 rounded-full">{{ p.duration }}</span>{% endif %}
                 </div>
                 <div class="p-5">
                     {% if p.category %}<span class="eyebrow !tracking-widest">{{ p.category.name }}</span>{% endif %}
-                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3">{{ p.title }}</h3>
+                    <h3 class="font-display text-xl font-600 text-forest mt-1 mb-3 group-hover:text-clay transition">{{ p.title }}</h3>
                     <div class="rule mb-3"></div>
-                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">{% if p.price %}₹{{ p.price|floatformat:0 }}{% else %}On request{% endif %}</div></div><a href="{% url 'tours:detail' p.slug %}" class="text-sm font-600 text-forest">View details &rarr;</a></div>
+                    <div class="flex items-center justify-between"><div><span class="text-xs text-stone">From</span><div class="font-display text-lg font-600 text-clay">{% if p.price %}₹{{ p.price|floatformat:0 }}{% else %}On request{% endif %}</div></div><a href="{% url 'tours:detail' p.slug %}" class="text-sm font-600 text-forest after:absolute after:inset-0">View details &rarr;</a></div>
                 </div>
             </article>
             {% endfor %}

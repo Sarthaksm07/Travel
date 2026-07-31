@@ -1,3 +1,4 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
@@ -5,6 +6,42 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 class SiteConfig(models.Model):
     """Single-row site-wide configuration, editable in admin. Use SiteConfig.load()."""
+
+    logo = models.ImageField(
+        upload_to="site/", blank=True, null=True,
+        validators=[FileExtensionValidator(["png"])],
+        help_text="PNG only. Shows in the navbar and footer. Leave blank to use the default logo.",
+    )
+
+    # --- Homepage hero banner (all editable here) ---
+    hero_eyebrow = models.CharField(max_length=80, default="Devbhoomi Uttarakhand", blank=True)
+    hero_title = models.CharField(
+        max_length=160, default="Journeys to the sacred Himalayas.",
+        help_text="Main headline.",
+    )
+    hero_highlight = models.CharField(
+        max_length=60, default="sacred", blank=True,
+        help_text="A word/phrase inside the title to emphasise (clay italic). Must appear in the title.",
+    )
+    hero_subtitle = models.TextField(
+        default="Safe, women-friendly, transparently priced pilgrimages and mountain "
+                "tours — crafted by local experts who live in the valleys of Kedarnath.",
+        blank=True,
+    )
+    hero_image = models.ImageField(
+        upload_to="site/", blank=True, null=True,
+        help_text="Hero banner image. Leave blank to use the default.",
+    )
+    hero_badge = models.CharField(max_length=60, default="Kedarnath · Badrinath", blank=True,
+                                  help_text="Small pill on the image corner. Leave blank to hide.")
+    hero_stat_value = models.CharField(max_length=30, default="15+ yrs", blank=True)
+    hero_stat_label = models.CharField(max_length=80, default="Guiding the Char Dham route", blank=True)
+    hero_rating = models.CharField(max_length=60, default="4.8 · 6000+ travellers", blank=True,
+                                   help_text="Rating line under the buttons. Leave blank to hide.")
+    hero_primary_label = models.CharField(max_length=40, default="Explore Packages",
+                                          help_text="Left button (links to Packages).")
+    hero_secondary_label = models.CharField(max_length=40, default="Plan Your Journey",
+                                            help_text="Right button (links to the enquiry form).")
 
     phone = models.CharField(max_length=40, default="+91 8630 731 034")
     whatsapp_number = models.CharField(
@@ -64,10 +101,71 @@ class SitePage(models.Model):
         super().save(*args, **kwargs)
 
 
+class Stat(models.Model):
+    """A headline stat shown in the homepage trust strip (editable in admin)."""
+
+    ICON_CHOICES = [
+        ("fas fa-users", "People / Travellers"),
+        ("fas fa-star", "Star / Rating"),
+        ("fas fa-mountain-sun", "Mountain"),
+        ("fas fa-shield-heart", "Shield (safety)"),
+        ("fas fa-route", "Route"),
+        ("fas fa-award", "Award / Badge"),
+        ("fas fa-calendar-check", "Calendar"),
+        ("fas fa-map-location-dot", "Map"),
+        ("fas fa-car-side", "Vehicle"),
+        ("fas fa-headset", "Support"),
+        ("fas fa-thumbs-up", "Thumbs up"),
+        ("fas fa-heart", "Heart"),
+        ("fas fa-earth-asia", "Globe"),
+        ("fas fa-hotel", "Hotel"),
+        ("fas fa-person-hiking", "Hiking"),
+    ]
+
+    value = models.CharField(max_length=20, help_text='e.g. "6000+", "4.8", "100%"')
+    label = models.CharField(max_length=60, help_text='e.g. "Happy Travellers"')
+    icon = models.CharField(
+        max_length=40, choices=ICON_CHOICES, default="fas fa-star",
+        help_text="Pick an icon from the list",
+    )
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self):
+        return f"{self.value} — {self.label}"
+
+
+class GalleryCategory(models.Model):
+    """An album / trip grouping for gallery photos (e.g. 'Auli & Chopta Tour')."""
+
+    name = models.CharField(max_length=120)
+    slug = models.SlugField(max_length=140, unique=True, blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "name"]
+        verbose_name_plural = "Gallery categories"
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+
 class GalleryImage(models.Model):
     """A photo for the site-wide Travel Experiences gallery."""
 
     title = models.CharField(max_length=150, blank=True, help_text="Optional caption/location")
+    category = models.ForeignKey(
+        GalleryCategory, on_delete=models.SET_NULL, null=True, blank=True,
+        related_name="images", help_text="Album / trip this photo belongs to",
+    )
     image = models.ImageField(upload_to="gallery/")
     order = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(default=True)

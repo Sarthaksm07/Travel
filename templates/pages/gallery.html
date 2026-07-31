@@ -6,6 +6,11 @@
 
 {% block content %}
 {% with wa=site.whatsapp_number|default:'918630731034' %}
+<style>
+    .gal-pill{padding:.5rem 1.1rem;border-radius:999px;border:1.5px solid rgba(30,70,52,.22);background:#fff;color:#1E4634;font-weight:600;font-size:.85rem;cursor:pointer;transition:.2s;white-space:nowrap}
+    .gal-pill:hover{border-color:#BC6C43}
+    .gal-pill.is-active{background:#1E4634;color:#F7F4EE;border-color:#1E4634}
+</style>
 
 <!-- Header -->
 <section class="relative overflow-hidden bg-forest text-ivory grain">
@@ -18,16 +23,22 @@
     </div>
 </section>
 
-<section class="py-16 bg-ivory">
+<section class="py-14 bg-ivory">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     {% if images %}
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {% if categories %}
+        <div class="flex flex-wrap justify-center gap-2.5 mb-10" id="gal-filters">
+            <button class="gal-pill is-active" data-filter="all">All Photos</button>
+            {% for c in categories %}<button class="gal-pill" data-filter="{{ c.slug }}">{{ c.name }}</button>{% endfor %}
+        </div>
+        {% endif %}
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="gal-grid">
             {% for img in images %}
-            <button type="button" class="gal-item group relative block rounded-2xl overflow-hidden softshadow aspect-[4/3]" data-src="{{ img.image.url }}" data-title="{{ img.title }}">
+            <button type="button" class="gal-item group relative block w-full aspect-[4/3] rounded-2xl overflow-hidden softshadow" data-cat="{% if img.category %}{{ img.category.slug }}{% else %}other{% endif %}" data-src="{{ img.image.url }}" data-title="{{ img.title }}">
                 <img src="{{ img.image.url }}" alt="{{ img.title|default:'Augy Travels' }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
-                <span class="absolute inset-0 bg-gradient-to-t from-forest-deep/80 via-transparent to-transparent"></span>
-                {% if img.title %}<span class="absolute left-3 bottom-3 text-ivory text-sm font-600 text-left drop-shadow">{{ img.title }}</span>{% endif %}
-                <span class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 backdrop-blur text-ivory grid place-items-center opacity-0 group-hover:opacity-100 transition"><i class="fas fa-expand text-xs"></i></span>
+                <span class="absolute inset-0 bg-gradient-to-t from-forest-deep/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition"></span>
+                {% if img.title %}<span class="absolute left-3 bottom-3 right-3 text-ivory text-sm font-600 text-left drop-shadow opacity-0 group-hover:opacity-100 transition">{{ img.title }}</span>{% endif %}
+                <span class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/25 backdrop-blur text-ivory grid place-items-center opacity-0 group-hover:opacity-100 transition"><i class="fas fa-expand text-xs"></i></span>
             </button>
             {% endfor %}
         </div>
@@ -74,20 +85,38 @@
 </div>
 <script>
     (function () {
-        var items = Array.prototype.slice.call(document.querySelectorAll(".gal-item"));
-        if (!items.length) return;
+        var allItems = Array.prototype.slice.call(document.querySelectorAll(".gal-item"));
+        if (!allItems.length) return;
+
+        // ---- Category filter ----
+        var filters = document.querySelectorAll("#gal-filters .gal-pill");
+        filters.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                var f = btn.dataset.filter;
+                filters.forEach(function (b) { b.classList.toggle("is-active", b === btn); });
+                allItems.forEach(function (c) {
+                    c.style.display = (f === "all" || c.dataset.cat === f) ? "" : "none";
+                });
+            });
+        });
+
+        // ---- Lightbox (navigates only currently-visible items) ----
         var box = document.getElementById("galLightbox"),
             img = document.getElementById("galImg"),
             cap = document.getElementById("galCap"),
-            i = 0;
-        function show(n) {
-            i = (n + items.length) % items.length;
-            img.src = items[i].dataset.src;
-            cap.textContent = items[i].dataset.title || "";
+            visible = [], i = 0;
+        function refreshVisible() {
+            visible = allItems.filter(function (el) { return el.style.display !== "none"; });
         }
-        function open(n) { show(n); box.classList.remove("hidden"); box.classList.add("flex"); }
+        function show(n) {
+            if (!visible.length) return;
+            i = (n + visible.length) % visible.length;
+            img.src = visible[i].dataset.src;
+            cap.textContent = visible[i].dataset.title || "";
+        }
+        function open(el) { refreshVisible(); show(visible.indexOf(el)); box.classList.remove("hidden"); box.classList.add("flex"); }
         function close() { box.classList.add("hidden"); box.classList.remove("flex"); }
-        items.forEach(function (el, n) { el.addEventListener("click", function () { open(n); }); });
+        allItems.forEach(function (el) { el.addEventListener("click", function () { open(el); }); });
         document.getElementById("galClose").addEventListener("click", close);
         document.getElementById("galPrev").addEventListener("click", function () { show(i - 1); });
         document.getElementById("galNext").addEventListener("click", function () { show(i + 1); });

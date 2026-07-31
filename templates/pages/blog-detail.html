@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{% if post %}{{ post.meta_title|default:post.title }}{% else %}Kedarnath Heli Ticket Price{% endif %} — Augy Travels{% endblock %}
-{% block meta_description %}{% if post %}{{ post.meta_description|default:post.excerpt }}{% else %}A clear guide to Kedarnath helicopter ticket prices and booking.{% endif %}{% endblock %}
+{% block title %}{{ post.meta_title|default:post.title }} — Augy Travels{% endblock %}
+{% block meta_description %}{{ post.meta_description|default:post.excerpt }}{% endblock %}
 
 {% block content %}
 <style>
@@ -20,8 +20,6 @@
     .blog-body strong{color:#1E4634}
 </style>
 
-{% if post %}
-<!-- ===== DYNAMIC ===== -->
 <article>
     <section class="bg-ivory pt-10 pb-6">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,34 +72,5 @@
     </section>
     {% endif %}
 </article>
-
-{% else %}
-<!-- ===== STATIC SAMPLE ===== -->
-<section class="bg-ivory pt-10 pb-6">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="text-sm text-stone mb-5"><a href="{% url 'core:home' %}" class="hover:text-clay">Home</a> <span class="mx-1">/</span> <a href="{% url 'blog:list' %}" class="hover:text-clay">Blog</a> <span class="mx-1">/</span> <span class="text-forest">Kedarnath Heli Ticket Price</span></nav>
-        <span class="inline-block bg-clay/15 text-clay text-xs font-600 px-3 py-1 rounded-full mb-4">Kedarnath</span>
-        <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-600 text-forest leading-tight mb-5">Kedarnath Heli Ticket Price: Booking Guide &amp; Cost Breakdown</h1>
-        <div class="flex items-center gap-3 text-sm text-stone">
-            <div class="w-10 h-10 rounded-full bg-forest text-ivory grid place-items-center font-600">A</div>
-            <div>By <span class="text-forest font-600">Admin</span></div><span>&middot;</span><span>Jun 11, 2026</span>
-        </div>
-    </div>
-</section>
-<section class="bg-ivory pt-6">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <figure class="overflow-hidden rounded-lg"><img src="https://images.unsplash.com/photo-1712388430474-ace0c16051e2?w=1400&q=80" class="w-full h-auto block" alt="Kedarnath helicopter"></figure>
-    </div>
-</section>
-<article class="py-12 bg-ivory">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-ink/90 leading-relaxed space-y-5">
-        <p class="text-lg text-stone">Planning a Kedarnath darshan and short on time? The helicopter service is the fastest, most comfortable way to reach the temple — especially for elders and families.</p>
-        <h2 class="font-display text-2xl font-600 text-forest pt-4">Why choose the helicopter?</h2>
-        <p>The traditional route is a 16 km trek from Gaurikund. The helicopter cuts that to a short, scenic flight — saving a full day so you arrive fresh for darshan.</p>
-        <blockquote class="border-l-4 border-clay bg-sand/60 rounded-r-xl px-5 py-4 my-6"><p class="font-display text-lg text-forest italic">Tip: helicopter slots sell out fast in peak season (May–June). Book early.</p></blockquote>
-        <p>Share your travel dates and group size and we'll handle the booking end-to-end — along with your stay and transport.</p>
-    </div>
-</article>
-{% endif %}
 
 {% endblock %}

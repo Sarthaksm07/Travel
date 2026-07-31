@@ -15,34 +15,34 @@
     <div class="absolute inset-0 overflow-hidden -z-10 pointer-events-none"><div class="absolute -top-24 -right-24 w-[440px] h-[440px] rounded-full bg-sand/60 blur-3xl"></div></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-10 lg:pt-12 lg:pb-14 grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
         <div>
-            <span class="eyebrow">Devbhoomi Uttarakhand</span>
+            {% if site.hero_eyebrow %}<span class="eyebrow">{{ site.hero_eyebrow }}</span>{% endif %}
             <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-600 text-forest leading-[1.05] mt-3 mb-4">
-                Journeys to the <span class="em">sacred</span> Himalayas.
+                {{ hero_before }}{% if hero_highlight_word %}<span class="em">{{ hero_highlight_word }}</span>{% endif %}{{ hero_after }}
             </h1>
-            <p class="text-stone text-base sm:text-lg leading-relaxed max-w-lg mb-6">
-                Safe, women-friendly, transparently priced pilgrimages and mountain tours — crafted by local experts who live in the valleys of Kedarnath.
-            </p>
+            {% if site.hero_subtitle %}<p class="text-stone text-base sm:text-lg leading-relaxed max-w-lg mb-6">{{ site.hero_subtitle }}</p>{% endif %}
             <div class="flex flex-wrap gap-4 mb-6">
-                <a href="{% url 'tours:list' %}" class="btn btn-primary"><i class="fas fa-compass"></i> Explore Packages</a>
-                <a href="{% url 'leads:booking' %}" class="btn btn-ghost"><i class="fas fa-route"></i> Plan Your Journey</a>
+                <a href="{% url 'tours:list' %}" class="btn btn-primary"><i class="fas fa-compass"></i> {{ site.hero_primary_label|default:'Explore Packages' }}</a>
+                <a href="{% url 'leads:booking' %}" class="btn btn-ghost"><i class="fas fa-route"></i> {{ site.hero_secondary_label|default:'Plan Your Journey' }}</a>
             </div>
             <div class="flex items-center gap-6 text-sm text-stone">
-                <div class="flex items-center gap-2"><span class="text-clay text-base">★★★★★</span> 4.8 · 6000+ travellers</div>
+                {% if site.hero_rating %}<div class="flex items-center gap-2"><span class="text-clay text-base">★★★★★</span> {{ site.hero_rating }}</div>{% endif %}
                 <div class="hidden sm:flex items-center gap-2"><i class="fas fa-shield-heart text-forest"></i> Women-friendly</div>
             </div>
         </div>
         <div class="relative">
             <div class="arch overflow-hidden softshadow h-[300px] sm:h-[360px] lg:h-[430px]">
-                <img src="/static/img/banner_1.jpg" class="ci" alt="Himalayas">
+                <img src="{% if site.hero_image %}{{ site.hero_image.url }}{% else %}/static/img/banner_1.jpg{% endif %}" class="ci" alt="{{ site.hero_title|default:'Himalayas' }}">
             </div>
+            {% if site.hero_stat_value or site.hero_stat_label %}
             <div class="absolute -bottom-6 -left-4 sm:left-6 bg-cream border border-sand rounded-2xl px-5 py-4 softshadow flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-forest text-ivory grid place-items-center text-lg"><i class="fas fa-mountain"></i></div>
                 <div>
-                    <div class="font-display text-2xl font-600 text-forest leading-none">15+ yrs</div>
-                    <div class="text-xs text-stone mt-1">Guiding the Char Dham route</div>
+                    {% if site.hero_stat_value %}<div class="font-display text-2xl font-600 text-forest leading-none">{{ site.hero_stat_value }}</div>{% endif %}
+                    {% if site.hero_stat_label %}<div class="text-xs text-stone mt-1">{{ site.hero_stat_label }}</div>{% endif %}
                 </div>
             </div>
-            <div class="absolute -top-4 right-4 bg-clay text-white text-xs font-600 rounded-full px-4 py-2 shadow-lg rotate-3">Kedarnath · Badrinath</div>
+            {% endif %}
+            {% if site.hero_badge %}<div class="absolute -top-4 right-4 bg-clay text-white text-xs font-600 rounded-full px-4 py-2 shadow-lg rotate-3">{{ site.hero_badge }}</div>{% endif %}
         </div>
     </div>
 
@@ -115,11 +115,21 @@
 
 <!-- TRUST STRIP -->
 <section class="bg-sand">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div><div class="font-display text-4xl font-600 text-forest">6000+</div><div class="text-sm text-stone mt-1">Happy Travellers</div></div>
-        <div><div class="font-display text-4xl font-600 text-forest">4.8<span class="text-clay">★</span></div><div class="text-sm text-stone mt-1">Google Rating</div></div>
-        <div><div class="font-display text-4xl font-600 text-forest">50+</div><div class="text-sm text-stone mt-1">Tour Packages</div></div>
-        <div><div class="font-display text-4xl font-600 text-forest">100%</div><div class="text-sm text-stone mt-1">Women-Friendly</div></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 overflow-x-auto no-scrollbar">
+        <div class="flex gap-4 sm:gap-6 w-max mx-auto snap-x pb-1">
+            {% for s in stats %}
+            <div class="group flex-none w-[190px] snap-start bg-white/70 border border-white rounded-2xl p-4 text-center transition hover:-translate-y-1 hover:shadow-xl hover:shadow-forest/5">
+                <div class="w-9 h-9 mx-auto rounded-full bg-forest/10 text-clay grid place-items-center text-sm mb-2 transition group-hover:bg-forest group-hover:text-ivory"><i class="{{ s.icon }}"></i></div>
+                <div class="font-display text-2xl sm:text-3xl font-600 text-forest leading-none">{{ s.value }}</div>
+                <div class="text-sm text-stone mt-2">{{ s.label }}</div>
+            </div>
+            {% empty %}
+            <div class="group flex-none w-[190px] snap-start bg-white/70 border border-white rounded-2xl p-4 text-center transition hover:-translate-y-1 hover:shadow-xl hover:shadow-forest/5"><div class="w-9 h-9 mx-auto rounded-full bg-forest/10 text-clay grid place-items-center text-sm mb-2"><i class="fas fa-users"></i></div><div class="font-display text-2xl sm:text-3xl font-600 text-forest leading-none">6000+</div><div class="text-sm text-stone mt-2">Happy Travellers</div></div>
+            <div class="group flex-none w-[190px] snap-start bg-white/70 border border-white rounded-2xl p-4 text-center transition hover:-translate-y-1 hover:shadow-xl hover:shadow-forest/5"><div class="w-9 h-9 mx-auto rounded-full bg-forest/10 text-clay grid place-items-center text-sm mb-2"><i class="fas fa-star"></i></div><div class="font-display text-2xl sm:text-3xl font-600 text-forest leading-none">4.8</div><div class="text-sm text-stone mt-2">Google Rating</div></div>
+            <div class="group flex-none w-[190px] snap-start bg-white/70 border border-white rounded-2xl p-4 text-center transition hover:-translate-y-1 hover:shadow-xl hover:shadow-forest/5"><div class="w-9 h-9 mx-auto rounded-full bg-forest/10 text-clay grid place-items-center text-sm mb-2"><i class="fas fa-mountain-sun"></i></div><div class="font-display text-2xl sm:text-3xl font-600 text-forest leading-none">50+</div><div class="text-sm text-stone mt-2">Tour Packages</div></div>
+            <div class="group flex-none w-[190px] snap-start bg-white/70 border border-white rounded-2xl p-4 text-center transition hover:-translate-y-1 hover:shadow-xl hover:shadow-forest/5"><div class="w-9 h-9 mx-auto rounded-full bg-forest/10 text-clay grid place-items-center text-sm mb-2"><i class="fas fa-shield-heart"></i></div><div class="font-display text-2xl sm:text-3xl font-600 text-forest leading-none">100%</div><div class="text-sm text-stone mt-2">Women-Friendly</div></div>
+            {% endfor %}
+        </div>
     </div>
 </section>
 
@@ -172,7 +182,7 @@
         {% if featured_packages %}
         <div id="pkgRow" class="flex gap-6 overflow-x-auto pb-4 snap-x scroll-smooth no-scrollbar">
             {% for package in featured_packages %}
-            <article class="card flex-none w-[280px] snap-start">
+            <article class="card relative group cursor-pointer flex-none w-[280px] snap-start">
                 <div class="h-52 overflow-hidden">
                     {% if package.cover_image %}
                     <img src="{{ package.cover_image.url }}" class="ci" alt="{{ package.title }}">
@@ -185,14 +195,14 @@
                         <span class="eyebrow !tracking-widest">{% if package.category %}{{ package.category.name }}{% else %}Uttarakhand{% endif %}</span>
                         <span class="text-xs text-stone">{{ package.duration }}</span>
                     </div>
-                    <h3 class="font-display text-xl font-600 text-forest mb-3">{{ package.title }}</h3>
+                    <h3 class="font-display text-xl font-600 text-forest mb-3 group-hover:text-clay transition">{{ package.title }}</h3>
                     <div class="rule mb-3"></div>
                     <div class="flex items-center justify-between">
                         <div>
                             <span class="text-xs text-stone">From</span>
                             <div class="font-display text-lg font-600 text-clay">{% if package.price %}₹{{ package.price|floatformat:0 }}{% else %}On request{% endif %}</div>
                         </div>
-                        <a href="{% url 'tours:detail' package.slug %}" class="text-sm font-600 text-forest">View Details →</a>
+                        <a href="{% url 'tours:detail' package.slug %}" class="text-sm font-600 text-forest after:absolute after:inset-0">View Details →</a>
                     </div>
                 </div>
             </article>
@@ -357,8 +367,8 @@
                         <div class="flex items-center gap-2 text-forest text-sm"><span class="w-1.5 h-1.5 rounded-full bg-clay"></span> Scenic river gorges</div>
                     </div>
                     <div class="flex flex-wrap gap-4 relative">
-                        <a href="#" class="btn btn-clay">Check availability</a>
-                        <a href="#" class="btn btn-ghost">Explore all activities <i class="fas fa-arrow-right-long"></i></a>
+                        <button type="button" onclick="augyOpenQuery('I\'d like to enquire about: ' + document.getElementById('act-title').textContent)" class="btn btn-clay">Check availability</button>
+                        <a href="{% url 'tours:list' %}" class="btn btn-ghost">Explore all activities <i class="fas fa-arrow-right-long"></i></a>
                     </div>
                 </div>
             </div>
@@ -581,13 +591,13 @@
         {% if latest_posts %}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {% for p in latest_posts %}
-            <article class="card group">
-                <a href="{% url 'blog:detail' p.slug %}"><div class="h-52 overflow-hidden">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" class="ci" alt="{{ p.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-newspaper text-4xl"></i></div>{% endif %}</div></a>
+            <article class="card group relative cursor-pointer">
+                <div class="h-52 overflow-hidden">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" class="ci" alt="{{ p.title }}">{% else %}<div class="w-full h-full bg-forest/10 grid place-items-center text-forest/30"><i class="fas fa-newspaper text-4xl"></i></div>{% endif %}</div>
                 <div class="p-6">
                     <div class="text-xs text-stone mb-2">By <span class="text-forest font-600">{{ p.author.get_full_name|default:'Admin' }}</span>{% if p.category %} &middot; <span class="text-clay">{{ p.category.name }}</span>{% endif %}{% if p.published_at %} &middot; {{ p.published_at|date:"M j, Y" }}{% endif %}</div>
-                    <h3 class="font-display text-xl font-600 text-forest mb-2 leading-snug group-hover:text-clay transition"><a href="{% url 'blog:detail' p.slug %}">{{ p.title }}</a></h3>
+                    <h3 class="font-display text-xl font-600 text-forest mb-2 leading-snug group-hover:text-clay transition">{{ p.title }}</h3>
                     {% if p.excerpt %}<p class="text-sm text-stone leading-relaxed mb-4">{{ p.excerpt|truncatewords:18 }}</p>{% endif %}
-                    <a href="{% url 'blog:detail' p.slug %}" class="text-sm font-600 text-forest">Read more &rarr;</a>
+                    <a href="{% url 'blog:detail' p.slug %}" class="text-sm font-600 text-forest after:absolute after:inset-0">Read more &rarr;</a>
                 </div>
             </article>
             {% endfor %}
@@ -663,21 +673,79 @@
 
 <!-- CTA -->
 <section class="pb-20 bg-ivory">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="relative overflow-hidden rounded-[32px] bg-forest text-ivory p-10 sm:p-16 text-center grain">
-            <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-pine/30 blur-3xl"></div>
-            <div class="absolute -bottom-16 -right-10 w-56 h-56 rounded-full bg-clay/25 blur-3xl"></div>
-            <div class="relative">
-                <span class="eyebrow !text-clay-soft">Let's Talk</span>
-                <h2 class="font-display text-3xl sm:text-5xl font-600 mt-3 mb-4">Ready to plan your journey?</h2>
-                <p class="text-ivory/75 max-w-xl mx-auto mb-8">Tell us your dates and group size — our team crafts a tailored itinerary and quote, usually within a few hours.</p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="https://wa.me/{{ site.whatsapp_number|default:'918630731034' }}" class="btn btn-clay"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
-                    <a href="tel:+{{ site.whatsapp_number|default:'918630731034' }}" class="btn btn-ghost !border-ivory/40 !text-ivory"><i class="fas fa-phone"></i> Call us</a>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative overflow-hidden rounded-[32px] bg-forest text-ivory grain grid lg:grid-cols-2">
+            <!-- Left: content -->
+            <div class="relative p-10 sm:p-14 order-2 lg:order-1">
+                <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-pine/30 blur-3xl"></div>
+                <div class="relative">
+                    <span class="eyebrow !text-clay-soft">Let's plan it together</span>
+                    <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-600 mt-3 mb-4 leading-tight">Ready to plan your <span class="em !text-clay-soft">journey</span>?</h2>
+                    <p class="text-ivory/75 max-w-md mb-7">Tell us your dates and group size — our team crafts a tailored itinerary and quote, usually within a few hours. No payment now, just a friendly plan.</p>
+                    <div class="flex flex-col sm:flex-row gap-3 mb-7">
+                        <a href="{% url 'leads:booking' %}" class="btn btn-clay"><i class="fas fa-paper-plane"></i> Plan my trip</a>
+                        <a href="https://wa.me/{{ site.whatsapp_number|default:'918630731034' }}" target="_blank" rel="noopener" class="btn btn-ghost !border-ivory/40 !text-ivory"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                    </div>
+                    <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-ivory/70">
+                        <span><i class="fas fa-shield-heart text-clay-soft mr-1.5"></i>Women-friendly</span>
+                        <span><i class="fas fa-tags text-clay-soft mr-1.5"></i>Transparent pricing</span>
+                        <span><i class="fas fa-headset text-clay-soft mr-1.5"></i>24/7 support</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Right: image -->
+            <div class="relative min-h-[240px] lg:min-h-full order-1 lg:order-2">
+                <img src="/static/img/Himalayan_peak.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Himalayan journey">
+                <div class="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-forest via-forest/40 to-transparent"></div>
+                <div class="absolute bottom-5 right-5 bg-white/95 text-forest rounded-2xl px-5 py-3 shadow-xl flex items-center gap-3">
+                    <span class="text-clay text-lg">★</span>
+                    <div><div class="font-display text-xl font-600 leading-none">4.8</div><div class="text-[11px] text-stone">6000+ travellers</div></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    (function () {
+        if (!("IntersectionObserver" in window) ||
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        // Animate content sections below the hero (the hero is a <header>, so it's excluded)
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                var items = e.target.__revealItems;
+                if (items) { Array.prototype.forEach.call(items, function (c) { c.classList.add("in"); }); }
+                else { e.target.classList.add("in"); }
+                io.unobserve(e.target);
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        document.querySelectorAll("section").forEach(function (sec) {
+            // Skip sections already visible on first paint — show them instantly (no flash).
+            if (sec.getBoundingClientRect().top < vh * 0.9) return;
+
+            // Find a card grid/row (3+ items) to stagger; else reveal the whole section.
+            var track = null;
+            sec.querySelectorAll(".grid").forEach(function (g) {
+                if (!track && g.children.length >= 3) track = g;
+            });
+            if (!track) { var row = sec.querySelector("#pkgRow"); if (row && row.children.length >= 3) track = row; }
+
+            if (track) {
+                Array.prototype.forEach.call(track.children, function (c, i) {
+                    if (c.nodeType !== 1) return;
+                    c.classList.add("reveal");
+                    c.style.transitionDelay = Math.min(i, 8) * 70 + "ms";
+                });
+                sec.__revealItems = track.children;
+            } else {
+                sec.classList.add("reveal");
+            }
+            io.observe(sec);
+        });
+    })();
+</script>
 
 {% endblock %}

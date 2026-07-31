@@ -48,7 +48,9 @@
                 </div>
                 <div>
                     <label class="text-xs font-600 text-forest">Contact number <span class="text-clay">*</span></label>
-                    <input name="phone" required class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="e.g. +91 98xxxxxxx">
+                    <input id="bk-phone" type="tel" required class="w-full mt-1 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-ivory" placeholder="10-digit number">
+                    <input type="hidden" name="phone" id="bk-phone-full">
+                    <p id="bk-phone-err" class="hidden text-[11px] text-clay mt-1">Please enter a valid 10-digit phone number.</p>
                 </div>
                 <div>
                     <label class="text-xs font-600 text-forest">Destination(s)</label>
@@ -133,9 +135,41 @@
     </div>
 </section>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.min.css">
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+<style>
+    .iti{width:100%;margin-top:.25rem}
+    .iti__flag-container{border:1px solid #ECE3D3;border-right:0;border-radius:.75rem 0 0 .75rem}
+    #bk-phone{border-radius:.75rem}
+</style>
 <script>
-    document.getElementById("bookingForm").addEventListener("submit", function () {
+    // Phone widget: flag dropdown + digits-only + 10-digit (India) validation
+    var bkIti = (function () {
+        var input = document.getElementById("bk-phone");
+        if (!input) return null;
+        var iti = window.intlTelInput ? window.intlTelInput(input, {
+            initialCountry: "in", separateDialCode: true, preferredCountries: ["in"],
+        }) : null;
+        input.addEventListener("input", function () {
+            var dc = iti ? (iti.getSelectedCountryData().dialCode || "91") : "91";
+            this.value = this.value.replace(/\D/g, "").slice(0, dc === "91" ? 10 : 15);
+        });
+        return iti;
+    })();
+
+    document.getElementById("bookingForm").addEventListener("submit", function (e) {
         var f = this;
+        // Validate phone and write the full number into the hidden field first
+        var pin = document.getElementById("bk-phone"),
+            perr = document.getElementById("bk-phone-err"),
+            pfull = document.getElementById("bk-phone-full");
+        var nat = pin.value.replace(/\D/g, ""),
+            dc = bkIti ? (bkIti.getSelectedCountryData().dialCode || "91") : "91";
+        var okPhone = dc === "91" ? nat.length === 10 : (nat.length >= 6 && nat.length <= 15);
+        if (!okPhone) { e.preventDefault(); perr.classList.remove("hidden"); pin.focus(); return; }
+        perr.classList.add("hidden");
+        pfull.value = "+" + dc + nat;
+
         var g = function (n) { return f.elements[n] ? f.elements[n].value.trim() : ""; };
         var HEAD = "{% if is_rental %}New vehicle rental enquiry{% elif prefill_package %}New package enquiry{% else %}New trip request{% endif %}";
         var PKG = "{{ prefill_package.title|escapejs }}";

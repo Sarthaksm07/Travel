@@ -4,7 +4,7 @@
         <div>
             <div class="mb-4">
                 <span class="inline-block bg-white rounded-xl p-2.5 shadow-lg">
-                    <img src="{% static 'img/logo.png' %}" alt="Augy Travels" class="h-16 w-auto">
+                    <img src="{% if site.logo %}{{ site.logo.url }}{% else %}{% static 'img/logo.png' %}{% endif %}" alt="Augy Travels" class="h-16 w-auto">
                 </span>
             </div>
             <p class="text-sm">Turning travel dreams into reality — from hidden Himalayan gems to iconic dhams.</p>
@@ -63,7 +63,13 @@
         <form id="queryForm" method="post" action="{% url 'leads:query' %}" class="p-6 space-y-3">
             {% csrf_token %}
             <input name="name" class="w-full border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-white" placeholder="Your name">
-            <input name="phone" required class="w-full border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-white" placeholder="Phone number *">
+            <div>
+                <div class="flex">
+                    <span class="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-sand bg-sand/60 text-sm font-600 text-forest">+91</span>
+                    <input name="phone" id="qp-phone" inputmode="numeric" required class="w-full border border-sand rounded-r-xl px-4 py-3 text-sm outline-none focus:border-clay bg-white" placeholder="10-digit number">
+                </div>
+                <p id="qp-phone-err" class="hidden text-[11px] text-clay mt-1">Please enter a valid 10-digit phone number.</p>
+            </div>
             <textarea name="message" rows="2" class="w-full border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-clay bg-white" placeholder="Your question (optional)"></textarea>
             <button type="submit" class="btn btn-clay w-full !rounded-xl"><i class="fas fa-paper-plane"></i> Send my query</button>
             <p class="text-[11px] text-stone text-center">We respect your privacy — no spam, ever.</p>
@@ -86,9 +92,11 @@
             sessionStorage.setItem(KEY, "1");
         }
         function hide() { modal.classList.add("hidden"); modal.classList.remove("flex"); }
-        window.augyOpenQuery = function () {
+        window.augyOpenQuery = function (prefillMsg) {
             document.getElementById("queryForm").classList.remove("hidden");
             document.getElementById("queryThanks").classList.add("hidden");
+            var msg = document.querySelector("#queryForm textarea[name='message']");
+            if (msg && typeof prefillMsg === "string") msg.value = prefillMsg;
             modal.classList.remove("hidden"); modal.classList.add("flex");
         };
         function onScroll() { if (window.scrollY > 800) { show(); window.removeEventListener("scroll", onScroll); } }
@@ -97,9 +105,26 @@
         document.getElementById("queryClose").addEventListener("click", hide);
         modal.addEventListener("click", function (e) { if (e.target === modal) hide(); });
         var form = document.getElementById("queryForm");
+        var qpPhone = document.getElementById("qp-phone");
+        var qpErr = document.getElementById("qp-phone-err");
+        if (qpPhone) {
+            qpPhone.addEventListener("input", function () {
+                this.value = this.value.replace(/\D/g, "").slice(0, 10);
+                if (qpErr && this.value.length === 10) qpErr.classList.add("hidden");
+            });
+        }
         form.addEventListener("submit", function (e) {
             e.preventDefault();
-            fetch(form.action, { method: "POST", body: new FormData(form) });
+            var digits = qpPhone ? qpPhone.value.replace(/\D/g, "") : "";
+            if (digits.length !== 10) {
+                if (qpErr) qpErr.classList.remove("hidden");
+                if (qpPhone) qpPhone.focus();
+                return;
+            }
+            if (qpErr) qpErr.classList.add("hidden");
+            var data = new FormData(form);
+            data.set("phone", "+91" + digits);
+            fetch(form.action, { method: "POST", body: data });
             form.classList.add("hidden");
             document.getElementById("queryThanks").classList.remove("hidden");
             setTimeout(hide, 3000);

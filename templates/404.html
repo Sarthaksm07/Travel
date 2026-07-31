@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Page not found — Augy Travels{% endblock %}
+{% block meta_description %}The page you were looking for could not be found.{% endblock %}
+
+{% block content %}
+{% with wa=site.whatsapp_number|default:'918630731034' %}
+
+<section class="relative overflow-hidden bg-ivory">
+    <div class="absolute inset-0 overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute -top-24 -right-24 w-[440px] h-[440px] rounded-full bg-sand/60 blur-3xl"></div>
+        <div class="absolute -bottom-24 -left-24 w-[360px] h-[360px] rounded-full bg-forest/5 blur-3xl"></div>
+    </div>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-28 text-center">
+        <div class="w-16 h-16 mx-auto rounded-full bg-forest text-ivory grid place-items-center text-2xl mb-6"><i class="fas fa-mountain-sun"></i></div>
+        <div class="font-display text-7xl sm:text-8xl font-600 text-forest leading-none">404</div>
+        <h1 class="font-display text-2xl sm:text-3xl font-600 text-forest mt-4 mb-3">This trail leads nowhere</h1>
+        <p class="text-stone max-w-md mx-auto mb-8">The page you're looking for may have moved, been renamed, or never existed. Let's get you back on the path.</p>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center mb-10">
+            <a href="{% url 'core:home' %}" class="btn btn-primary"><i class="fas fa-house"></i> Back to home</a>
+            <a href="{% url 'tours:list' %}" class="btn btn-ghost">Browse packages</a>
+            <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" class="btn btn-ghost"><i class="fab fa-whatsapp"></i> Ask us</a>
+        </div>
+
+        <div class="text-sm text-stone">
+            <span class="font-600 text-forest">Popular:</span>
+            <a href="{% url 'destinations:list' %}" class="text-clay hover:underline mx-1">Destinations</a>·
+            <a href="{% url 'core:gallery' %}" class="text-clay hover:underline mx-1">Gallery</a>·
+            <a href="{% url 'blog:list' %}" class="text-clay hover:underline mx-1">Blog</a>·
+            <a href="{% url 'core:contact' %}" class="text-clay hover:underline mx-1">Contact</a>
+        </div>
+    </div>
+</section>
+
+{% endwith %}
+{% endblock %}

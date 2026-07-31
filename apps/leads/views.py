@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import JsonResponse
@@ -94,13 +96,51 @@ def booking(request):
 
 
 @require_POST
+def contact(request):
+    """Contact-page enquiry — saves a lead, emails Augy, then thank-you page."""
+    d = request.POST
+    email = d.get("email", "").strip()
+    # If an email is given, it must be a complete address (name@domain.tld).
+    if email and not re.match(r"^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$", email):
+        return redirect("core:contact")
+    inq = Inquiry.objects.create(
+        name=d.get("name", "").strip() or "Website visitor",
+        phone=d.get("phone", "").strip(),
+        email=email,
+        destination=d.get("destination", "").strip(),
+        message=d.get("message", "").strip(),
+        source_type=Inquiry.SourceType.GENERAL,
+    )
+    body = "\n".join([
+        f"New contact enquiry from {inq.name}",
+        "",
+        f"Phone:        {inq.phone}",
+        f"Email:        {inq.email or '-'}",
+        f"Destination:  {inq.destination or '-'}",
+        f"Message:      {inq.message or '-'}",
+    ])
+    send_mail(
+        subject=f"New contact enquiry — {inq.name}",
+        message=body,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[settings.LEADS_NOTIFY_EMAIL],
+        fail_silently=True,
+    )
+    return redirect("core:thank_you")
+
+
+@require_POST
 def callback(request):
     """Callback request — visitor leaves name + phone (+ preferred time) for a call back."""
     d = request.POST
+    phone = d.get("phone", "").strip()
+    digits = "".join(c for c in phone if c.isdigit())
+    if len(digits) != 10:
+        return JsonResponse({"ok": False, "error": "Phone number must be 10 digits."}, status=400)
     pref = d.get("preferred_time", "").strip()
     inq = Inquiry.objects.create(
         name=d.get("name", "").strip() or "Callback request",
-        phone=d.get("phone", "").strip(),
+        phone=phone,
         message=f"Preferred time: {pref}" if pref else "",
         source_type=Inquiry.SourceType.CALLBACK,
     )

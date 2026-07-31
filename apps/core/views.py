@@ -8,7 +8,7 @@ from destinations.models import Destination
 from testimonials.models import Testimonial
 from tours.models import TourPackage
 
-from .models import GalleryImage, SitePage, Vehicle
+from .models import GalleryCategory, GalleryImage, SiteConfig, SitePage, Stat, Vehicle
 
 
 def home(request):
@@ -18,10 +18,21 @@ def home(request):
         .order_by("per_km_rate")
         .first()
     )
+    cfg = SiteConfig.load()
+    title, hl = cfg.hero_title or "", cfg.hero_highlight or ""
+    if hl and hl in title:
+        hero_before, hero_after = title.split(hl, 1)
+    else:
+        hero_before, hl, hero_after = title, "", ""
+
     context = {
+        "hero_before": hero_before,
+        "hero_highlight_word": hl,
+        "hero_after": hero_after,
         "featured_packages": TourPackage.objects.filter(is_featured=True)[:8],
         "featured_destinations": Destination.objects.filter(is_featured=True)[:8],
         "all_destinations": Destination.objects.all(),
+        "stats": Stat.objects.filter(is_active=True),
         "testimonials": Testimonial.objects.filter(is_approved=True)[:6],
         "latest_posts": posts[:3],
         "vehicle_from_rate": cheapest.per_km_rate if cheapest else None,
@@ -30,7 +41,9 @@ def home(request):
 
 
 def about(request):
-    return render(request, "pages/about.html")
+    return render(request, "pages/about.html", {
+        "stats": Stat.objects.filter(is_active=True),
+    })
 
 
 def contact(request):
@@ -49,7 +62,8 @@ def vehicles(request):
 
 def gallery(request):
     return render(request, "pages/gallery.html", {
-        "images": GalleryImage.objects.filter(is_active=True),
+        "images": GalleryImage.objects.filter(is_active=True).select_related("category"),
+        "categories": GalleryCategory.objects.filter(images__is_active=True).distinct(),
     })
 
 
