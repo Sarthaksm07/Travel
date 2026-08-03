@@ -4,7 +4,6 @@ Production settings — secure defaults. All secrets come from the environment.
 Required env vars in production:
   DJANGO_ENV=production
   DJANGO_SECRET_KEY=<a long random string>
-  DJANGO_DEBUG=False
   DJANGO_ALLOWED_HOSTS=augytravels.com,www.augytravels.com
 """
 from .base import *  # noqa: F401,F403
